@@ -1,4 +1,4 @@
-import os, json, requests, base64, pdfkit, wkhtmltopdf
+import os, json, requests, base64, pdfkit #, wkhtmltopdf
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -17,7 +17,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto
-from wkhtmltopdf.main import WKhtmlToPdf
+#from wkhtmltopdf.main import WKhtmlToPdf
 wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
 
 @login_required(login_url='manager:login')

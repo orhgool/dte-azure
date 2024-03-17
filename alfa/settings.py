@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    'wkhtmltopdf',
+    #'wkhtmltopdf',
     'pdfkit',
     'num2words',
     'crispy_forms',
