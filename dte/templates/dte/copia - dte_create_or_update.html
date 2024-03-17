@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row" align="center">
+        <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+            <div class="card">
+                <div class="row row-bordered g-0">
+                    <div class="col-md-12">
+                        <button id="generar-json" type="button" class="btn btn-primary">Generar JSON</button>
+                        <button type="button" class="btn btn-warning">Enviar a MH</button>
+                        <button type="button" class="btn btn-primary">Enviar correos</button>
+                        <button type="button" class="btn btn-primary">Imprimir</button>
+                        <form method="POST" action="{% url 'sitria:firmar_dte' %}" enctype="multipart/form-data">
+                            <input type="text" name="content-Type" value="application/JSON">
+                            <input type="text" name="nit" value="06142407620011">
+                            <input type="text" name="activo" value="True">
+                            <input type="text" name="passwordPri" value="Frivas$2023" accept="application/JSON">
+                            <input type="file" name="dteJson">
+                            <button type="submit">Firmar</button>
+                        </form>
+                        <form method="POST" action="{% url 'sitria:enviarMH' %}">
+                            <button type="submit">Enviar a MH</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="row">
+        <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+            <div class="card" align="center">
+                <div class="row row-bordered g-0">
+                    <div class="col-md-12">
+                        <img id="qr-image" src="" alt="Código QR no generado">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div-->
+
+  <div class="row">
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+      <div class="card">
+        <div class="row row-bordered g-0">
+          <div class="col-md-12">
+            <h5 class="card-header m-0 me-2 pb-3">Nuevo DTE</h5>
+
+            <form enctype="multipart/form-data" class="container" method="post" id="dte_form">
+                {% csrf_token %}
+                <!-- main form start --- in our case product form -->
+                <table>
+                    {% for field in form %}
+                        <tr>
+                        <!--div class="form-group card-body"-->
+                        <td width="25%">
+                            <label>{{field.label}}</label>
+                            {% if field.field.required %}
+                                <span style="color: red;" class="required">*</span>
+                            {% endif %}
+                        </td>
+                        <td width="100%">
+                            {{field}}
+
+                            {% if field.help_text %}
+                                <small style="color: grey">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                        </td>
+                        <!--/div-->
+                        </tr>
+                    {% endfor %}
+                </table>
+                <!-- main form end --- in our case product form -->
+
+
+                <!-- inline form for Variant start -->
+
+                <!-- EXPLAINING with named_formsets.detalles as formset -->
+                <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                <!-- Note: here detalles is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                {% with named_formsets.detalles as formset %}
+                    {{ formset.management_form }}
+                    <script type="text/html" id="detalles-template">  // id="inlineformsetname-template"
+                        // id='inlineformsetname-__prefix__' 
+                        <tr id="detalles-__prefix__" class= hide_all>
+                            {% for fields in formset.empty_form.hidden_fields %}
+                                {{ fields }}
+                            {% endfor %}
+                        
+                            {% for fields in formset.empty_form.visible_fields %}
+                                <td>{{fields}}</td>
+                            {% endfor %}
+                        </tr>
+                    </script>
+                    <div class="table-responsive card mt-4">
+                        <div class="card-header card-header-secondary">
+                            <h4 class="card-title">Añadir detalles</h4>
+                        </div>
+
+                        <table class="table card-header">
+                            <thead class="text-secondary">
+                                <!--th>Num Item <span style="color: red;" class="required">*</span></th-->
+                                <th># Item <span style="color: red;" class="required">*</span></th>
+                                <th>Tipo <span style="color: red;" class="required">*</span></th>
+                                <th>Cantidad <span style="color: red;" class="required">*</span></th>
+                                <th>Descripcion <span style="color: red;" class="required">*</span></th>
+                                <th>P.Unit <span style="color: red;" class="required">*</span></th>
+                                <th>Desc <span style="color: red;" class="required">*</span></th>
+                                <th>No Sujetas <span style="color: red;" class="required">*</span></th>
+                                <th>Excentas <span style="color: red;" class="required">*</span></th>
+                                <th>Gravadas <span style="color: red;" class="required">*</span></th>
+                                <th>No Grav. <span style="color: red;" class="required">*</span></th>
+                                <th>Tributos <span style="color: red;" class="required">*</span></th>
+                                <th>PSV <span style="color: red;" class="required">*</span></th>
+                                <!--th>Delete?</th-->
+                                <th></th>
+                            </thead>
+                            <tbody id="item-detalles">  <!-- id="item-inlineformsetname" -->
+                                <!-- formset non forms errors -->
+                                {% for error in formset.non_form_errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+
+                                {% for formss in formset %}
+                                    {{ formss.management_form }}
+                                    <tr id="detalles-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                        {{ formss.id }}
+                                        {% for field in formss.visible_fields %}
+                                            <td>
+                                                {{field}}
+                                                {% for error in field.errors %}
+                                                    <span style="color: red">{{ error }}</span>
+                                                {% endfor %}
+                                                
+                                                {% comment %} {{ field.DELETE }} {% endcomment %}
+                                            </td>
+                                        {% endfor %}
+                                        {% comment %} for delete {% endcomment %}
+                                        {% if formss.instance.pk %}
+                                            <td>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                    Eliminar
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Deseas eliminarlo?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a href="{% url 'sitria:eliminar_detalle' formss.instance.pk %}" type="button" class="btn btn-primary">Sí, eliminarlo</a>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </td>            
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="#" id="add-detalle-button" class="btn btn-secondary add-detalles">Agregar ítem</a> <!-- id="add-inlineformsetname-button" -->
+                    </div>
+                    
+                    {% endwith %}
+                    <!-- inline form for Variants end -->
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-block">Guardar</button>
+                    </div>
+            </form>
+
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+            <!--script src="{% static 'js/scripts.js' %}"></script-->
+          </div>                      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

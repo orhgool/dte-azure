@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<form method="post" id="dteForm">
+	    {% csrf_token %}
+	     <table>
+            {% for field in form %}
+                <tr>
+                <!--div class="form-group card-body"-->
+                <td width="25%">
+                    <label>{{field.label}}</label>
+                    {% if field.field.required %}
+                        <span style="color: red;" class="required">*</span>
+                    {% endif %}
+                </td>
+                <td width="100%">
+                    {{field}}
+
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </td>
+                <!--/div-->
+                </tr>
+            {% endfor %}
+        </table>
+	    {{ formset.management_form }}
+	    <table id="formset">
+	         <thead class="text-secondary">
+                <!--th>Num Item <span style="color: red;" class="required">*</span></th-->
+                <th>Tipo <span style="color: red;" class="required">*</span></th>
+                <th>Cantidad <span style="color: red;" class="required">*</span></th>
+                <th>Descripcion <span style="color: red;" class="required">*</span></th>
+                <th>Precio <span style="color: red;" class="required">*</span></th>
+                <th>Descuento <span style="color: red;" class="required">*</span></th>
+                <th>No Sujetas <span style="color: red;" class="required">*</span></th>
+                <th>Excentas <span style="color: red;" class="required">*</span></th>
+                <th>Gravadas <span style="color: red;" class="required">*</span></th>
+                <!--th>Delete?</th-->
+                <th></th>
+            </thead>
+	        <tbody>
+	            {% for form in formset.forms %}
+	                <tr>
+	                    {% for field in form %}
+                            <td>
+                                {{field}}
+                                {% for error in field.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                                
+                                {% comment %} {{ field.DELETE }} {% endcomment %}
+                            </td>
+                        {% endfor %}
+	                </tr>
+	            {% endfor %}
+	        </tbody>
+	    </table>
+	    <button type="button" class="add-form">Agregar ítem</button>
+	    <input type="submit" value="Guardar">
+	</form>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    const formset = document.getElementById("formset");
+		    const addButton = document.querySelector(".add-form");
+
+		    if (addButton) {  // Verificar si el botón existe antes de agregar el evento
+		        addButton.addEventListener("click", function() {
+		            const newForm = formset.querySelector("tbody tr:first-child").cloneNode(true);
+		            const totalFormsField = document.getElementById("id_dteclientedetalle_set-TOTAL_FORMS");
+		            const formCount = parseInt(totalFormsField.value);
+		            const newFormId = `id_dteclientedetalle_set-${formCount}-`;
+		            
+		            newForm.querySelectorAll("input, select, textarea").forEach(input => {
+		                input.name = input.name.replace(`id_dteclientedetalle_set-0-`, newFormId);
+		                input.id = input.id.replace(`id_dteclientedetalle_set-0-`, newFormId);
+		                input.value = "";
+		            });
+
+		            totalFormsField.value = formCount + 1;
+		            formset.querySelector("tbody").appendChild(newForm);
+		        });
+		    }
+		});
+	</script>
+{% endblock %}

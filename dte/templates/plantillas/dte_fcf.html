@@ -1,0 +1,296 @@
+{% load static %}
+{% load humanize %}
+{% load my_filters %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ALCASA - Sitria</title>
+    <style type="text/css">
+    	table{
+    		border: 1px solid grey;
+    	}
+
+    	.logo{
+    		border-radius: 0%;
+    	}
+
+    	.datos-alcasa{
+    		position: absolute;
+    		top: 0%;
+    		left: 0%;
+    		font-size: 13px;}
+
+    	.doc-id{
+			position: absolute;
+    		top: 3%;
+    		left: 35%;
+    		font-size: 13px;
+    	}
+
+    	.qr{
+    		position: absolute;
+    		top: 0px;
+    		left: 84%;
+    	}
+
+    	.datos-cliente{
+    		position: absolute;
+    		top: 170px;
+    		left: 0px;
+    		width: 100%;
+    		font-size: 13px;
+    	}
+
+    	.sub-tabla{
+    		font-size: 15px;
+    		border: none;
+    		width: 100%;
+    	}
+
+    	.titulo-apartado{
+    		font-weight: bold;
+    		text-transform: uppercase;
+    		border-bottom: 1pt solid black;
+    		text-align: center;
+    		background-color: #E6E6E6;
+    	}
+
+    	.row-line{
+    		border-bottom: 1pt solid black;
+    	}
+
+    	.row-line-left{
+    		border-left: 1pt solid black;
+    	}
+
+    	.row-line-all{
+    		border-bottom: 1pt solid black;
+    		border-left: 1pt solid black;
+    		border-right: 1pt solid black;
+    	}
+
+    	strong{
+    		font-weight: 600;
+    	}
+
+
+    </style>
+
+  </head>
+
+  <body>
+	<div class="datos-alcasa">
+		<img class="logo" src="http://alcasa.com.sv/images/site/logo-alcasa.png" alt="logo" width="100", height="60"><br>
+		 <strong>Almacenadora Centroamericana, S.A. de C.V.</strong><br />
+		 Complejo Corporativo SISCO<br />
+		 Carretera Panamericana km 9 1/2<br />
+		 Santa Tecla, La Libertad<br />
+		 Teléfono: +503 2212 1270<br />
+		 Correo: alcasa@alcasa.com.sv
+	</div>
+
+	<div class="qr">
+		<!--img src="{{qr}}"  width="150" height="150"-->
+	</div>
+	<div class="doc-id">
+		<table style="border: none">
+			<thead>
+				<tr>
+					<th colspan="4">
+						DOCUMENTO TRIBUTARIO ELECTRÓNICO
+					</th>
+				</tr>
+				<tr>
+					<th colspan="4">
+						FACTURA
+					</th>
+				</tr>
+			</thead>
+			<tbody  class="table-border-bottom-0">
+				<tr>
+					<td>
+						<strong>Código generación:</strong>
+					</td>
+					<td colspan="3">
+						{{ dte.codigoGeneracion }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Sello recepción:</strong>
+					</td>
+					<td colspan="3">
+						{{ dte.selloRecepcion }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Número control:</strong>
+					</td>
+					<td colspan="3">
+						{{ dte.numeroControl }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Modelo facturación:</strong>
+					</td>
+					<td>
+						{{ dte.tipoModelo }}
+					</td>
+					<td colspan="2">
+						<strong>Versión JSON:</strong> {{ dte.version }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Tipo de transmisión:</strong>
+					</td>
+					<td>
+						{{ dte.tipoTransmision }}
+					</td>
+					<td colspan="2">
+						<strong>Fecha:</strong> {{fecha}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="datos-cliente">
+		<table width="100%">
+			<thead>
+				<tr>
+					<th colspan="4" class="titulo-apartado">
+						Datos del cliente
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td width="10%">
+						<strong>Nombre</strong>
+					</td>
+					<td  width="65%">
+						{{ receptor.razonsocial }}
+					</td>
+					<td width="10%">
+						<strong>Documento</strong>
+					</td>
+					<td width="15%">
+						{{ receptor.nit }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Actividad</strong>
+					</td>
+					<td>
+						{{ receptor.actividadeconomica }}
+					</td>
+					<td>
+						<strong>NRC</strong>
+					</td>
+					<td>
+						{{ receptor.nrc }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Direccion</strong>
+					</td>
+					<td rowspan="2" valign="top">
+						{{ receptor.direccion }}<br> {{receptor.municipio}}, {{receptor.departamento}}
+					</td>
+					<td>
+						<strong>Teléfono</strong>
+					</td>
+					<td>
+						{{ receptor.telefono }}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<strong>Correo</strong>
+					</td>
+					<td>
+						{{ receptor.correo }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table  style="border-style: solid; border-width: 1px;" width="100%">
+			<thead>
+				<tr><td colspan="9" class="titulo-apartado"><b>Cuerpo del documento</b></td></tr>
+				
+			</thead>
+			<tbody>
+				<tr valign="top" height="600px">
+					<td colspan="9" class="row-line">
+						<table class="sub-tabla">
+							<tr>
+								<td class="row-line" width="5%" align="center"><b>Cant.</b></td>
+								<td class="row-line" width="5%" align="center"><b>Uni Med</b></td>
+								<td class="row-line" width="5%" align="center"><b>Tipo</b></td>
+								<td class="row-line" width="35%"><b>Descripción</b></td>
+								<td class="row-line" width="5%" align="center"><b>Precio unitario</b></td>
+								<td class="row-line" width="5%" align="center"><b>Vtas exentas</b></td>
+								<td class="row-line" width="5%" align="center"><b>Vtas gravadas</b></td>
+							</tr>
+						{% for dte_detalles in dte_detalle %}
+						<tr>
+							<td valign="top" width="5%" align="right">{{dte_detalles.cantidad|decimal3}}</td>
+							<td valign="top" width="5%">{{dte_detalles.uniMedida}}</td>
+							<td valign="top" width="5%">{{dte_detalles.tipoItem}}</td>
+							<td valign="top" width="35%">{{dte_detalles.descripcion}}
+								{% if dte_detalles.complemento1 %}<br>{{dte_detalles.complemento1}}{% endif %}
+								{% if dte_detalles.complemento2 %}<br>{{dte_detalles.complemento2}}{% endif %}
+							</td>
+								
+							<td valign="top" width="5%" align="right">{{dte_detalles.precio_con_iva|moneda}}</td>
+							<td valign="top" width="5%" align="right">{{dte_detalles.ventaExenta|moneda}}</td>
+							<td valign="top" width="5%" align="right">{{dte_detalles.subt_precio_con_iva|moneda}}</td>
+						</tr>
+					{% endfor %}
+					</table>
+					</td>
+				</tr>
+				<tr class="row-line">
+					<td class="row-line" colspan="5"><b>Valor en letras:</b> {{letras}}</td>
+					<td class="row-line-left" colspan="3" rowspan="2"></td>
+					<td align="right" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td colspan="5" class="titulo-apartado">Extensión</td>
+				</tr>
+				<tr>
+					<td><b>Entregado por</b></td>
+					<td>{{dte.emisor}}</td>
+					<td></td>
+					<td><b>Recibido por</b></td>
+					<td>{{dte.receptor}}</td>
+					<td class="row-line-left" colspan="3" rowspan="2"><b>Sumas</b></td>
+					<td align="right" rowspan="2">{{dte.totalGravadaIVA|moneda}}</b></td>
+				</tr>
+				<tr>
+					<td><b>Documento</b></td>
+					<td>{{dte.emisor.nit}}</td>
+					<td></td>
+					<td><b>Documento</b></td>
+					<td>{{dte.receptor.nit}}</td>					
+				</tr>
+				<tr>
+					<td colspan="5" class="titulo-apartado">comentarios</td>
+					<td class="row-line-left" colspan="3" rowspan="2"><b>Total</b></td>
+					<td align="right" rowspan="2">{{dte.totalPagarIVA|moneda}}</td>
+				</tr>
+				<tr>
+					<td colspan="5">.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

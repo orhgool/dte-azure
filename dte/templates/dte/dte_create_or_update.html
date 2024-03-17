@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy example_form example_form.helper %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>Mensaje:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario para agregar cliente -->
+        <form method="post" id="cliente_form">
+          {% csrf_token %}
+          {{ cliente_frm.as_p }}
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<form enctype="multipart/form-data" class="container" method="post" id="product_form">
+    {% csrf_token %}
+    <!-- main form start --- in our case product form -->
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Tipo de documento: <strong>{{TipoDocumento}}</strong></h4>
+                    <div class="row">
+                        <div class="col-md-2" style="display: none;">
+                            {{ form.emisor|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.codigoGeneracion|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.numeroControl|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.receptor|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2" style="display: none;">
+                            {{ form.tipoDte|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.fecEmi|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.estadoPago|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      Agregar Cliente
+                    </button-->
+                        <div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
+                            <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Generar documento electrónico</a>
+                            <a href="{% url 'dte:firmardte' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Firmar</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <input type="text" name="producto" id="producto">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                   {% with named_formsets.detalles as formset %}
+                        {{ formset.management_form }}
+                        <script type="text/html" id="detalles-template">  // id="inlineformsetname-template"
+                            // id='inlineformsetname-__prefix__' 
+                            <tr id="detalles-__prefix__" class= hide_all>
+                                {% for fields in formset.empty_form.hidden_fields %}
+                                    {{ fields }}
+                                {% endfor %}
+                            
+                                {% for fields in formset.empty_form.visible_fields %}
+                                    <td>{{fields}}</td>
+                                {% endfor %}
+                            </tr>
+                        </script>
+                        <div class="table-responsive card mt-4">
+                                <h4 class="card-title">Detalle</h4>
+                            <table class="table card-header">
+                                <thead class="text-secondary">
+                                    <th>Tipo <span style="color: red;" class="required">*</span></th>
+                                    <th>Cantidad <span style="color: red;" class="required">*</span></th>
+                                    <th>U. Medida <span style="color: red;" class="required">*</span></th>
+                                    <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                    <th>Precio <span style="color: red;" class="required">*</span></th>
+                                    <th>Descuento</th>
+                                    <th>Vta no sujeta</th>
+                                    <th>Venta exenta</th>
+                                    <th>Venta gravada</th>
+                                    <th>ID <span style="color: red;" class="required">*</span></th>
+                                    <th>Eliminar?</th>
+                                </thead>    
+                                <tbody id="item-detalles">  <!-- id="item-inlineformsetname" -->
+                                    <!-- formset non forms errors -->
+                                    {% for error in formset.non_form_errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                    {% for formss in formset %}
+                                        {{ formss.management_form }}
+                                        <tr id="detalles-{{ forloop.counter0 }}">  <!-- id="inlineformsetname-counter" -->
+                                            {{ formss.id }}
+                                            {% for field in formss.visible_fields %}
+                                                {% if not field.name == 'codigoDetalles' %}
+                                                    <td>
+                                                        {{field}}
+                                                        {% for error in field.errors %}
+                                                            <span style="color: red">{{ error }}</span>
+                                                        {% endfor %}
+                                                        
+                                                        {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                    </td>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% comment %} for delete {% endcomment %}
+                                            {% if formss.instance.pk %}
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                        Eliminar
+                                                    </button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">¿Está seguro que desea eliminar este detalle?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="{% url 'dte:eliminar_detalle' formss.instance.pk %}" type="button" class="btn btn-primary">Sí, eliminarlo</a>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Cerrar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>            
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div align="right">
+                                <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Añadir otro</a> <!-- 
+                                id="add-inlineformsetname-button" -->
+                            </div>
+                        </div>
+                        
+                    {% endwith %}
+
+                    <!--div align="center">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script-->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    // when user clicks add more btn of detalles
+      $('.add-detalles').click(function(ev) {
+        ev.preventDefault();
+        var count = $('#item-detalles').children().length;
+        var tmplMarkup = $('#detalles-template').html();
+        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+        $('#item-detalles').append(compiledTmpl);
+
+        // update form count
+        $('#id_detalles-TOTAL_FORMS').attr('value', count+1);
+
+        // actualizar el formulario de gestión
+        $('#id_formset-TOTAL_FORMS').val(count+1);
+
+        //$('#')
+      });
+  });
+</script>
+
+<!-- Script para enviar el formulario mediante AJAX -->
+<script>
+  $(document).ready(function() {
+
+    $('#producto').autocomplete({
+        source: '{% url "dte:autocompletar_producto" %}',
+        minLength: 2 // mínimo de caracteres antes de realizar la búsqueda
+    });
+    
+    $('#cliente_form').submit(function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: "{% url 'dte:guardar_cliente_modal' %}",
+        data: $(this).serialize(),
+        success: function(response) {
+          // Manejar la respuesta aquí (por ejemplo, mostrar un mensaje de éxito)
+          alert('Cliente agregado correctamente');
+          // Cerrar el modal después de agregar el cliente
+          $('#exampleModal').modal('hide');
+        },
+        error: function(xhr, errmsg, err) {
+          // Manejar errores aquí (por ejemplo, mostrar mensajes de error)
+          // alert('Error al agregar el cliente');
+          $('#exampleModal').modal('hide');
+        }
+      });
+    });
+
+    function calcularSubtotal() {
+        // Itera sobre cada fila del detalle
+        $('#item-detalles tr').each(function() {
+            // Encuentra las casillas de cantidad y precioUni dentro de esta fila
+            var cantidad = $(this).find('.field-cantidad input').val();
+            var precioUni = $(this).find('.field-precioUni input').val();
+            // Si ambos valores son numéricos, calcula el subtotal y actualiza la casilla 'ventaGravada'
+            if (!isNaN(cantidad) && !isNaN(precioUni)) {
+                var subtotal = cantidad * precioUni;
+                $(this).find('.field-ventaGravada input').val(subtotal.toFixed(2)); // Ajusta la precisión según tus necesidades
+            }
+        });
+    }
+
+    // Llama a la función para calcular el subtotal y actualizar la casilla 'ventaGravada'
+    $('#item-detalles').on('input', '.field-cantidad input, .field-precioUni input', function() {
+        calcularSubtotal();
+    });
+
+  });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Función para actualizar el campo 'ventaGravada' basado en 'cantidad' y 'precioUni'
+        function updateVentaGravada() {
+            // Obtener el índice del control
+            var index = this.id.split('-')[1] || '__prefix__';
+            // Obtener los valores de cantidad y precioUni
+            var cantidad = parseFloat(document.getElementById('id_detalles-' + index + '-cantidad').value) || 0;
+            var precioUni = parseFloat(document.getElementById('id_detalles-' + index + '-precioUni').value) || 0;
+            var ventaGravada = cantidad * precioUni;
+            // Actualizar el valor del campo 'ventaGravada'
+            document.getElementById('id_detalles-' + index + '-ventaGravada').value = ventaGravada.toFixed(2);
+        }
+
+        // Obtener todos los campos 'cantidad' y 'precioUni' y agregar event listeners
+        var cantidadInputs = document.querySelectorAll('[id^="id_detalles-"][id$="-cantidad"]');
+        var precioUniInputs = document.querySelectorAll('[id^="id_detalles-"][id$="-precioUni"]');
+        
+        cantidadInputs.forEach(function(input) {
+            input.addEventListener('input', updateVentaGravada);
+        });
+
+        precioUniInputs.forEach(function(input) {
+            input.addEventListener('input', updateVentaGravada);
+        });
+    });
+</script>
+
+{% endblock %}

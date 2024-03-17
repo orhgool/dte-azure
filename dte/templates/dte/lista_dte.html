@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load my_filters %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message.tags.capitalize }}:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Documentos emitidos</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Tipo</th>
+                            <th>Código de generación</th>
+                            <th>Número correlativo</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dte in page_obj %}
+                            <tr>
+                                <td>{{dte.fecEmi|fechaHora}}</td>
+                                <td>{{ dte.receptor }}</td>
+                                <td>{{dte.tipoDte.nombre_corto}}</td>
+                                <td>{{ dte.codigoGeneracion }}</td>
+                                <td>{{ dte.numeroControl }}</td>
+                                <td><a href="{% url 'dte:actualizar' dte.codigoGeneracion %}">Modificar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    {% if page_obj.has_previous %}
+                    <button type="button" class="btn btn-outline-primary btn-fw">
+                        <a href="?page=1">&laquo; Primera</a>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary">
+                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                    </button>
+                    {% endif %}
+
+                    <span>
+                        <button type="button" class="btn btn-outline-primary">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                        </button>
+                    </span>
+
+                    {% if page_obj.has_next %}
+                    <button type="button" class="btn btn-outline-primary">
+                        <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">
+                        <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

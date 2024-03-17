@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ action }} DTE</h2>
+  <form method="post" id="dteForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <div id="detalleContainer">
+      {% for form in formset %}
+        <div class="detalleRow">
+          {{ form.as_table }}
+          <button type="button" class="removeDetailBtn">Remove Detail</button>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <button type="button" id="addDetailBtn">Add Detail</button>
+    <input type="submit" value="Save">
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#addDetailBtn").click(function() {
+        addDetailRow();
+      });
+
+      $(".removeDetailBtn").click(function() {
+        $(this).closest('.detalleRow').remove();
+      });
+
+      function addDetailRow() {
+        var container = $("#detalleContainer");
+        var newRow = container.find(".detalleRow:first").clone();
+
+        // Limpiar valores del nuevo detalle
+        newRow.find(":input").val("");
+
+        // Incrementar el índice del nuevo detalle
+        var newIndex = container.find(".detalleRow").length;
+        newRow.find(":input").each(function() {
+          var name = $(this).attr("name").replace("-0-", "-" + newIndex + "-");
+          $(this).attr("name", name);
+        });
+
+        // Agregar el nuevo detalle al contenedor
+        container.append(newRow);
+      }
+    });
+  </script>
+{% endblock %}
