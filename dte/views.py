@@ -22,12 +22,12 @@ wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
 
 @login_required(login_url='manager:login')
 def index(request):
-	#messages.success(request, 'settings.PROJECT_DIR: ' + settings.PROJECT_DIR)
-	#messages.success(request, 'settings.STATIC_ROOT: ' + settings.STATIC_ROOT)
-	#messages.success(request, 'settings.STATIC_DIR: ' + settings.STATIC_DIR)
-	#messages.success(request, 'settings.STATIC_URL: ' + settings.STATIC_URL)
-	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
-	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
+	messages.success(request, 'settings.PROJECT_DIR: ' + settings.PROJECT_DIR)
+	messages.success(request, 'settings.STATIC_ROOT: ' + settings.STATIC_ROOT)
+	messages.success(request, 'settings.STATIC_DIR: ' + settings.STATIC_DIR)
+	messages.success(request, 'settings.STATIC_URL: ' + settings.STATIC_URL)
+	messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
+	messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
