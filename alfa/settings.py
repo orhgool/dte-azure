@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    #'wkhtmltopdf',
+    'wkhtmltopdf',
     'pdfkit',
     'num2words',
     'crispy_forms',
@@ -160,3 +160,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join(PROJECT_DIR,'static/'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
+
+#WKHTMLTOPDF_CMD = '/path/to/my/wkhtmltopdf'
