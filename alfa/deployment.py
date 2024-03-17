@@ -27,9 +27,14 @@ parameters = {pair.split('='):pair.split('=')[1] for pair in connection_string.s
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql',
-		'NAME': parameters['dbname'],
-		'HOST': parameters['host'],
-		'USER': parameters['user'],
-		'PASSWORD': parameters['password'],
+		#'NAME': parameters['dbname'],
+		#'HOST': parameters['host'],
+		#'USER': parameters['user'],
+		#'PASSWORD': parameters['password'],
+		'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'marl0nH'), # jqiajkthdz
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'Ammh0909$'), # YGOR24H577XH22G2$
+        'HOST': os.environ.get('DB_HOST', 'mirage.postgres.database.azure.com'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
 	}
 }
