@@ -1,4 +1,4 @@
-import os, json, requests, base64, pdfkit #, wkhtmltopdf
+import os, json, requests, base64, pdfkit
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -17,12 +17,10 @@ from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto
-#from wkhtmltopdf.main import WKhtmlToPdf
 
-if os.name=='posix':
-	wkhtml_to_pdf = '/usr/local/bin/wkhtmltopdf'
-else:
-	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
+from wkhtmltopdf.views import PDFTemplateView
+
+
 
 @login_required(login_url='manager:login')
 def index(request):
@@ -428,54 +426,63 @@ def cliente_delete(request, pk):
 
 
 
-@login_required(login_url='manager:login')
-def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
-	options = {
-		'page-size': 'Letter',
-		'page-height': "11in",
-		'page-width': "8.5in",
-		'margin-top': '0.5in',
-		'margin-right': '0.5in',
-		'margin-bottom': '0.5in',
-		'margin-left': '0.5in',
-		'encoding': "UTF-8",
-		'no-outline': None
-	}
+#@login_required(login_url='manager:login')
+class VistaPreviaPDFDTE(PDFTemplateView):
+	template_name = 'plantillas/dte_fcf.html'
 
-	emisor = Empresa.objects.get(codigo = request.session['empresa'])
-		
-	if tipo == '01':
-		template_path = 'plantillas/dte_fcf.html'
-		Dte = DTECliente.objects.filter(codigoGeneracion = codigo).annotate(
-			totalExentaIVA = ExpressionWrapper(F('totalExenta') * 1.13, output_field = DecimalField()),
-			totalGravadaIVA = ExpressionWrapper(F('totalGravada') * 1.13, output_field = DecimalField()),
-			subTotalVentasIVA = ExpressionWrapper(F('subTotalVentas') * 1.13, output_field = DecimalField()),
-			totalPagarIVA = ExpressionWrapper(F('totalPagar'), output_field = DecimalField())
-		).first()
-		receptor = Cliente.objects.get(codigo = Dte.receptor_id)
-		DteDetalle = DTEClienteDetalle.objects.filter(dte = Dte).annotate(
-			precio_con_iva = ExpressionWrapper(F('precioUni') * 1.13, output_field = DecimalField()),
-			subt_precio_con_iva = ExpressionWrapper(F('ventaGravada') * 1.13, output_field = DecimalField())
-		)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
 
-	letras = CantLetras(Dte.totalPagar)
-	fecha = Dte.fecEmi.strftime("%d/%m/%Y")
+		options = {
+			'page-size': 'Letter',
+			'page-height': '11in',
+			'page-width': '8.5in',
+			'margin-top': '0.5in',
+			'margin-right': '0.5in',
+			'margin-bottom': '0.5in',
+			'margin-left': '0.5in',
+			'encoding': 'UTF-8',
+			'no-outline': None
+		}
 
-	context={'dte':Dte,'emisor':emisor, 'receptor':receptor, 'dte_detalle':DteDetalle, 'letras':letras, 'qr':'qr', 'fecha':fecha}
+		emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
 
-	template = get_template(template_path)
-	html = template.render(context)
-	config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
-	pdf = pdfkit.from_string(html, False, configuration=config, options=options)
+		tipo = self.kwargs['tipo']
+		codigo = self.kwargs['codigo']
 
-	# Generate download
-	response = HttpResponse(pdf, content_type='application/pdf')
+		if tipo == '01':
+			dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+				totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+				totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+				subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+				totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+			).first()
+			receptor = Cliente.objects.get(codigo=dte.receptor_id)
+			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
+				precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
+				subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
+			)
 
-	#response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
-	# print(response.status_code)
-	if response.status_code != 200:
-		return HttpResponse('Huston!, We had some errors <pre>' + html + '</pre>')
-	return response
+			letras = CantLetras(dte.totalPagar)
+			fecha = dte.fecEmi.strftime('%d/%m/%Y')
+
+			context['dte'] = dte
+			context['emisor'] = emisor
+			context['receptor'] = receptor
+			context['dte_detalle'] = dte_detalle
+			context['letras'] = letras
+			context['qr'] = 'qr'
+			context['fecha'] = fecha
+
+		context['options'] = options
+
+		return context
+
+	def get(self, request, *args, **kwargs):
+		response = super().get(request, *args, **kwargs)
+		response['Content-Type'] = 'application/pdf'
+		response['Content-Disposition'] = 'inline; filename="documento.pdf"'
+		return response
 
 
 def cerrar_sesion(request):
