@@ -173,3 +173,5 @@ WKHTMLTOPDF_CMD_OPTIONS = {
     'encoding': 'UTF-8',
     'no-outline': None
 }
+
+WKHTMLTOPDF_BIN = os.path.join(BASE_DIR, 'wkhtmltopdf')

@@ -471,6 +471,31 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 		return response
 
 
+def vista_previa_pdf_dte(request):
+	# Tu lógica para obtener el HTML que deseas convertir a PDF
+	html = "<html><body><h1>Hello, World!</h1></body></html>"
+
+	# Configuración de PDFkit
+	options = {
+		'page-size': 'Letter',
+		'margin-top': '0.5in',
+		'margin-right': '0.5in',
+		'margin-bottom': '0.5in',
+		'margin-left': '0.5in',
+		'encoding': "UTF-8",
+		'no-outline': None
+	}
+
+	# Renderizar HTML a PDF
+	pdf = pdfkit.from_string(html, False, options=options)
+
+	# Generar la respuesta HTTP con el PDF
+	response = HttpResponse(pdf, content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; filename="documento.pdf"'
+
+	return response
+
+
 def cerrar_sesion(request):
     logout(request)
     return redirect('manager:login')	
