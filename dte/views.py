@@ -18,7 +18,11 @@ from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto
 #from wkhtmltopdf.main import WKhtmlToPdf
-wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
+
+if os.name=='posix':
+	wkhtml_to_pdf = '/usr/local/bin/wkhtmltopdf'
+else:
+	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
 
 @login_required(login_url='manager:login')
 def index(request):
@@ -28,7 +32,7 @@ def index(request):
 	#messages.success(request, 'settings.STATIC_URL: ' + settings.STATIC_URL)
 	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
 	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
-	messages.success(request, 'os.name: ' + os.name)
+	#messages.success(request, 'os.name: ' + os.name)
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
