@@ -433,18 +433,6 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
-		options = {
-			'page-size': 'Letter',
-			'page-height': '11in',
-			'page-width': '8.5in',
-			'margin-top': '0.5in',
-			'margin-right': '0.5in',
-			'margin-bottom': '0.5in',
-			'margin-left': '0.5in',
-			'encoding': 'UTF-8',
-			'no-outline': None
-		}
-
 		emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
 
 		tipo = self.kwargs['tipo']

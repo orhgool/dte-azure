@@ -162,3 +162,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
 
 #WKHTMLTOPDF_CMD = '/path/to/my/wkhtmltopdf'
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'page-size': 'Letter',
+    'page-height': '11in',
+    'page-width': '8.5in',
+    'margin-top': '0.5in',
+    'margin-right': '0.5in',
+    'margin-bottom': '0.5in',
+    'margin-left': '0.5in',
+    'encoding': 'UTF-8',
+    'no-outline': None
+}
