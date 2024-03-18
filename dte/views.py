@@ -462,8 +462,6 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['qr'] = 'qr'
 			context['fecha'] = fecha
 
-		context['options'] = options
-
 		return context
 
 	def get(self, request, *args, **kwargs):
