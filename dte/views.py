@@ -486,6 +486,7 @@ def vista_previa_pdf_dte(request):
 		'no-outline': None
 	}
 
+
 	# Renderizar HTML a PDF
 	pdf = pdfkit.from_string(html, False, options=options)
 
