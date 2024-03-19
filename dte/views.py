@@ -280,7 +280,10 @@ def firmarDte(request, codigo, tipo):
 	usuariomh = emisor.usuarioMH
 	pwd = emisor.passwordPri
 
-	archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
+	if os.name == 'posix':
+		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+	else:
+		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
 	
 	with open(archivo, 'rb') as file:
 		json_data = json.load(file)
