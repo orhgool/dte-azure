@@ -87,18 +87,6 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form>
-                        <input type="text" name="producto" id="producto">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
                    {% with named_formsets.detalles as formset %}
                         {{ formset.management_form }}
                         <script type="text/html" id="detalles-template">  // id="inlineformsetname-template"
@@ -202,6 +190,17 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#item-detalles').on('focus', '.detalles-1-descripcion input', function() {
+            $(this).autocomplete({
+                source: '{% url "dte:autocompletar_producto" %}',
+                minLength: 2 // mínimo de caracteres antes de realizar la búsqueda
+            });
+        });
+    });
+</script>
+
 <script>
   $(document).ready(function() {
     // when user clicks add more btn of detalles
@@ -226,12 +225,6 @@
 <!-- Script para enviar el formulario mediante AJAX -->
 <script>
   $(document).ready(function() {
-
-    $('#producto').autocomplete({
-        source: '{% url "dte:autocompletar_producto" %}',
-        minLength: 2 // mínimo de caracteres antes de realizar la búsqueda
-    });
-    
     $('#cliente_form').submit(function(event) {
       event.preventDefault();
       $.ajax({
