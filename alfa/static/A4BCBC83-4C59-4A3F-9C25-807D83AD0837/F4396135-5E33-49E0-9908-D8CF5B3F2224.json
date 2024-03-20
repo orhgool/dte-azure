@@ -1,14 +1,14 @@
 {
   "identificacion": {
-    "version": 1,
+    "version": 3,
     "ambiente": "00",
     "tipoDte": "01",
-    "numeroControl": "DTE-01-00000000-000000000000001",
-    "codigoGeneracion": "B5AD137D-43C6-4215-9515-4FD858475BF6",
+    "numeroControl": "DTE-01-00000000-000000000000007",
+    "codigoGeneracion": "F4396135-5E33-49E0-9908-D8CF5B3F2224",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-02-25",
-    "horEmi": "16:15:25",
+    "fecEmi": "2024-03-19",
+    "horEmi": "18:14:14",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
     "motivoContin": null
@@ -23,7 +23,7 @@
     "nombreComercial": "ALFA",
     "tipoEstablecimiento": "02",
     "direccion": {
-      "departamento": "03",
+      "departamento": "3",
       "municipio": "11",
       "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
     },
@@ -36,15 +36,14 @@
   },
   "receptor": {
     "tipoDocumento": "36",
-    "numDocumento": "03142407620011",
-    "nrc": "4340",
+    "numeroDocumento": "03142407620011",
+    "nrc": "434-0",
     "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "codActividad": "52102",
-    "descActividad": "52102",
     "direccion": {
-      "departamento": "05",
+      "departamento": "5",
       "municipio": "11",
-      "complemento": "KM 9 y medio complejo corporativo SISCO"
+      "complemento": "KM 9 1/2 complejo corporativo SISCO"
     },
     "telefono": "22121270",
     "correo": "alcasa@alcasa.com.sv"
@@ -54,44 +53,6 @@
   "cuerpoDocumento": [
     {
       "numItem": 1,
-      "tipoItem": 1,
-      "numeroDocumento": null,
-      "cantidad": 2.0,
-      "codigo": null,
-      "codTributo": null,
-      "uniMedida": 59,
-      "descripcion": "Mouse",
-      "precioUni": 7.91,
-      "montoDescu": 0.0,
-      "ventaNoSuj": 0.0,
-      "ventaExenta": 0.0,
-      "ventaGravada": 15.82,
-      "noGravado": 0.0,
-      "tributos": null,
-      "psv": 0.0,
-      "ivaItem": 1.82
-    },
-    {
-      "numItem": 2,
-      "tipoItem": 1,
-      "numeroDocumento": null,
-      "cantidad": 1.0,
-      "codigo": null,
-      "codTributo": null,
-      "uniMedida": 59,
-      "descripcion": "impresor",
-      "precioUni": 42.94,
-      "montoDescu": 0.0,
-      "ventaNoSuj": 0.0,
-      "ventaExenta": 0.0,
-      "ventaGravada": 42.94,
-      "noGravado": 0.0,
-      "tributos": null,
-      "psv": 0.0,
-      "ivaItem": 4.94
-    },
-    {
-      "numItem": 3,
       "tipoItem": 1,
       "numeroDocumento": null,
       "cantidad": 1.0,
@@ -110,71 +71,56 @@
       "ivaItem": 5.85
     },
     {
-      "numItem": 4,
+      "numItem": 2,
       "tipoItem": 1,
       "numeroDocumento": null,
-      "cantidad": 3.0,
+      "cantidad": 1.0,
       "codigo": null,
       "codTributo": null,
       "uniMedida": 59,
-      "descripcion": "raton",
-      "precioUni": 9.04,
+      "descripcion": "Toner",
+      "precioUni": 84.75,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 27.12,
+      "ventaGravada": 84.75,
       "noGravado": 0.0,
       "tributos": null,
       "psv": 0.0,
-      "ivaItem": 3.12
+      "ivaItem": 9.75
     }
   ],
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 136.73,
-    "subTotalVentas": 136.73,
+    "totalGravada": 135.6,
+    "subTotalVentas": 135.6,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
     "porcentajeDescuento": 0.0,
     "totalDescu": 0.0,
     "tributos": null,
-    "subTotal": 136.73,
+    "subTotal": 135.6,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 136.73,
+    "montoTotalOperacion": 135.6,
     "totalNoGravado": 0.0,
-    "totalPagar": 136.73,
-    "totalLetras": "CIENTO TREINTA Y SEIS 73/100 USD",
-    "totalIva": 15.73,
+    "totalPagar": 135.6,
+    "totalLetras": "CIENTO TREINTA Y CINCO 60/100 USD",
+    "totalIva": 15.6,
     "saldoFavor": 0.0,
     "condicionOperacion": 1,
     "pagos": null,
     "numPagoElectronico": null
   },
   "extension": {
-    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombEntrega": "ALFA",
     "docuEntrega": "0307-071120-101-6",
     "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "docuRecibe": "03142407620011",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "B5AD137D-43C6-4215-9515-4FD858475BF6",
-    "selloRecibido": "20248095B92351994CDDAB0F7FEE9E9879812RGI",
-    "fhProcesamiento": "19/03/2024 23:34:43",
-    "clasificaMsg": "10",
-    "codigoMsg": "002",
-    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
-    "observaciones": [
-      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
-    ]
-  }
+  "apendice": null
 }

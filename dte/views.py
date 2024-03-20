@@ -15,10 +15,14 @@ from django.views import View
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
-from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras
-from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto
+from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar
+from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, ConfigSeg
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from wkhtmltopdf.views import PDFTemplateView
+
 
 
 
@@ -163,6 +167,7 @@ class DTEInline():
 				formset.save()
 		qr = gen_qr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
 		json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
+		firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 		messages.success(self.request, 'Documento guardado')
 		#return redirect('dte:lista_dte', tipo='cliente')
 		return redirect('dte:actualizar', pk=self.object.codigoGeneracion)
@@ -246,33 +251,123 @@ class DTEUpdate(DTEInline, UpdateView):
 		}
 
 
-def autocompletar_producto(request):
-	term = request.GET.get('term')
-	productos = Producto.objects.filter(nombre__icontains=term).values_list('nombre', flat=True)
-	return JsonResponse(list(productos), safe=False)
 
-@login_required(login_url='manager:login')
-def eliminar_detalle(request, pk):
-	try:
-		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
-	except DTEClienteDetalle.DoesNotExist:
-		messages.success(
-			request, 'Objeto no existe'
-			)
-		return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
+class EnviarDTEView(APIView):
+	def get(self, request, tipo, codigo):
+	#	template = 'sitria:actualizar_dte'
+	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
+		
+		tConfigSeg = None #ConfigSeg.objects.filter(empresa='001').first()
+		if tipo in {'01','03'}:
+			modelo = DTECliente.objects.get(codigoGeneracion=codigo)
+			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
+			ambiente = modelo.ambiente.codigo
+			version = modelo.version
+			docfirmado = modelo.docfirmado
+				
+		
 
-	detalle.delete()
+		if tipo=='anula':
+			archivo = os.path.join(settings.STATIC_DIR, 'json/', codigo + '.json')
+		else:
+			if os.name == 'posix':
+				archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+			else:
+				archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
 
-	messages.success(
-		request, 'Detalle eliminado con éxito'
-		)
+		with open(archivo, 'rb') as file:
+			archivo_adjunto = file.read()
+			nombre_archivo = os.path.basename(archivo)
 
-	return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
+		if tipo in {'01','03','04','05','06','07','07A','08','09','11','14','15'}:
+			url = getUrl(emisor.codigo, 'Recepciondte')
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alfa/1.0',
+				'Content-Type': 'application/json',
+			}			
+			data={
+				'ambiente': ambiente,
+				'idEnvio': 1,
+				'version': version,
+				'tipoDte': tipo,
+				'documento': docfirmado,
+				'codigoGeneracion': codigo,
+			}
+		if tipo in {'anula'}:
+			url = "https://api.dtes.mh.gob.sv/fesv/anulardte"
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alca/1.0',
+				'Content-Type': 'application/json'
+			}			
+			data={
+				'ambiente': ambiente,
+				'idEnvio': 1,
+				'version': version,
+				'documento': docfirmado
+			}
+		if tipo in {'contingencia'}:
+			url = "https://api.dtes.mh.gob.sv/fesv/contingencia"
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alca/1.0',
+				'Content-Type': 'application/json',
+			}			
+			data={
+				'nitEmisor': '06142407620011',
+				'documento': docfirmado,
+			}
+
+			#consol={'url':url, 'headers':headers, 'data':data}
+
+		#files = {(nombre_archivo, archivo_adjunto)}
+
+		response = requests.post(url, headers=headers, json=data)
+
+		if response.status_code == 200:
+			respuesta_servicio = response.json()
+
+			if tipo in {'01','03','04','05','06a','08','09','11','14','15'}:
+				gsello = DTECliente.objects.get(codigoGeneracion=codigo)
+				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				gsello.save()
+			elif tipo in {'07'}:
+				gsello = DTEProveedor.objects.get(codigoGeneracion=codigo)
+				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				gsello.save()
+
+			try:
+				with open(archivo, 'r') as json_file:
+					contenido_actual = json.load(json_file)
+			except FileNotFoundError:
+				contenido_actual = {}
+
+			contenido_actual['selloRecepcion'] = respuesta_servicio
+
+			with open(archivo, 'w') as json_file:
+				json.dump(contenido_actual, json_file, indent=2)
+
+			#res = gen_pdf(codigo, tipo, version, ambiente)
+			#estado = EstadoDTE.objects.get(codigo='005')
+			#cambiarEstadoDte(tipo, codigo, estado)
+			#messages.success(request, res)
+			messages.success(request, respuesta_servicio)
+			#return redirect(template, codigo=codigo)
+			return redirect('dte:actualizar', pk=codigo)
+
+		else:
+			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+			messages.error(request, error_message)
+			#return redirect(template, codigo=codigo)
+			return redirect('dte:actualizar', pk=codigo)
+	
+	def post(self, request, codigo, doc_firmado):
+		# Manejar la lógica para solicitudes GET si es necesario
+		return Response({"detail": "Solicitud POST procesada correctamente."})
 
 
-
-@login_required(login_url='manager:login')
-def firmarDte(request, codigo, tipo):
+def firmarDte(request, codigo, tipo): ########## BORRAR ###################
 	if tipo in {'01','03'}:
 		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	
@@ -329,10 +424,34 @@ def firmarDte(request, codigo, tipo):
 		contenido_actual['token'] = body_value
 
 		#return redirect('dte:index')
-		return redirect('dte:actualizar', pk=codigo)
-		#return JsonResponse(data1)
+		#return redirect('dte:actualizar', pk=codigo)
+		return JsonResponse(response_data)
 	else:
 		return JsonResponse({'resp':data, 'codigo':response.status_code, 'url':firma_url})
+
+
+def autocompletar_producto(request):
+	term = request.GET.get('term')
+	productos = Producto.objects.filter(nombre__icontains=term).values_list('nombre', flat=True)
+	return JsonResponse(list(productos), safe=False)
+
+@login_required(login_url='manager:login')
+def eliminar_detalle(request, pk):
+	try:
+		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
+	except DTEClienteDetalle.DoesNotExist:
+		messages.success(
+			request, 'Objeto no existe'
+			)
+		return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
+
+	detalle.delete()
+
+	messages.success(
+		request, 'Detalle eliminado con éxito'
+		)
+
+	return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
 
 
 

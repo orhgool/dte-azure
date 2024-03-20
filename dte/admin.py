@@ -26,14 +26,17 @@ class TributoCuerpoAdmin(admin.ModelAdmin):
 	list_display = ('codigo', 'nombre')	
 		
 class ImpuestoAdValoremAdmin(admin.ModelAdmin):
-	list_display = ('codigo', 'nombre')	
+	list_display = ('codigo', 'nombre')
+
+class ClienteAdmin(admin.ModelAdmin):
+	list_display = ('razonsocial', 'nombreComercial')
 
 
 admin.site.unregister(get_user_model())
 admin.site.register(get_user_model(), CustomUserAdmin)
 
 admin.site.register(AmbienteDestino)
-admin.site.register(Cliente)
+admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(CondicionOperacion)
 admin.site.register(ConfigSeg)
 admin.site.register(ControlDocumento)

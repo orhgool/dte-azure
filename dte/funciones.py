@@ -1,4 +1,4 @@
-import os, json, uuid, math, pdfkit, qrcode
+import os, json, uuid, math, pdfkit, qrcode, requests
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -86,6 +86,71 @@ def gen_qr(codigo, empresa):
 	img.save(img_path)
 
 	return HttpResponse('ok')
+
+
+
+def firmar(codigo, tipo):
+	if tipo in {'01','03'}:
+		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	
+	emisor = Empresa.objects.get(codigo=dte.emisor_id)
+	usuariomh = emisor.usuarioMH
+	pwd = emisor.passwordPri
+
+	if os.name == 'posix':
+		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+	else:
+		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
+	
+	with open(archivo, 'rb') as file:
+		json_data = json.load(file)
+
+	firma_url = getUrl(emisor.codigo, 'Firmadodte')
+
+	data = {
+		'nit': usuariomh,
+		'passwordPri': pwd,
+		'dteJson':json_data
+	}
+
+	data1 = {
+		'nit': usuariomh,
+		'passwordPri': pwd,
+		'dteJson':json_data
+	}
+
+	headers = {'content-Type': 'application/JSON'}
+	response = requests.post(firma_url, json=data, headers=headers)
+
+	if response.status_code == 200:
+		response_data = json.loads(response.text)
+		status_value = response_data.get("status", None)
+		body_value = response_data.get("body", None)
+
+		if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
+			guardar_firma = DTECliente.objects.get(codigoGeneracion=codigo)
+			guardar_firma.docfirmado = body_value
+			guardar_firma.save()
+		elif tipo in {'07'}:
+			pass
+
+		with open(archivo, 'r') as json_file:
+			data = json.load(json_file)
+
+		try:
+			with open(archivo, 'r') as json_file:
+					contenido_actual = json.load(json_file)
+		except FileNotFoundError:
+			contenido_actual = {}
+
+		contenido_actual['token'] = body_value
+
+		#return redirect('dte:index')
+		#return redirect('dte:actualizar', pk=codigo)
+		return JsonResponse(response_data)
+	else:
+		return JsonResponse({'resp':data, 'codigo':response.status_code, 'url':firma_url})
+
 
 def CantLetras(cantidad):
 	letras = ''

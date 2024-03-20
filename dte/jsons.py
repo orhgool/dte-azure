@@ -67,11 +67,11 @@ def fcf(codigo):
 					}
 
 	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
-						'numeroDocumento': receptor.numeroDocumento.replace('-',''),
-						'nrc': None if receptor.nrc == '' else receptor.nrc,
+						'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
-						#'descActividad': receptor.actividadEconomica,
+						'descActividad': receptor.actividadEconomica_id,
 						'direccion': {'departamento':receptor.departamento_id,
 									'municipio':receptor.municipio.codigo,
 									'complemento':receptor.direccionComplemento},
@@ -131,7 +131,7 @@ def fcf(codigo):
 	}
 
 	extension_data = {
-		'nombEntrega': emisor.nombreComercial,
+		'nombEntrega': emisor.razonsocial,
 		'docuEntrega': emisor.nit,
 		'nombRecibe': receptor.razonsocial,
 		'docuRecibe': receptor.numeroDocumento.replace('-',''),

@@ -19,8 +19,8 @@ class Departamento(models.Model):
 
 class Municipio(models.Model):
 	idMunicipio = models.CharField(db_column='Id', primary_key=True, default='001', null=False, max_length=50, verbose_name='Código')
-	codigo = models.CharField(db_column='Codigo', default='001', null=False, max_length=50, verbose_name='Código')
-	nombre = models.CharField(db_column = 'Nombre', max_length = 200, default = 'N/A', blank=True, verbose_name='Nombre')
+	codigo = models.CharField(db_column='codigo', default='001', null=False, max_length=50, verbose_name='Código')
+	nombre = models.CharField(db_column = 'nombre', max_length = 200, default = 'N/A', blank=True, verbose_name='Nombre')
 	departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, default=1)
 
 	def __str__(self):

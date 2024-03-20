@@ -1,13 +1,13 @@
 {
   "identificacion": {
-    "version": 3,
+    "version": 1,
     "ambiente": "00",
     "tipoDte": "01",
     "numeroControl": "DTE-01-00000000-000000000000003",
     "codigoGeneracion": "AA989A95-6839-4E95-A031-614C08638F8F",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-02-25",
+    "fecEmi": "2024-03-19",
     "horEmi": "16:39:09",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
@@ -23,7 +23,7 @@
     "nombreComercial": "ALFA",
     "tipoEstablecimiento": "02",
     "direccion": {
-      "departamento": "3",
+      "departamento": "03",
       "municipio": "11",
       "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
     },
@@ -36,17 +36,18 @@
   },
   "receptor": {
     "tipoDocumento": "36",
-    "numeroDocumento": "03142407620011",
-    "nrc": "434-0",
-    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-    "codActividad": "52102",
+    "numDocumento": "03010205021015",
+    "nrc": "1414200",
+    "nombre": "INVERSIONES SERVYGRAN, S.A. DE C.V.",
+    "codActividad": "46301",
+    "descActividad": "46301",
     "direccion": {
-      "departamento": "5",
-      "municipio": "11",
-      "complemento": "KM 9 1/2 complejo corporativo SISCO"
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Calle al muelle, Zona Industrial, 1 cuadra al sur del obelisco"
     },
-    "telefono": "22121270",
-    "correo": "alcasa@alcasa.com.sv"
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
   },
   "otrosDocumentos": null,
   "ventaTercero": null,
@@ -153,12 +154,27 @@
     "numPagoElectronico": null
   },
   "extension": {
-    "nombEntrega": "ALFA",
+    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
     "docuEntrega": "0307-071120-101-6",
-    "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-    "docuRecibe": "03142407620011",
+    "nombRecibe": "INVERSIONES SERVYGRAN, S.A. DE C.V.",
+    "docuRecibe": "03010205021015",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "AA989A95-6839-4E95-A031-614C08638F8F",
+    "selloRecibido": "20248BAA276B431C46A786657ABFF073D4849EYY",
+    "fhProcesamiento": "20/03/2024 00:16:03",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
 }
