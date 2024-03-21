@@ -11,6 +11,7 @@ from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -133,10 +134,16 @@ def lista_producto(request):
 	return render(request, 'dte/lista_producto.html', {'productos':page_obj, 'listaDocumentos':request.session['documentos'], 'page_obj': page_obj})
 
 
+#@login_required(login_url='manager:login')
 class DTEInline():
 	form_class = DTEForm
 	model = DTECliente
 	template_name = 'dte/dte_create_or_update.html'
+
+	#@method_decorator(login_required(login_url='manager:login'))
+	#def dispatch(self, *args, **kwargs):
+	#	return super().dispatch(*args, **kwargs)
+
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
