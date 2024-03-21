@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "Error",
+    "codigoGeneracion": "C50B93B1-F6B4-485D-BAE4-6C9060D46B2B",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-03-21",
+    "horEmi": "16:48:56",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03151111841038",
+    "nrc": "3023094",
+    "nombre": "Aida Esmeralda Amaya de Acevedo",
+    "codActividad": "47739",
+    "descActividad": "Venta al por menor de otros productos n.c.p.",
+    "nombreComercial": "DECOACABADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Local 2 Lot Inclan, lote 50 ctgo a Ferreteria la Industrial"
+    },
+    "telefono": "77571459",
+    "correo": "esmeralda_2121@hotmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03142407620011",
+    "nrc": "4340",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "codActividad": "52102",
+    "descActividad": "52102",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
+    },
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 0.0,
+    "subTotalVentas": 0.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 0.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 0.0,
+    "totalLetras": "CERO 00/100 USD",
+    "totalIva": 0.0,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "Aida Esmeralda Amaya de Acevedo",
+    "docuEntrega": "03151111841038",
+    "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "docuRecibe": "03142407620011",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

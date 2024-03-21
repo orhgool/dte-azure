@@ -98,14 +98,14 @@ class ClienteForm(forms.ModelForm):
 class ProductoForm(forms.ModelForm):
 	class Meta:
 		model = Producto
-		fields = '__all__'
+		fields = ('codigo','nombre','precio','existencia','unidadMedida','cantidadMinima')
 		widgets = {
 			'codigo': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center', 'readonly':'True'}),
 			'nombre': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
-			'precio': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;','step':'1'}),
-			'existencia': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;','step':'1'}),
+			'precio': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;', 'type': 'number', 'step':'any'}),
+			'existencia': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;', 'type': 'number', 'step':'any'}),
 			'unidadMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
-			'cantidadMinima': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;','step':'1'}),
+			'cantidadMinima': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right;', 'type': 'number', 'step':'any'}),
 		}
 
 class EmpresaPerfilForm(forms.ModelForm):

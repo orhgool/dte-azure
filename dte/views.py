@@ -37,11 +37,13 @@ def index(request):
 	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
 	#messages.success(request, 'os.name: ' + os.name)
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
+	request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
 	context = {'listaDocumentos':documentos}
 	#messages.success(request, request.session['empresa'])
+	messages.success(request, request.session['logo'])
 	return render(request, 'dte/index.html', context)
 
 
@@ -473,8 +475,11 @@ def cliente_create(request):
 	codigo = CodGeneracion().upper()
 	if request.method == 'POST':
 		form = ClienteForm(request.POST)
+		empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
+		form.instance.empresa = empresa
 		if form.is_valid():
 			cliente = form.save()
+			messages.success('Cliente guardado')
 			return redirect('dte:cliente_update', pk=cliente.pk)
 	else:		
 		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
@@ -490,8 +495,12 @@ def producto(request, pk=None):
 
 	if request.method=='POST':
 		form = ProductoForm(request.POST, instance=producto)
+		#messages.success(request, form.empresa_id)
 		if form.is_valid():
+			empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
+			form.instance.empresa = empresa
 			producto = form.save()
+			#messages.success(request, form.empresa)
 			messages.success(request, 'Producto guardado')
 			return redirect('dte:producto_detalle', pk=producto.codigo)
 	else:
