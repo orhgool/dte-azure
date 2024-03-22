@@ -68,7 +68,7 @@ def fcf(codigo):
 
 	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
 						'numDocumento': receptor.numeroDocumento.replace('-',''),
-						'nrc': None if receptor.nrc == '' else receptor.nrc.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
 						'descActividad': receptor.actividadEconomica_id,

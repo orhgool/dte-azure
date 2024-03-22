@@ -52,19 +52,20 @@ def genJson(codigo, tipo, empresa):
 	elif tipo == '03':
 		json_data = fcf(codigo)
 
-	qr_folder = os.path.join('alfa/static/', dato_empresa.codigo)
-	ruta_archivo = os.path.join(qr_folder, f'{codigo}.json')
+	qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
+	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
 
 	with open(ruta_archivo, 'w') as json_file:
 		json.dump(json_data, json_file, indent=2, ensure_ascii=False)
 
-	return archivo
+	return ruta_archivo
 	#return ruta_archivo
 
 
 def gen_qr(codigo, empresa):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
-	ambiente=dato_empresa.ambiente_id
+	ambiente = dato_empresa.ambiente_id
+	empresa = dato_empresa.codigo
 	fecha = datetime.now().strftime('%Y-%m-%d')
 	url = f'https://admin.factura.gob.sv/consultaPublica?ambiente={ambiente}&codGen={codigo}&fechaEmi={fecha}'
 	qr = qrcode.QRCode(
@@ -77,7 +78,7 @@ def gen_qr(codigo, empresa):
 	qr.make(fit=True)
 
 	img = qr.make_image(fill_color="black", back_color="white")
-	qr_folder = os.path.join('alfa/static/', dato_empresa.codigo)
+	qr_folder = os.path.join(settings.STATIC_URL,'clientes', empresa, dato_empresa.codigo)
 
 	if not os.path.exists(qr_folder):
 		os.makedirs(qr_folder)
@@ -98,9 +99,9 @@ def firmar(codigo, tipo):
 	pwd = emisor.passwordPri
 
 	if os.name == 'posix':
-		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+		archivo = os.path.join(settings.STATIC_URL,'clientes', emisor.codigo, f'{codigo}.json')
 	else:
-		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
+		archivo = os.path.join(settings.STATIC_URL,'clientes', emisor.codigo, f'{codigo}.json').replace('/', '\\')
 	
 	with open(archivo, 'rb') as file:
 		json_data = json.load(file)

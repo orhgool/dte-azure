@@ -36,14 +36,14 @@ def index(request):
 	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
 	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
 	#messages.success(request, 'os.name: ' + os.name)
-	request.session['empresa'] = request.user.userprofile.empresa.codigo
-	request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
+	#request.session['empresa'] = request.user.userprofile.empresa.codigo
+	#request.session['logo'] = os.path.join(settings.STATIC_URL, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
 	context = {'listaDocumentos':documentos}
 	#messages.success(request, request.session['empresa'])
-	messages.success(request, request.session['logo'])
+	#messages.success(request, request.session['logo'])
 	return render(request, 'dte/index.html', context)
 
 
@@ -149,11 +149,11 @@ class DTEInline():
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		cliente_frm = ClienteForm(initial=dict(codigo=CodGeneracion(), tipoDocumentoCliente= '13', 
-			empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
-			tipoContribuyente='002', tipoPersona=1))
+		#cliente_frm = ClienteForm(initial=dict(codigo=CodGeneracion(), tipoDocumentoCliente= '13', 
+		#	empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
+		#	tipoContribuyente='002', tipoPersona=1))
 		context['listaDocumentos'] = self.request.session.get('documentos', [])
-		context['cliente_frm'] = cliente_frm
+		#context['cliente_frm'] = cliente_frm
 		return context
 
 	def form_valid(self, form):
@@ -178,6 +178,7 @@ class DTEInline():
 		json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 		firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 		messages.success(self.request, 'Documento guardado')
+		messages.success(self.request, json)
 		#return redirect('dte:lista_dte', tipo='cliente')
 		return redirect('dte:actualizar', pk=self.object.codigoGeneracion)
 

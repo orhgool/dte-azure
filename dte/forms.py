@@ -1,3 +1,4 @@
+import requests
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
@@ -21,6 +22,10 @@ class UserForm(forms.ModelForm):
 		fields = ['username', 'email', 'first_name', 'last_name']
 
 class DTEForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		empresa_codigo = kwargs.pop('empresa_codigo', None)
+		super(DTEForm, self).__init__(*args, **kwargs)
+		#self.fields['receptor'].queryset = Cliente.objects.filter(empresa__codigo=empresa_codigo)
 
 	class Meta:
 		model = DTECliente
