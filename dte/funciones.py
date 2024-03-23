@@ -52,7 +52,7 @@ def genJson(codigo, tipo, empresa):
 	elif tipo == '03':
 		json_data = fcf(codigo)
 
-	qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
+	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
 	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
 
 	with open(ruta_archivo, 'w') as json_file:
@@ -78,7 +78,7 @@ def gen_qr(codigo, empresa):
 	qr.make(fit=True)
 
 	img = qr.make_image(fill_color="black", back_color="white")
-	qr_folder = os.path.join(settings.STATIC_URL,'clientes', empresa, dato_empresa.codigo)
+	qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa)
 
 	if not os.path.exists(qr_folder):
 		os.makedirs(qr_folder)

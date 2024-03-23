@@ -36,8 +36,8 @@ def index(request):
 	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
 	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
 	#messages.success(request, 'os.name: ' + os.name)
-	#request.session['empresa'] = request.user.userprofile.empresa.codigo
-	#request.session['logo'] = os.path.join(settings.STATIC_URL, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
+	request.session['empresa'] = request.user.userprofile.empresa.codigo
+	request.session['logo'] = os.path.join(settings.STATIC_URL, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
@@ -142,10 +142,6 @@ class DTEInline():
 	model = DTECliente
 	template_name = 'dte/dte_create_or_update.html'
 
-	#@method_decorator(login_required(login_url='manager:login'))
-	#def dispatch(self, *args, **kwargs):
-	#	return super().dispatch(*args, **kwargs)
-
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -153,7 +149,6 @@ class DTEInline():
 		#	empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
 		#	tipoContribuyente='002', tipoPersona=1))
 		context['listaDocumentos'] = self.request.session.get('documentos', [])
-		#context['cliente_frm'] = cliente_frm
 		return context
 
 	def form_valid(self, form):
@@ -209,6 +204,11 @@ class DTEInline():
 
 
 class DTECreate(DTEInline, CreateView):
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs['empresa'] = self.request.session.get('empresa')
+		return kwargs
+
 	def get_initial(self):
 		initial = super().get_initial()
 		codigo = self.kwargs.get('pk')
@@ -228,7 +228,6 @@ class DTECreate(DTEInline, CreateView):
 		nombreTipoDoc = TipoDocumento.objects.get(codigo=self.kwargs.get('pk'))
 		ctx['TipoDocumento'] = nombreTipoDoc
 		ctx['named_formsets'] = self.get_named_formsets()
-		ctx['empresa'] = self.request.session['empresa']
 		ctx['codigoDetalle'] = CodGeneracion()
 		return ctx
 
@@ -246,6 +245,11 @@ class DTECreate(DTEInline, CreateView):
 
 
 class DTEUpdate(DTEInline, UpdateView):
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs['empresa'] = self.request.session.get('empresa')
+		return kwargs
+		
 	def get_context_data(self, **kwargs):
 		ctx = super(DTEUpdate, self).get_context_data(**kwargs)
 		nombreTipoDoc = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
@@ -598,6 +602,7 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['receptor'] = receptor
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
+			context['logo'] = os.path.join(settings.STATIC_DIR, 'clientes','logos',f'{emisor.codigo}.png')
 			context['qr'] = 'qr'
 			context['fecha'] = fecha
 

@@ -1,5 +1,6 @@
 import requests
 from django import forms
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
@@ -8,6 +9,7 @@ from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from .funciones import CodGeneracion
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
@@ -22,10 +24,10 @@ class UserForm(forms.ModelForm):
 		fields = ['username', 'email', 'first_name', 'last_name']
 
 class DTEForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
-		empresa_codigo = kwargs.pop('empresa_codigo', None)
+	def __init__(self, *args, empresa=None, **kwargs):
 		super(DTEForm, self).__init__(*args, **kwargs)
-		#self.fields['receptor'].queryset = Cliente.objects.filter(empresa__codigo=empresa_codigo)
+		if empresa:
+			self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTECliente
@@ -39,7 +41,7 @@ class DTEForm(forms.ModelForm):
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
 			'estadoPago': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
 		}
-
+			
 
 class DTEDetalleForm(forms.ModelForm):
 	
@@ -59,6 +61,7 @@ class DTEDetalleForm(forms.ModelForm):
 			'ventaExenta': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1'}),
 			'ventaGravada': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1'}),
 		}
+
 
 DTEClienteDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=DTEDetalleForm,
