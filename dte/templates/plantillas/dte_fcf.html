@@ -36,7 +36,7 @@
 
     	.datos-cliente{
     		position: absolute;
-    		top: 170px;
+    		top: 220px;
     		left: 0px;
     		width: 100%;
     		font-size: 13px;
@@ -81,8 +81,7 @@
 
   <body>
 	<div class="datos-alcasa">
-		{{logo}} <br>
-		<img class="logo" src="{{logo}}" alt="logo" width="100", height="60"><br>
+		<img class="logo" src="{{logo}}" alt="logo" width="100", height="100"><br>
 		<strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio}}, {{emisor.departamento}}<br />
@@ -93,7 +92,7 @@
 	</div>
 
 	<div class="qr">
-		<!--img src="{{qr}}"  width="150" height="150"-->
+		<img src="{{qr}}"  width="150" height="150">
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
@@ -181,7 +180,7 @@
 						<strong>Documento</strong>
 					</td>
 					<td width="15%">
-						{{ receptor.nit }}
+						{{ receptor.numeroDocumento }}
 					</td>
 				</tr>
 				<tr>
@@ -189,7 +188,7 @@
 						<strong>Actividad</strong>
 					</td>
 					<td>
-						{{ receptor.actividadeconomica }}
+						{{ receptor.actividadEconomica }}
 					</td>
 					<td>
 						<strong>NRC</strong>
@@ -203,7 +202,7 @@
 						<strong>Direccion</strong>
 					</td>
 					<td rowspan="2" valign="top">
-						{{ receptor.direccion }}<br> {{receptor.municipio}}, {{receptor.departamento}}
+						{{ receptor.direccionComplemento }}<br> {{receptor.municipio}}, {{receptor.departamento}}
 					</td>
 					<td>
 						<strong>Teléfono</strong>

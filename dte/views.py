@@ -597,10 +597,13 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			letras = CantLetras(dte.totalPagar)
 			fecha = dte.fecEmi.strftime('%d/%m/%Y')
 
-			if os.name=='posix':
-				ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png')
-			else:
-				ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png').replace('\\','/')
+			#if os.name=='posix':
+			#	ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png')
+			#else:
+			#	ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png').replace('\\','/')
+
+			ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session['empresa']}.png'
+			ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session['empresa']}/{dte.codigoGeneracion}.png'
 
 			context['dte'] = dte
 			context['emisor'] = emisor
@@ -608,7 +611,7 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
 			context['logo'] = ruta_logo
-			context['qr'] = 'qr'
+			context['qr'] = ruta_qr
 			context['fecha'] = fecha
 
 		return context
