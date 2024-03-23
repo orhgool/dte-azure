@@ -173,7 +173,7 @@ class DTEInline():
 		json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 		firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 		messages.success(self.request, 'Documento guardado')
-		messages.success(self.request, json)
+		#messages.success(self.request, json)
 		#return redirect('dte:lista_dte', tipo='cliente')
 		return redirect('dte:actualizar', pk=self.object.codigoGeneracion)
 

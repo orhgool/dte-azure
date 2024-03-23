@@ -99,9 +99,9 @@ def firmar(codigo, tipo):
 	pwd = emisor.passwordPri
 
 	if os.name == 'posix':
-		archivo = os.path.join(settings.STATIC_URL,'clientes', emisor.codigo, f'{codigo}.json')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
 	else:
-		archivo = os.path.join(settings.STATIC_URL,'clientes', emisor.codigo, f'{codigo}.json').replace('/', '\\')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('\\', '/')
 	
 	with open(archivo, 'rb') as file:
 		json_data = json.load(file)

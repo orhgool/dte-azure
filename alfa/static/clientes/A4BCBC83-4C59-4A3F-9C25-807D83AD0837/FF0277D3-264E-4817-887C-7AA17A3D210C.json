@@ -104,18 +104,5 @@
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "FF0277D3-264E-4817-887C-7AA17A3D210C",
-    "selloRecibido": "20247283DABC684145CE878B45875EF12108NVIR",
-    "fhProcesamiento": "19/03/2024 23:44:09",
-    "clasificaMsg": "10",
-    "codigoMsg": "001",
-    "descripcionMsg": "RECIBIDO",
-    "observaciones": []
-  }
+  "apendice": null
 }
