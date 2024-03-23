@@ -597,12 +597,17 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			letras = CantLetras(dte.totalPagar)
 			fecha = dte.fecEmi.strftime('%d/%m/%Y')
 
+			if os.name=='posix':
+				ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png')
+			else:
+				ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png').replace('\\','/')
+
 			context['dte'] = dte
 			context['emisor'] = emisor
 			context['receptor'] = receptor
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
-			context['logo'] = os.path.join(settings.STATIC_DIR, 'clientes','logos',f'{emisor.codigo}.png')
+			context['logo'] = ruta_logo
 			context['qr'] = 'qr'
 			context['fecha'] = fecha
 
@@ -618,3 +623,26 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 def cerrar_sesion(request):
     logout(request)
     return redirect('manager:login')	
+
+
+def direcciones(request):
+	#messages.success(request, 'settings.PROJECT_DIR: ' + settings.PROJECT_DIR)
+	#messages.success(request, 'settings.STATIC_ROOT: ' + settings.STATIC_ROOT)
+	#messages.success(request, 'settings.STATIC_DIR: ' + settings.STATIC_DIR)
+	#messages.success(request, 'settings.STATIC_URL: ' + settings.STATIC_URL)
+	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
+	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
+	#messages.success(request, 'os.name: ' + os.name)
+	context={'PROJECT_DIR':settings.PROJECT_DIR, 'STATIC_ROOT': 'settings.STATIC_ROOT', 
+			'STATIC_DIR':settings.STATIC_DIR,
+			'STATIC_DIR_IMG': os.path.join(settings.STATIC_DIR,'clientes','logos', f'{request.session['empresa']}.png'),
+			'STATIC_URL':settings.STATIC_URL,
+			'STATIC_URL_IMG': os.path.join(settings.STATIC_URL,'clientes','logos', f'{request.session['empresa']}.png'),
+			'MEDIA_URL':settings.MEDIA_URL,
+			'MEDIA_ROOT':settings.MEDIA_ROOT,
+			'osName': os.name,
+			'imagen': '',
+			'logo': request.session['empresa'] + '.png'
+	}
+
+	return render(request, 'dte/direcciones.html', context)

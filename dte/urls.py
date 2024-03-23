@@ -29,6 +29,7 @@ urlpatterns = [
     path('perfil_usuario/', perfil_usuario, name='perfil_usuario'),
     path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),
     path('autocompletar-producto/', autocompletar_producto, name='autocompletar_producto'),
+    path('direcciones/', direcciones, name='direcciones')
 ]
 
 if settings.DEBUG:
