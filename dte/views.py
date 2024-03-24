@@ -285,9 +285,9 @@ class EnviarDTEView(APIView):
 			archivo = os.path.join(settings.STATIC_DIR, 'json/', codigo + '.json')
 		else:
 			if os.name == 'posix':
-				archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+				archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
 			else:
-				archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
+				archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('/', '\\')
 
 		with open(archivo, 'rb') as file:
 			archivo_adjunto = file.read()
@@ -372,7 +372,7 @@ class EnviarDTEView(APIView):
 
 		else:
 			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
-			messages.error(request, error_message)
+			messages.info(request, error_message)
 			#return redirect(template, codigo=codigo)
 			return redirect('dte:actualizar', pk=codigo)
 	
@@ -610,8 +610,8 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['receptor'] = receptor
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
-			context['logo'] = ruta_logo
-			context['qr'] = ruta_qr
+			context['logo'] = str(ruta_logo)
+			context['qr'] = str(ruta_qr)
 			context['fecha'] = fecha
 
 		return context

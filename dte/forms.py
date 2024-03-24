@@ -31,14 +31,16 @@ class DTEForm(forms.ModelForm):
 
 	class Meta:
 		model = DTECliente
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl', 'receptor', 'tipoDte', 'fecEmi', 'estadoPago')
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl', 'receptor', 'tipoDte', 'version', 'fecEmi','observaciones', 'estadoPago')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'codigoGeneracion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'numeroControl': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'receptor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'tipoDte': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+			'version': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
+			'observaciones': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'estadoPago': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
 		}
 			

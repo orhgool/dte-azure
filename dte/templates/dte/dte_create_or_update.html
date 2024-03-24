@@ -61,7 +61,13 @@
                             {{ form.tipoDte|as_crispy_field }}
                         </div>
                         <div class="col-md-2">
+                            {{ form.version|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
                             {{ form.fecEmi|as_crispy_field }}
+                        </div>
+                        <div class="col-md-10">
+                            {{ form.observaciones|as_crispy_field }}
                         </div>
                         <div class="col-md-2">
                             {{ form.estadoPago|as_crispy_field }}

@@ -71,7 +71,7 @@ def fcf(codigo):
 						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
-						'descActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
 						'direccion': {'departamento':receptor.departamento_id,
 									'municipio':receptor.municipio.codigo,
 									'complemento':receptor.direccionComplemento},
@@ -132,7 +132,7 @@ def fcf(codigo):
 
 	extension_data = {
 		'nombEntrega': emisor.razonsocial,
-		'docuEntrega': emisor.nit,
+		'docuEntrega': emisor.nit.replace('-',''),
 		'nombRecibe': receptor.razonsocial,
 		'docuRecibe': receptor.numeroDocumento.replace('-',''),
 		'placaVehiculo': None,
