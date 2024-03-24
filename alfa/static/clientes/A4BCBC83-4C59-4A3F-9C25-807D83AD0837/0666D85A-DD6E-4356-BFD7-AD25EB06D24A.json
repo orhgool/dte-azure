@@ -1,0 +1,108 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000009",
+    "codigoGeneracion": "0666D85A-DD6E-4356-BFD7-AD25EB06D24A",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-03-23",
+    "horEmi": "11:00:52",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "ALFA",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03142407620011",
+    "nrc": "4340",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "codActividad": "52102",
+    "descActividad": "52102",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
+    },
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "mouse",
+      "precioUni": 13.56,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 13.56,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 1.56
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 13.56,
+    "subTotalVentas": 13.56,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 13.56,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 13.56,
+    "totalNoGravado": 0.0,
+    "totalPagar": 13.56,
+    "totalLetras": "TRECE 56/100 USD",
+    "totalIva": 1.56,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
+    "docuEntrega": "0307-071120-101-6",
+    "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "docuRecibe": "03142407620011",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}
