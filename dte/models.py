@@ -144,6 +144,7 @@ class Empresa(models.Model):
 	passwordAPI = models.CharField(db_column='PasswordAPI', null=False, default='', max_length=50, verbose_name='Clave acceso API (generar token MH)')
 	passwordPri = models.CharField(db_column='PasswordPri', null=False, default='', max_length=50, verbose_name='Clave privada')
 	token = models.TextField(db_column='Token', null=False, default='', max_length=500, verbose_name='Token')
+	logo = models.ImageField(upload_to='logos/', null=True, blank=True)
 
 	def __str__(self):
 		return "%s" % (self.razonsocial.strip())

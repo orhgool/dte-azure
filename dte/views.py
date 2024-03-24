@@ -746,6 +746,8 @@ def direcciones(request):
 	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
 	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
 	#messages.success(request, 'os.name: ' + os.name)
+	dominio = request.build_absolute_uri('/')
+	ruta_logo = f'https://alfadte.azurewebsites.net/media/logos/{request.session['empresa']}.png'
 	context={'PROJECT_DIR':settings.PROJECT_DIR, 'STATIC_ROOT': 'settings.STATIC_ROOT', 
 			'STATIC_DIR':settings.STATIC_DIR,
 			'STATIC_DIR_IMG': os.path.join(settings.STATIC_DIR,'clientes','logos', f'{request.session['empresa']}.png'),
@@ -755,7 +757,9 @@ def direcciones(request):
 			'MEDIA_ROOT':settings.MEDIA_ROOT,
 			'osName': os.name,
 			'imagen': '',
-			'logo': request.session['empresa'] + '.png'
+			'logo': request.session['empresa'] + '.png',
+			'url': dominio,
+			'imagen_MEDIA': ruta_logo,
 	}
 
 	return render(request, 'dte/direcciones.html', context)
