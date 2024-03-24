@@ -21,11 +21,12 @@
     		left: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
+        max-width: 250px;
       }
 
     	.doc-id{
 			position: absolute;
-    		top: 3%;
+    		top: 60px;
     		left: 35%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
@@ -65,16 +66,19 @@
 
     	.row-line{
     		border-bottom: 1pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	.row-line-left{
     		border-left: 1pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	.row-line-all{
     		border-bottom: 0pt solid black;
     		border-left: 0pt solid black;
     		border-right: 0pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	strong{
@@ -88,10 +92,9 @@
 
   <body>
 	<div class="datos-emisor">
-		<img class="logo" src="{{logo}}" alt="logo" width="100", height="100"><br>
+		<img class="logo" src="https://alfadte.azurewebsites.net/static/clientes/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png" alt="logo" width="100", height="100"><br>
 
 		<strong>{{emisor.razonsocial}}</strong><br />
-
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
 		 NIT: {{emisor.nit}}
@@ -211,7 +214,7 @@
 						<strong>Direccion</strong>
 					</td>
 					<td rowspan="2" valign="top">
-						{{ receptor.direccionComplemento }}<br> {{receptor.municipio}}, {{receptor.departamento}}
+						{{ receptor.direccionComplemento }}<br> {{receptor.municipio|title}}, {{receptor.departamento|title}}
 					</td>
 					<td>
 						<strong>Teléfono</strong>
@@ -231,7 +234,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<table  style="border-style: solid; border-width: 1px;" width="100%">
+		<table  style="border-style: solid; border-width: 1px; border-color: #C6C9CB;" width="100%">
 			<thead>
 				<tr><td colspan="9" class="titulo-apartado"><b>Cuerpo del documento</b></td></tr>
 				

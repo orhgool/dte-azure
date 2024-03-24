@@ -1,6 +1,6 @@
 {
   "identificacion": {
-    "version": 3,
+    "version": 1,
     "ambiente": "00",
     "tipoDte": "01",
     "numeroControl": "DTE-01-00000000-000000000000007",
@@ -20,10 +20,10 @@
     "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
     "codActividad": "62020",
     "descActividad": "Consultorias y gestion de servicios informaticos",
-    "nombreComercial": "ALFA",
+    "nombreComercial": "A L F A",
     "tipoEstablecimiento": "02",
     "direccion": {
-      "departamento": "3",
+      "departamento": "03",
       "municipio": "11",
       "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
     },
@@ -36,14 +36,15 @@
   },
   "receptor": {
     "tipoDocumento": "36",
-    "numeroDocumento": "03142407620011",
-    "nrc": "434-0",
+    "numDocumento": "03142407620011",
+    "nrc": "4340",
     "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "codActividad": "52102",
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
     "direccion": {
-      "departamento": "5",
+      "departamento": "05",
       "municipio": "11",
-      "complemento": "KM 9 1/2 complejo corporativo SISCO"
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
     },
     "telefono": "22121270",
     "correo": "alcasa@alcasa.com.sv"
@@ -115,12 +116,27 @@
     "numPagoElectronico": null
   },
   "extension": {
-    "nombEntrega": "ALFA",
-    "docuEntrega": "0307-071120-101-6",
+    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
+    "docuEntrega": "03070711201016",
     "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "docuRecibe": "03142407620011",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "F4396135-5E33-49E0-9908-D8CF5B3F2224",
+    "selloRecibido": "2024629F97A5177C49F29CEEFED5330D1DBBDTN9",
+    "fhProcesamiento": "24/03/2024 09:05:06",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
 }

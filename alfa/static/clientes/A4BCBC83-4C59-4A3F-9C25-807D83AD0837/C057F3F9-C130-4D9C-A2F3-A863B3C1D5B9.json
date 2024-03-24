@@ -1,6 +1,6 @@
 {
   "identificacion": {
-    "version": 3,
+    "version": 1,
     "ambiente": "00",
     "tipoDte": "01",
     "numeroControl": "DTE-01-00000000-000000000000008",
@@ -20,7 +20,7 @@
     "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
     "codActividad": "62020",
     "descActividad": "Consultorias y gestion de servicios informaticos",
-    "nombreComercial": "ALFA",
+    "nombreComercial": "A L F A",
     "tipoEstablecimiento": "02",
     "direccion": {
       "departamento": "03",
@@ -40,7 +40,7 @@
     "nrc": "4340",
     "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "codActividad": "52102",
-    "descActividad": "52102",
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
     "direccion": {
       "departamento": "05",
       "municipio": "11",
@@ -117,11 +117,26 @@
   },
   "extension": {
     "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
-    "docuEntrega": "0307-071120-101-6",
+    "docuEntrega": "03070711201016",
     "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "docuRecibe": "03142407620011",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "C057F3F9-C130-4D9C-A2F3-A863B3C1D5B9",
+    "selloRecibido": "202435ABC5E657764ECFB88146CD24FA82773LWD",
+    "fhProcesamiento": "24/03/2024 09:07:44",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
 }

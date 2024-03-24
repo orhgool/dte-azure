@@ -1,6 +1,6 @@
 {
   "identificacion": {
-    "version": 3,
+    "version": 1,
     "ambiente": "00",
     "tipoDte": "01",
     "numeroControl": "DTE-01-00000000-000000000000010",
@@ -20,7 +20,7 @@
     "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
     "codActividad": "62020",
     "descActividad": "Consultorias y gestion de servicios informaticos",
-    "nombreComercial": "ALFA",
+    "nombreComercial": "A L F A",
     "tipoEstablecimiento": "02",
     "direccion": {
       "departamento": "03",
@@ -35,16 +35,16 @@
     "codPuntoVenta": null
   },
   "receptor": {
-    "tipoDocumento": "13",
-    "numDocumento": "000000",
+    "tipoDocumento": "36",
+    "numDocumento": "03010205021015",
     "nrc": null,
     "nombre": "Cliente 002 DECO",
     "codActividad": "10005",
-    "descActividad": "10005",
+    "descActividad": "Otros",
     "direccion": {
       "departamento": "01",
       "municipio": "03",
-      "complemento": null
+      "complemento": "Ferreteria La Industrial"
     },
     "telefono": "00000000",
     "correo": "cliente@cliente.com"
@@ -117,11 +117,24 @@
   },
   "extension": {
     "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
-    "docuEntrega": "0307-071120-101-6",
+    "docuEntrega": "03070711201016",
     "nombRecibe": "Cliente 002 DECO",
-    "docuRecibe": "000000",
+    "docuRecibe": "03010205021015",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "53670308-CE90-4B82-80DB-07735F663BA6",
+    "selloRecibido": "202400715B75020F4708969C997D2405523CI1V4",
+    "fhProcesamiento": "24/03/2024 09:16:12",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
 }
