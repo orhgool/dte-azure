@@ -720,8 +720,6 @@ def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
 
 	html = template.render(context)
 
-	#config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
-
 	pdf = pdfkit.from_string(html, False, options=options)
 
 	# Generate download
