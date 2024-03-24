@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar
@@ -216,10 +216,15 @@ class DTECreate(DTEInline, CreateView):
 		session_key = self.request.session.session_key
 		session_store = SessionStore(session_key=session_key)
 		empresa = self.request.session['empresa']
+		if codigo in {'01','07','07A','08','09','11','14','15'}:
+			version = 1
+		elif codigo in {'03','04','05','06'}:
+			version = 3
 
 		initial['codigoGeneracion'] = CodGeneracion().upper()
 		initial['emisor'] = self.request.session['empresa']
 		initial['tipoDte'] = tipo_documento
+		initial['version'] = version
 
 		return initial
 
@@ -568,6 +573,50 @@ def cliente_delete(request, pk):
 	return render(request, 'dte/cliente_confirm_delete.html', {'cliente': cliente, 'listaDocumentos':request.session['documentos']})
 
 
+class VistaPreviaHTML(TemplateView):
+    template_name = 'plantillas/dte_fcf.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
+
+        tipo = self.kwargs['tipo']
+        codigo = self.kwargs['codigo']
+
+        if tipo == '01':
+            dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+                totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+                totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+                subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+                totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+            ).first()
+            receptor = Cliente.objects.get(codigo=dte.receptor_id)
+            dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
+                precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
+                subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
+            )
+
+            letras = CantLetras(dte.totalPagar)
+            fecha = dte.fecEmi.strftime('%d/%m/%Y')
+
+            ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session["empresa"]}.png'
+            ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session["empresa"]}/{dte.codigoGeneracion}.png'
+
+            context['dte'] = dte
+            context['emisor'] = emisor
+            context['receptor'] = receptor
+            context['dte_detalle'] = dte_detalle
+            context['letras'] = letras
+            context['logo'] = str(ruta_logo)
+            context['qr'] = str(ruta_qr)
+            context['fecha'] = fecha
+
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        return render(self.request, self.template_name, context, **response_kwargs)
+
 
 #@login_required(login_url='manager:login')
 class VistaPreviaPDFDTE(PDFTemplateView):
@@ -623,6 +672,67 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 		return response
 
 
+def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
+	options = {
+		'page-size': 'Letter',
+		'page-height': "11in",
+		'page-width': "8.5in",
+		'margin-top': '0.5in',
+		'margin-right': '0.5in',
+		'margin-bottom': '0.5in',
+		'margin-left': '0.5in',
+		'encoding': "UTF-8",
+		'no-outline': None
+	}
+
+	template_path = ''
+	emisor = Empresa.objects.get(codigo=request.session['empresa'])
+	codigo = codigo
+
+	dte = DTECliente.objects.get(codigoGeneracion = codigo)
+	
+	receptor = Cliente.objects.get(codigo = dte.receptor_id)
+	
+	if dte.tipoDte_id == '01':
+		dte = DTECliente.objects.filter(codigoGeneracion = codigo).annotate(
+			totalExentaIVA = ExpressionWrapper(F('totalExenta') * 1.13, output_field = DecimalField()),
+			totalGravadaIVA = ExpressionWrapper(F('totalGravada') * 1.13, output_field = DecimalField()),
+			subTotalVentasIVA = ExpressionWrapper(F('subTotalVentas') * 1.13, output_field = DecimalField()),
+			totalPagarIVA = ExpressionWrapper(F('totalPagar'), output_field = DecimalField())
+		).first()
+
+		dteDetalle = DTEClienteDetalle.objects.filter(dte = dte).annotate(
+			precio_con_iva = ExpressionWrapper(F('precioUni') * 1.13, output_field = DecimalField()),
+			subt_precio_con_iva = ExpressionWrapper(F('ventaGravada') * 1.13, output_field = DecimalField())
+		)
+		
+		template_path = 'plantillas/dte_fcf.html'
+
+	
+	letras = CantLetras(dte.totalPagar)
+	fecha = dte.fecEmi.strftime("%d/%m/%Y")
+	qr= '.png'
+
+	
+	context={'dte':dte,'emisor':emisor, 'receptor':receptor, 'dte_detalle':dteDetalle, 'letras':letras, 'qr':qr, 'fecha':fecha}
+
+	template = get_template(template_path)
+
+	html = template.render(context)
+
+	#config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
+
+	pdf = pdfkit.from_string(html, False, options=options)
+
+	# Generate download
+	response = HttpResponse(pdf, content_type='application/pdf')
+
+	#response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
+	# print(response.status_code)
+	if response.status_code != 200:
+		return HttpResponse('We had some errors <pre>' + html + '</pre>')
+	return response
+	
 def cerrar_sesion(request):
     logout(request)
     return redirect('manager:login')	

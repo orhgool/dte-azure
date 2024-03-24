@@ -80,6 +80,7 @@
                         <div>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
+                            <a href="{% url 'dte:prev' form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa 2</a>
                             <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
                         </div>
                 </div>
