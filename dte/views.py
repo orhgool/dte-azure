@@ -725,7 +725,7 @@ def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
 	# Generate download
 	response = HttpResponse(pdf, content_type='application/pdf')
 
-	#response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
+	response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
 	# print(response.status_code)
 	if response.status_code != 200:
 		return HttpResponse('We had some errors <pre>' + html + '</pre>')
