@@ -659,8 +659,8 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['receptor'] = receptor
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
-			context['logo'] = str(ruta_logo)
-			context['qr'] = str(ruta_qr)
+			#context['logo'] = str(ruta_logo)
+			#context['qr'] = str(ruta_qr)
 			context['fecha'] = fecha
 
 		return context
