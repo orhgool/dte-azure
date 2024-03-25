@@ -92,7 +92,7 @@
 
   <body>
 	<div class="datos-emisor">
-		<img class="logo" src="" alt="logo" width="100", height="60"><br>
+		<img class="logo" src="{{logo}}" alt="logo" width="100", height="100"><br>
 		 <strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
@@ -103,7 +103,7 @@
 	</div>
 
 	<div class="qr">
-		<img src=""  width="150" height="150">
+		<img src="{{qr}}"  width="150" height="150">
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
@@ -191,7 +191,7 @@
 						<strong>NIT</strong>
 					</td>
 					<td width="15%">
-						{{ receptor.nit }}
+						{{ receptor.numeroDocumento }}
 					</td>
 				</tr>
 				<tr>
@@ -213,7 +213,7 @@
 						<strong>Direccion</strong>
 					</td>
 					<td rowspan="2" valign="top">
-						{{ receptor.direccion }}<br> {{receptor.municipio}}, {{receptor.departamento}}
+						{{ receptor.direccionComplemento }}<br> {{receptor.municipio|title}}, {{receptor.departamento|title}}
 					</td>
 					<td>
 						<strong>Teléfono</strong>
@@ -297,9 +297,9 @@
 				</tr>
 				<tr>
 					<td>Documento entrega</td>
-					<td>s</td>
+					<td>{{dte.emisor.nit}}</td>
 					<td>Documento recibe</td>
-					<td>s</td>
+					<td>{{dte.receptor.numeroDocumento}}</td>
 					<td class="row-line-left" colspan="3"><b>Total descuentos</b></td>
 					<td></td>
 					<td align="right">{{dte.totalDescu|moneda}}</td>
