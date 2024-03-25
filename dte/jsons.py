@@ -92,15 +92,15 @@ def fcf(codigo):
 			'codTributo': None,
 			'uniMedida': int(detalle.uniMedida.codigo),
 			'descripcion': detalle.descripcion,
-			'precioUni': round((float(detalle.precioUni) * float(1.13)),2),
+			'precioUni': float(detalle.precioUni),
 			'montoDescu': float(detalle.montoDescu),
 			'ventaNoSuj': float(detalle.ventaNoSuj),
 			'ventaExenta': float(detalle.ventaExenta),
-			'ventaGravada': round((float(detalle.ventaGravada) * float(1.13)),2),
+			'ventaGravada': float(detalle.ventaGravada),
 			'noGravado': float(detalle.noGravado),
 			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
 			'psv': 0.0,
-			'ivaItem': round((float(detalle.ventaGravada) * float(0.13)), 2)
+			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
 		})
 
 	cuerpoDocumento_data = datos_detalle
@@ -108,8 +108,8 @@ def fcf(codigo):
 	resumen_data = {
 		'totalNoSuj': 0.0,
 		'totalExenta': 0.0,
-		'totalGravada': float(dte.subTotal) + float(dte.ivaPerci1),
-		'subTotalVentas': float(dte.subTotal) + float(dte.ivaPerci1),
+		'totalGravada': float(dte.subTotal),
+		'subTotalVentas': float(dte.subTotal),
 		'descuNoSuj': float(dte.descuNoSuj),
 		'descuExenta': float(dte.descuExenta),
 		'descuGravada': float(dte.descuGravada),

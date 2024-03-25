@@ -29,9 +29,9 @@
             <div class="col-lg-4 mx-auto">
               <div class="auth-form-light text-center p-5">
                 <div class="brand-logo">
-                  <!--img src="{% static 'assets/images/logo-dark.svg' %}"-->
+                  <img src="{% static 'alfa.png' %}">
                 </div>
-                <h4>ALFA - Factura electrónica</h4>
+                <h4>Factura electrónica</h4>
                 <h6 class="font-weight-light">Inicie sesión para continuar.</h6>
                 <form class="login" method="POST" action="{% url 'manager:login' %}">
                   {% csrf_token %}
