@@ -9,7 +9,7 @@ DEBUG = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -18,7 +18,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-SATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 PROJECT_DIR=os.path.dirname(__file__)
 STATIC_ROOT= os.path.join(PROJECT_DIR,'staticfiles/')
@@ -47,14 +47,14 @@ DATABASES = {
 }
 
 
-WKHTMLTOPDF_CMD_OPTIONS = {
-    'page-size': 'Letter',
-    'page-height': '11in',
-    'page-width': '8.5in',
-    'margin-top': '0.5in',
-    'margin-right': '0.5in',
-    'margin-bottom': '0.5in',
-    'margin-left': '0.5in',
-    'encoding': 'UTF-8',
-    'no-outline': None
-}
+#WKHTMLTOPDF_CMD_OPTIONS = {
+#    'page-size': 'Letter',
+#    'page-height': '11in',
+#    'page-width': '8.5in',
+#    'margin-top': '0.5in',
+#    'margin-right': '0.5in',
+#    'margin-bottom': '0.5in',
+#    'margin-left': '0.5in',
+#    'encoding': 'UTF-8',
+#    'no-outline': None
+#}
