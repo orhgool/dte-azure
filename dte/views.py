@@ -283,6 +283,7 @@ class DTEUpdate(DTEInline, UpdateView):
 		ctx = super(DTEUpdate, self).get_context_data(**kwargs)
 		nombreTipoDoc = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
 		ctx['TipoDocumento'] = nombreTipoDoc.tipoDte
+		ctx['sello'] = nombreTipoDoc.selloRecepcion
 		ctx['named_formsets'] = self.get_named_formsets()
 		#messages.success(self.request, {'DTEUpdate: ':'update', 'ctx':ctx})
 		return ctx

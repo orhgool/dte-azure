@@ -15,6 +15,12 @@
     {% endfor %}
 {% endif %}
 
+{% if sello %}
+    <div class="alert alert-warning" role="alert" align="center">
+        Documento enviado al ministerio, sello de recepción <strong>{{ sello }}</strong>
+    </div>
+{% endif %}
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -78,10 +84,14 @@
                       Agregar Cliente
                     </button-->
                         <div>
+                            {% if not sello %}
                             <button type="submit" class="btn btn-primary">Guardar</button>
+                            {% endif %}
                             <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
                             <!--a href="{% url 'dte:prev' form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa 2</a-->
+                            {% if not sello %}
                             <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
+                            {% endif %}
                         </div>
                 </div>
             </div>
@@ -147,9 +157,11 @@
                                             {% comment %} for delete {% endcomment %}
                                             {% if formss.instance.pk %}
                                                 <td>
+                                                    {% if not sello %}
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
                                                         Eliminar
                                                     </button>
+                                                    {% endif %}
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -174,8 +186,10 @@
                                 </tbody>
                             </table>
                             <div align="right">
+                                {% if not sello %}
                                 <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Añadir otro</a> <!-- 
                                 id="add-inlineformsetname-button" -->
+                                {% endif %}
                             </div>
                         </div>
                         
