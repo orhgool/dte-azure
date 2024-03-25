@@ -20,12 +20,12 @@
     "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
     "codActividad": "62020",
     "descActividad": "Consultorias y gestion de servicios informaticos",
-    "nombreComercial": "ALFA",
+    "nombreComercial": "A L F A",
     "tipoEstablecimiento": "02",
     "direccion": {
       "departamento": "03",
       "municipio": "11",
-      "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
+      "complemento": "22 calle pte. block 12, Urb. Lomas de San Antonio No 19"
     },
     "telefono": "69848539",
     "correo": "alfaconsultores.sv@gmail.com",
@@ -40,7 +40,7 @@
     "nrc": "1414200",
     "nombre": "INVERSIONES SERVYGRAN, S.A. DE C.V.",
     "codActividad": "46301",
-    "descActividad": "46301",
+    "descActividad": "Venta al por mayor de alimentos",
     "direccion": {
       "departamento": "03",
       "municipio": "03",
@@ -155,26 +155,11 @@
   },
   "extension": {
     "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
-    "docuEntrega": "0307-071120-101-6",
+    "docuEntrega": "03070711201016",
     "nombRecibe": "INVERSIONES SERVYGRAN, S.A. DE C.V.",
     "docuRecibe": "03010205021015",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "AA989A95-6839-4E95-A031-614C08638F8F",
-    "selloRecibido": "20248BAA276B431C46A786657ABFF073D4849EYY",
-    "fhProcesamiento": "20/03/2024 00:16:03",
-    "clasificaMsg": "10",
-    "codigoMsg": "002",
-    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
-    "observaciones": [
-      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
-    ]
-  }
+  "apendice": null
 }

@@ -57,11 +57,11 @@ class DTEDetalleForm(forms.ModelForm):
 			'cantidad': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
-			'precioUni': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1.00'}),
-			'montoDescu': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','step':'1'}),
-			'ventaNoSuj': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1'}),
-			'ventaExenta': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1'}),
-			'ventaGravada': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','step':'1'}),
+			'precioUni': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaExenta': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaGravada': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
 		}
 
 

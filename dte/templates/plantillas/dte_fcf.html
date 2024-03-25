@@ -92,9 +92,10 @@
 
   <body>
 	<div class="datos-emisor">
-		<img class="logo" src="http://alfadte.azurewebsites.net/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png" 
+		<!--img class="logo" src="http://localhost:8000/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png"
+		alt="logo" width="100", height="100"><br-->
+		<img class="logo" src=""
 		alt="logo" width="100", height="100"><br>
-
 		<strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
@@ -105,7 +106,7 @@
 	</div>
 
 	<div class="qr">
-		<!--img src="{{qr}}"  width="150" height="150"-->
+		<img src=""  width="150" height="150">
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
@@ -258,14 +259,10 @@
 							<td valign="top" width="5%" align="right">{{dte_detalles.cantidad|decimal3}}</td>
 							<td valign="top" width="5%">{{dte_detalles.uniMedida}}</td>
 							<td valign="top" width="5%">{{dte_detalles.tipoItem}}</td>
-							<td valign="top" width="35%">{{dte_detalles.descripcion}}
-								{% if dte_detalles.complemento1 %}<br>{{dte_detalles.complemento1}}{% endif %}
-								{% if dte_detalles.complemento2 %}<br>{{dte_detalles.complemento2}}{% endif %}
-							</td>
-								
-							<td valign="top" width="5%" align="right">{{dte_detalles.precio_con_iva|moneda}}</td>
+							<td valign="top" width="35%">{{dte_detalles.descripcion}}</td>								
+							<td valign="top" width="5%" align="right">{{dte_detalles.precioUni|moneda}}</td>
 							<td valign="top" width="5%" align="right">{{dte_detalles.ventaExenta|moneda}}</td>
-							<td valign="top" width="5%" align="right">{{dte_detalles.subt_precio_con_iva|moneda}}</td>
+							<td valign="top" width="5%" align="right">{{dte_detalles.ventaGravada|moneda}}</td>
 						</tr>
 					{% endfor %}
 					</table>
@@ -286,7 +283,7 @@
 					<td><b>Recibido por</b></td>
 					<td>{{dte.receptor}}</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Sumas</b></td>
-					<td align="right" rowspan="2">{{dte.totalGravadaIVA|moneda}}</b></td>
+					<td align="right" rowspan="2">{{dte.montoTotalOperacion|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td><b>Documento</b></td>
@@ -298,7 +295,7 @@
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Total</b></td>
-					<td align="right" rowspan="2">{{dte.totalPagarIVA|moneda}}</td>
+					<td align="right" rowspan="2">{{dte.totalPagar|moneda}}</td>
 				</tr>
 				<tr>
 					<td colspan="5">{{dte.observaciones}}.</td>

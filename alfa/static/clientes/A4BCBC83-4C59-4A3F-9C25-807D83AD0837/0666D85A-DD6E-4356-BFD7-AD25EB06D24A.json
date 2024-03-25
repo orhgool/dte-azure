@@ -25,7 +25,7 @@
     "direccion": {
       "departamento": "03",
       "municipio": "11",
-      "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
+      "complemento": "22 calle pte. block 12, Urb. Lomas de San Antonio No 19"
     },
     "telefono": "69848539",
     "correo": "alfaconsultores.sv@gmail.com",
@@ -36,7 +36,7 @@
   },
   "receptor": {
     "tipoDocumento": "36",
-    "numDocumento": "03142407620011",
+    "numDocumento": "06142407620011",
     "nrc": "4340",
     "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "codActividad": "52102",
@@ -100,24 +100,9 @@
     "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
     "docuEntrega": "03070711201016",
     "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-    "docuRecibe": "03142407620011",
+    "docuRecibe": "06142407620011",
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "0666D85A-DD6E-4356-BFD7-AD25EB06D24A",
-    "selloRecibido": "2024718626E3D6764CDE9329FA8D330A7FBDMSPK",
-    "fhProcesamiento": "24/03/2024 09:09:06",
-    "clasificaMsg": "10",
-    "codigoMsg": "002",
-    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
-    "observaciones": [
-      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
-    ]
-  }
+  "apendice": null
 }

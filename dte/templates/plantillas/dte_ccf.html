@@ -8,24 +8,28 @@
     <title>ALCASA - Sitria</title>
     <style type="text/css">
     	table{
-    		border: 1px solid grey;
+    		border: 0px solid grey;
     	}
 
     	.logo{
     		border-radius: 0%;
     	}
 
-    	.datos-alcasa{
+    	.datos-emisor{
     		position: absolute;
     		top: 0%;
     		left: 0%;
-    		font-size: 13px;}
+    		font-size: 13px;
+        font-family: Calibri, sans-serif;
+        max-width: 250px;
+      }
 
     	.doc-id{
 			position: absolute;
-    		top: 3%;
+    		top: 60px;
     		left: 35%;
     		font-size: 13px;
+        font-family: Calibri, sans-serif;
     	}
 
     	.qr{
@@ -34,18 +38,20 @@
     		left: 84%;
     	}
 
-    	.datos-cliente{
+    	.datos-receptor{
     		position: absolute;
-    		top: 170px;
+    		top: 220px;
     		left: 0px;
     		width: 100%;
     		font-size: 13px;
+        font-family: Calibri, sans-serif;
     	}
 
     	.sub-tabla{
     		font-size: 15px;
     		border: none;
     		width: 100%;
+        font-family: Calibri, sans-serif;
     	}
 
     	.titulo-apartado{
@@ -53,21 +59,26 @@
     		text-transform: uppercase;
     		border-bottom: 1pt solid black;
     		text-align: center;
-    		background-color: #E6E6E6;
+    		color: #FFF;
+    		background-color: #1E74BC;
+        font-family: Calibri, sans-serif;
     	}
 
     	.row-line{
     		border-bottom: 1pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	.row-line-left{
     		border-left: 1pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	.row-line-all{
-    		border-bottom: 1pt solid black;
-    		border-left: 1pt solid black;
-    		border-right: 1pt solid black;
+    		border-bottom: 0pt solid black;
+    		border-left: 0pt solid black;
+    		border-right: 0pt solid black;
+    		border-color: #C6C9CB;
     	}
 
     	strong{
@@ -80,18 +91,19 @@
   </head>
 
   <body>
-	<div class="datos-alcasa">
-		<img class="logo" src="http://alcasa.com.sv/images/site/logo-alcasa.png" alt="logo" width="100", height="60"><br>
-		 <strong>Almacenadora Centroamericana, S.A. de C.V.</strong><br />
-		 Complejo Corporativo SISCO<br />
-		 Carretera Panamericana km 9 1/2<br />
-		 Santa Tecla, La Libertad<br />
-		 Teléfono: +503 2212 1270<br />
-		 Correo: alcasa@alcasa.com.sv
+	<div class="datos-emisor">
+		<img class="logo" src="" alt="logo" width="100", height="60"><br>
+		 <strong>{{emisor.razonsocial}}</strong><br />
+		 {{emisor.direccionComplemento}}<br />
+		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
+		 NIT: {{emisor.nit}}
+		 NRC: {{emisor.nrc}} <br>
+		 Teléfono: +503 {{emisor.telefono}}<br />
+		 Correo: {{emisor.correo}}
 	</div>
 
 	<div class="qr">
-		<img src="{{qr}}"  width="150" height="150">
+		<img src=""  width="150" height="150">
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
@@ -158,7 +170,7 @@
 		</table>
 	</div>
 
-	<div class="datos-cliente">
+	<div class="datos-receptor">
 		<table width="100%">
 			<thead>
 				<tr>
@@ -187,7 +199,7 @@
 						<strong>Actividad</strong>
 					</td>
 					<td>
-						{{ receptor.actividadeconomica }}
+						{{ receptor.actividadEconomica }}
 					</td>
 					<td>
 						<strong>NRC</strong>
@@ -275,13 +287,21 @@
 					<td class="row-line" align="right">{{dte.totalGravada|moneda}}</td>
 				</tr>
 				<tr>
-					<td colspan="5"></td>
+					<td>Nombre entrega</td>
+					<td>{{dte.emisor}}</td>
+					<td>Nombre recibe</td>
+					<td>{{dte.receptor}}</td>
 					<td class="row-line-left" colspan="3"><b>Sum operaciones sin imp.</b></td>
+					<td></td>
 					<td align="right">{{dte.subTotalVentas|moneda}}</td>
 				</tr>
 				<tr>
-					<td colspan="5"></td>
+					<td>Documento entrega</td>
+					<td>s</td>
+					<td>Documento recibe</td>
+					<td>s</td>
 					<td class="row-line-left" colspan="3"><b>Total descuentos</b></td>
+					<td></td>
 					<td align="right">{{dte.totalDescu|moneda}}</td>
 				</tr>
 				<tr>
@@ -291,10 +311,7 @@
 				</tr>
 				<tr>
 					<td colspan="5">
-						<b>Forma de pago:</b> {{dte.condicionOperacion}}
-						<b>Plazo:</b> {{receptor.dias_plazo_dte}} días
-						<b>Vencimiento:</b> {{vencimiento}}
-						<b>Tasa de interés:</b> 2% mensual
+						{{dte.observaciones}}.
 					</td>
 					<td class="row-line-left" colspan="3"><b>SubTotal</td>
 					<td align="right">{{dte.subTotal|moneda}}</b></td>

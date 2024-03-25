@@ -15,8 +15,9 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from decimal import Decimal
 from .forms import *
-from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar
+from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar, datosInicio
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, ConfigSeg
 
 from rest_framework.views import APIView
@@ -38,10 +39,14 @@ def index(request):
 	#messages.success(request, 'os.name: ' + os.name)
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	request.session['logo'] = os.path.join(settings.STATIC_URL, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '.png')
+	
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
-	context = {'listaDocumentos':documentos}
+	numDia, valorDia, numMes, valorMes, dato1, dato2 = datosInicio(request.session['empresa'])
+	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False)
+	
+	context = {'listaDocumentos':documentos, 'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
 	#messages.success(request, request.session['logo'])
 	return render(request, 'dte/index.html', context)
@@ -185,19 +190,38 @@ class DTEInline():
 			detalle.dte = self.object
 			detalle.save()
 
+			#
+			dte = DTECliente.objects.get(codigoGeneracion=detalle.dte_id)
+			if dte.tipoDte.codigo=='00': ##################  PARA NO EVALUAR ESTA CONDICION  #################
+				items = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id)
+				for item in items:
+					item.precioUni /= Decimal(1.13)
+					item.ventaGravada /= Decimal(1.13)
+					item.save(update_fields=['precioUni', 'ventaGravada'])
+			#
+
 			# Inicio de cálculos
 			total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
-			DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
-				subTotalVentas=total_gravada,
-				subTotal=total_gravada,
-				ivaPerci1=float(total_gravada)*float(0.13),
-				montoTotalOperacion=float(total_gravada)*float(1.13),
-				totalPagar=float(total_gravada)*float(1.13))
+			if dte.tipoDte.codigo=='01':
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
+					subTotalVentas = total_gravada,
+					subTotal = total_gravada,
+					ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
+					montoTotalOperacion = float(total_gravada),
+					totalPagar = float(total_gravada))
+
+			if dte.tipoDte.codigo=='03':
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
+					subTotalVentas=total_gravada,
+					subTotal=total_gravada,
+					ivaPerci1=float(total_gravada)*float(0.13),
+					montoTotalOperacion=float(total_gravada)*float(1.13),
+					totalPagar=float(total_gravada)*float(1.13))
 			# Fin de cálculos
 
 			instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
 			instancia2 = TributoResumen.objects.get(codigo='20')
-			t = DTEClienteDetalleTributo(codigoDetalle=instancia1, codigo=instancia2, descripcion=instancia2.nombre, valor=5.0)
+			t = DTEClienteDetalleTributo(codigoDetalle=instancia1, codigo=instancia2, descripcion=instancia2.nombre, valor=instancia1.ventaGravada*Decimal(0.13))
 			t.save()
 		messages.success(self.request, 'Detalle guardado')
 
@@ -574,48 +598,55 @@ def cliente_delete(request, pk):
 
 
 class VistaPreviaHTML(TemplateView):
-    template_name = 'plantillas/dte_fcf.html'
+	template_name = None
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
 
-        emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
+		emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
 
-        tipo = self.kwargs['tipo']
-        codigo = self.kwargs['codigo']
+		tipo = self.kwargs['tipo']
+		codigo = self.kwargs['codigo']
 
-        if tipo == '01':
-            dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
-                totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
-                totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
-                subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
-                totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
-            ).first()
-            receptor = Cliente.objects.get(codigo=dte.receptor_id)
-            dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
-                precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
-                subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
-            )
+		if tipo == '01':
+			self.template_name = 'plantillas/dte_fcf.html'
+			dte = DTECliente.objects.get(codigoGeneracion=codigo)
+			receptor = Cliente.objects.get(codigo=dte.receptor_id)
+			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
-            letras = CantLetras(dte.totalPagar)
-            fecha = dte.fecEmi.strftime('%d/%m/%Y')
+		if tipo == '03':
+			self.template_name = 'plantillas/dte_ccf.html'
+			dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+				totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+				totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+				subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+				totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+			).first()
+			receptor = Cliente.objects.get(codigo=dte.receptor_id)
+			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
+				precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
+				subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
+			)
 
-            ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session["empresa"]}.png'
-            ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session["empresa"]}/{dte.codigoGeneracion}.png'
+		letras = CantLetras(dte.totalPagar)
+		fecha = dte.fecEmi.strftime('%d/%m/%Y')
 
-            context['dte'] = dte
-            context['emisor'] = emisor
-            context['receptor'] = receptor
-            context['dte_detalle'] = dte_detalle
-            context['letras'] = letras
-            context['logo'] = str(ruta_logo)
-            context['qr'] = str(ruta_qr)
-            context['fecha'] = fecha
+		ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session["empresa"]}.png'
+		ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session["empresa"]}/{dte.codigoGeneracion}.png'
 
-        return context
+		context['dte'] = dte
+		context['emisor'] = emisor
+		context['receptor'] = receptor
+		context['dte_detalle'] = dte_detalle
+		context['letras'] = letras
+		context['logo'] = str(ruta_logo)
+		context['qr'] = str(ruta_qr)
+		context['fecha'] = fecha
 
-    def render_to_response(self, context, **response_kwargs):
-        return render(self.request, self.template_name, context, **response_kwargs)
+		return context
+
+	def render_to_response(self, context, **response_kwargs):
+		return render(self.request, self.template_name, context, **response_kwargs)
 
 
 #@login_required(login_url='manager:login')
@@ -659,8 +690,8 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 			context['receptor'] = receptor
 			context['dte_detalle'] = dte_detalle
 			context['letras'] = letras
-			#context['logo'] = str(ruta_logo)
-			#context['qr'] = str(ruta_qr)
+			context['logo'] = str(ruta_logo)
+			context['qr'] = str(ruta_qr)
 			context['fecha'] = fecha
 
 		return context
@@ -683,7 +714,7 @@ def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
 		'margin-left': '0.5in',
 		'encoding': "UTF-8",
 		'no-outline': None,
-		'enable-local-file-access': None
+		'enable-local-file-access': ''
 	}
 
 	template_path = ''
@@ -694,7 +725,7 @@ def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
 	
 	receptor = Cliente.objects.get(codigo = dte.receptor_id)
 	
-	if dte.tipoDte_id == '01':
+	if dte.tipoDte_id == '01': ################  Quitar los cálculos del IVA  ##################
 		dte = DTECliente.objects.filter(codigoGeneracion = codigo).annotate(
 			totalExentaIVA = ExpressionWrapper(F('totalExenta') * 1.13, output_field = DecimalField()),
 			totalGravadaIVA = ExpressionWrapper(F('totalGravada') * 1.13, output_field = DecimalField()),

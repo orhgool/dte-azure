@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
-from .jsons import fcf
+from .jsons import fcf, ccf
 from datetime import datetime, timedelta
 from num2words import num2words
 
@@ -50,7 +50,7 @@ def genJson(codigo, tipo, empresa):
 	if tipo=='01':
 		json_data = fcf(codigo)
 	elif tipo == '03':
-		json_data = fcf(codigo)
+		json_data = ccf(codigo)
 
 	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
 	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
@@ -163,4 +163,29 @@ def CantLetras(cantidad):
 
 	letras = (num2words(p_entero, lang='es') + " " + str(p_decimal) + u"/100 USD")
 
-	return letras.upper()	
+	return letras.upper()
+
+
+def datosInicio(pk):
+	empresa = get_object_or_404(Empresa, codigo=pk)
+	# Obtener la fecha actual
+	fecha_actual = datetime.now().date()
+	primer_dia_mes = fecha_actual.replace(day=1)
+
+	# Contar el número de registros con la fecha 'fecEmi' igual a la fecha actual
+	num_registros_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual).count()
+
+	# Sumar el campo 'subTotalVentas' de los registros que coincidan con la fecha actual
+	subtotal_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
+
+	# Contar el número de registros con la fecha 'fecEmi' en el mes en curso
+	num_registros_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__month=fecha_actual.month, fecEmi__year=fecha_actual.year).count()
+
+	# Sumar el campo 'subTotalVentas' de los registros con la fecha 'fecEmi' en el mes en curso
+	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
+
+	dato1 = fecha_actual.month
+	dato2 = 'fecha_actual.replace(day=1)'
+
+
+	return num_registros_hoy, subtotal_hoy, num_registros_mes, subtotal_mes, dato1, dato2
