@@ -682,7 +682,8 @@ def vista_previa_pdf_dte(request, codigo, *args, **kwargs):
 		'margin-bottom': '0.5in',
 		'margin-left': '0.5in',
 		'encoding': "UTF-8",
-		'no-outline': None
+		'no-outline': None,
+		'enable-local-file-access': None
 	}
 
 	template_path = ''
