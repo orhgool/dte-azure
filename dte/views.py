@@ -45,10 +45,6 @@ def index(request):
 	request.session['documentos'] = list(documentos)
 
 	numDia, valorDia, numMes, valorMes = datosInicio(request.session['empresa'])
-	numDia = numDia or 0
-	valorDia = valorDia or 0
-	numMes = numMes or 0
-	valorMes = valorMes or 0
 	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
 	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False)
 	
@@ -645,6 +641,9 @@ class VistaPreviaHTML(TemplateView):
 		ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session["empresa"]}.png'
 		ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session["empresa"]}/{dte.codigoGeneracion}.png'
 
+		if self.request.session["empresa"] == 'A4BCBC83-4C59-4A3F-9C25-807D83AD0837':
+			ruta_logo = 'https://alfadte.azurewebsites.net/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png'
+
 		context['dte'] = dte
 		context['emisor'] = emisor
 		context['receptor'] = receptor
@@ -673,6 +672,13 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 		codigo = self.kwargs['codigo']
 
 		if tipo == '01':
+			self.template_name = 'plantillas/dte_fcf.html'
+			dte = DTECliente.objects.get(codigoGeneracion=codigo)
+			receptor = Cliente.objects.get(codigo=dte.receptor_id)
+			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+		if tipo == '03':
+			self.template_name = 'plantillas/dte_ccf.html'
 			dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
 				totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
 				totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
@@ -695,6 +701,9 @@ class VistaPreviaPDFDTE(PDFTemplateView):
 
 			ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session['empresa']}.png'
 			ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session['empresa']}/{dte.codigoGeneracion}.png'
+
+			if self.request.session["empresa"] == 'A4BCBC83-4C59-4A3F-9C25-807D83AD0837':
+				ruta_logo = 'https://alfadte.azurewebsites.net/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png'
 
 			context['dte'] = dte
 			context['emisor'] = emisor

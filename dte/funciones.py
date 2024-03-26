@@ -184,7 +184,9 @@ def datosInicio(pk):
 	# Sumar el campo 'subTotalVentas' de los registros con la fecha 'fecEmi' en el mes en curso
 	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
 
-	num_registros_hoy if num_registros_hoy else 0
-	subtotal_hoy if subtotal_hoy else 0
-	
+	num_registros_hoy = num_registros_hoy or 0
+	subtotal_hoy = subtotal_hoy or 0
+	num_registros_mes = num_registros_mes or 0
+	subtotal_mes = subtotal_mes or 0
+
 	return num_registros_hoy, subtotal_hoy, num_registros_mes, subtotal_mes
