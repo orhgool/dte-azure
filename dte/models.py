@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from datetime import datetime
 
-
 class Departamento(models.Model):
 	codigo = models.CharField(db_column='Codigo', primary_key=True, default='001', null=False, max_length=50, verbose_name='Código')
 	nombre = models.CharField(db_column = 'Nombre', max_length = 200, default = 'N/A', blank=True, verbose_name='Nombre')
