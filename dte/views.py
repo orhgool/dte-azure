@@ -176,10 +176,11 @@ class DTEInline():
 				formset.save()
 
 		if not self.object.selloRecepcion:
-			qr = gen_qr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
-			json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
-			firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
-			
+			if self.object.numeroControl:
+				qr = gen_qr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
+				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
+				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
+
 		messages.success(self.request, 'Documento guardado')
 		#messages.success(self.request, json)
 		#return redirect('dte:lista_dte', tipo='cliente')
@@ -217,7 +218,7 @@ class DTEInline():
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
 					subTotal=total_gravada,
-					ivaPerci1=float(total_gravada)*float(0.13),
+					ivaPerci1=0, #float(total_gravada)*float(0.13),
 					montoTotalOperacion=float(total_gravada)*float(1.13),
 					totalPagar=float(total_gravada)*float(1.13))
 			# Fin de cálculos

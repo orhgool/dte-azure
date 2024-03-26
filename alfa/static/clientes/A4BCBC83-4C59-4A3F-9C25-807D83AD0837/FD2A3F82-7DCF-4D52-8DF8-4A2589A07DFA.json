@@ -3,12 +3,12 @@
     "version": 3,
     "ambiente": "00",
     "tipoDte": "03",
-    "numeroControl": "DTE-03-00000000-000000000000001",
-    "codigoGeneracion": "BB797E46-1462-4F59-BBAD-6D6F2F39443B",
+    "numeroControl": "DTE-03-00000000-000000000000004",
+    "codigoGeneracion": "FD2A3F82-7DCF-4D52-8DF8-4A2589A07DFA",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-03-25",
-    "horEmi": "07:35:55",
+    "fecEmi": "2024-02-25",
+    "horEmi": "17:09:07",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
     "motivoContin": null
@@ -60,12 +60,12 @@
       "codigo": null,
       "codTributo": null,
       "uniMedida": 59,
-      "descripcion": "USB 64 GB",
-      "precioUni": 8.0,
+      "descripcion": "producto",
+      "precioUni": 19.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 8.0,
+      "ventaGravada": 19.0,
       "noGravado": 0.0,
       "tributos": [
         "20"
@@ -80,12 +80,32 @@
       "codigo": null,
       "codTributo": null,
       "uniMedida": 59,
-      "descripcion": "SSD",
-      "precioUni": 30.0,
+      "descripcion": "USB 64 GB",
+      "precioUni": 29.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 30.0,
+      "ventaGravada": 29.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 3,
+      "tipoItem": 1,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Kit",
+      "precioUni": 39.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 39.0,
       "noGravado": 0.0,
       "tributos": [
         "20"
@@ -96,8 +116,8 @@
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 38.0,
-    "subTotalVentas": 38.0,
+    "totalGravada": 87.0,
+    "subTotalVentas": 87.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
@@ -107,17 +127,17 @@
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 4.94
+        "valor": 11.31
       }
     ],
-    "subTotal": 38.0,
+    "subTotal": 87.0,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 42.94,
+    "montoTotalOperacion": 98.31,
     "totalNoGravado": 0.0,
-    "totalPagar": 42.94,
-    "totalLetras": "CUARENTA Y DOS 94/100 USD",
+    "totalPagar": 98.31,
+    "totalLetras": "NOVENTA Y OCHO 31/100 USD",
     "saldoFavor": 0.0,
     "condicionOperacion": 1,
     "pagos": null,
@@ -137,12 +157,14 @@
     "ambiente": "00",
     "versionApp": 2,
     "estado": "PROCESADO",
-    "codigoGeneracion": "BB797E46-1462-4F59-BBAD-6D6F2F39443B",
-    "selloRecibido": "202455BA8A5FB56A4FEC8C6F4B9A176B81A2NQEL",
-    "fhProcesamiento": "25/03/2024 17:50:28",
+    "codigoGeneracion": "FD2A3F82-7DCF-4D52-8DF8-4A2589A07DFA",
+    "selloRecibido": "20242733416FB2534776AE063DB06924D9D8TMVJ",
+    "fhProcesamiento": "25/03/2024 18:11:09",
     "clasificaMsg": "10",
-    "codigoMsg": "001",
-    "descripcionMsg": "RECIBIDO",
-    "observaciones": []
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
   }
 }

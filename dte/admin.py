@@ -15,9 +15,19 @@ class EmpresaAdmin(admin.ModelAdmin):
 class UserProfileAdmin(admin.StackedInline):
 	model = UserProfile
 
+class ControlDocumentoAdmin(admin.ModelAdmin):
+	search_fields = ['empresa__razonsocial',]
+
 class CustomUserAdmin(UserAdmin):
 	form = CustomUserChangeForm
 	inlines = (UserProfileAdmin,)
+
+class DteClienteAdmin(admin.ModelAdmin):
+	search_fields = ['codigoGeneracion',]
+	list_display = ('codigoGeneracion', 'numeroControl', 'emisor_razonsocial')
+
+	def emisor_razonsocial(self, obj):
+		return obj.emisor.razonsocial
 
 class TributoResumenAdmin(admin.ModelAdmin):
 	list_display = ('codigo', 'nombre')
@@ -39,8 +49,9 @@ admin.site.register(AmbienteDestino)
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(CondicionOperacion)
 admin.site.register(ConfigSeg)
-admin.site.register(ControlDocumento)
+admin.site.register(ControlDocumento, ControlDocumentoAdmin)
 admin.site.register(Departamento)
+admin.site.register(DTECliente, DteClienteAdmin)
 admin.site.register(DomicilioFiscal)
 admin.site.register(DtesEmpresa)
 admin.site.register(Empresa, EmpresaAdmin)

@@ -292,7 +292,7 @@ def ccf(codigo):
 		'descuGravada': float(dte.descuGravada),
 		'porcentajeDescuento': float(dte.porcentajeDescuento),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': tributos_consolidados_lista,
+		'tributos': tributos_consolidados_lista if tributos_consolidados_lista else None,
 		'subTotal': float(dte.subTotal),
 		'ivaPerci1': float(dte.ivaPerci1),
 		'ivaRete1': 0.0,

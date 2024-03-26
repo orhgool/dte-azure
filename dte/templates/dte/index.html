@@ -35,7 +35,7 @@
       <div class="card">
         <div class="card-body text-center">
           <h5 class="mb-2 text-dark font-weight-normal">Total ventas este día</h5>
-          <h2 class="mb-4 text-dark font-weight-bold">$ {{valorDia}}</h2>
+          <h2 class="mb-4 text-dark font-weight-bold">$ {{valorDia|moneda}}</h2>
           <i class="mdi mdi-coin icon-md text-dark"></i>
         </div>
       </div>
@@ -53,7 +53,7 @@
       <div class="card">
         <div class="card-body text-center">
           <h5 class="mb-2 text-dark font-weight-normal">Total ventas del mes</h5>
-          <h2 class="mb-4 text-dark font-weight-bold">$ {{valorMes}}</h2>
+          <h2 class="mb-4 text-dark font-weight-bold">$ {{valorMes|moneda}}</h2>
          <i class="mdi mdi-coin icon-md text-dark"></i>
         </div>
       </div>
@@ -69,11 +69,13 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <td>Fecha</td>
-              <td>Núnero</td>
-              <td>Cliente</td>
-              <td align="right">Monto</td>
-              <td align="center">Días</td>
+              
+              <td><strong>Fecha</strong></td>
+              <td><strong>Núnero</strong></td>
+              <td><strong>Cliente</strong></td>
+              <td align="right"><strong>Monto</strong></td>
+              <td align="center"><strong>Días</strong></td>
+              
             </tr>            
           </thead>
           <tbody>
