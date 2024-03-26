@@ -58,6 +58,12 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+PDFKIT_CONFIG = {
+    'ignore_load_errors': True,
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -24,6 +24,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from wkhtmltopdf.views import PDFTemplateView
+from pdfkit.configuration import Configuration
 
 
 
@@ -520,7 +521,7 @@ def cliente_create(request):
 		form.instance.empresa = empresa
 		if form.is_valid():
 			cliente = form.save()
-			messages.success('Cliente guardado')
+			messages.success(request, 'Cliente guardado')
 			return redirect('dte:cliente_update', pk=cliente.pk)
 	else:		
 		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
@@ -661,6 +662,7 @@ class VistaPreviaHTML(TemplateView):
 
 #@login_required(login_url='manager:login')
 class VistaPreviaPDFDTE(PDFTemplateView):
+	# '/usr/bin/wkhtmltopdf'
 	template_name = 'plantillas/dte_fcf.html'
 
 	def get_context_data(self, **kwargs):
@@ -798,7 +800,9 @@ def direcciones(request):
 	#messages.success(request, 'os.name: ' + os.name)
 	dominio = request.build_absolute_uri('/')
 	ruta_logo = f'https://alfadte.azurewebsites.net/media/logos/{request.session['empresa']}.png'
-	context={'PROJECT_DIR':settings.PROJECT_DIR, 'STATIC_ROOT': 'settings.STATIC_ROOT', 
+	context={
+			'BASE_DIR': settings.BASE_DIR,
+			'PROJECT_DIR':settings.PROJECT_DIR, 'STATIC_ROOT': 'settings.STATIC_ROOT', 
 			'STATIC_DIR':settings.STATIC_DIR,
 			'STATIC_DIR_IMG': os.path.join(settings.STATIC_DIR,'clientes','logos', f'{request.session['empresa']}.png'),
 			'STATIC_URL':settings.STATIC_URL,
