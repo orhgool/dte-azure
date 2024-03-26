@@ -19,28 +19,30 @@
                 <div class="row">
                     <h4 class="card-title">Lista de clientes</h4>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Razón social</th>
-                            <th>Nombre comercial</th>
-                            <th>Tipo de documento</th>
-                            <th>Número de documento</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cliente in clientes %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ cliente.razonsocial }}</td>
-                                <td>{{ cliente.nombreComercial }}</td>
-                                <td>{{ cliente.tipoDocumentoCliente}}</td>
-                                <td>{{ cliente.numeroDocumento }}</td>
-                                <td><a href="{% url 'dte:cliente_update' cliente.codigo %}">Ver</a></td>
+                                <th>Razón social</th>
+                                <th>Nombre comercial</th>
+                                <th>Tipo de documento</th>
+                                <th>Número de documento</th>
+                                <th>Acción</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for cliente in clientes %}
+                                <tr>
+                                    <td>{{ cliente.razonsocial }}</td>
+                                    <td>{{ cliente.nombreComercial }}</td>
+                                    <td>{{ cliente.tipoDocumentoCliente}}</td>
+                                    <td>{{ cliente.numeroDocumento }}</td>
+                                    <td><a href="{% url 'dte:cliente_update' cliente.codigo %}">Ver</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="card-body">
                 <div class="btn-group" role="group" aria-label="Basic example">

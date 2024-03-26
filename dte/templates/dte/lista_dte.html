@@ -17,30 +17,32 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Documentos emitidos</h4>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Tipo</th>
-                            <th>Código de generación</th>
-                            <th>Número correlativo</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for dte in page_obj %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{dte.fecEmi|fechaHora}}</td>
-                                <td>{{ dte.receptor }}</td>
-                                <td>{{dte.tipoDte.nombre_corto}}</td>
-                                <td>{{ dte.codigoGeneracion }}</td>
-                                <td>{{ dte.numeroControl }}</td>
-                                <td><a href="{% url 'dte:actualizar' dte.codigoGeneracion %}">Modificar</a></td>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>Código de generación</th>
+                                <th>Número correlativo</th>
+                                <th>Acción</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for dte in page_obj %}
+                                <tr>
+                                    <td>{{dte.fecEmi|fechaHora}}</td>
+                                    <td>{{ dte.receptor }}</td>
+                                    <td>{{dte.tipoDte.nombre_corto}}</td>
+                                    <td>{{ dte.codigoGeneracion }}</td>
+                                    <td>{{ dte.numeroControl }}</td>
+                                    <td><a href="{% url 'dte:actualizar' dte.codigoGeneracion %}">Modificar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="card-body">
                 <div class="btn-group" role="group" aria-label="Basic example">

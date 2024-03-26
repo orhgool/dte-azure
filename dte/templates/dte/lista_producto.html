@@ -19,32 +19,34 @@
                 <div class="row">
                     <h4 class="card-title">Lista de productos</h4>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Precio (USD)</th>
-                            <th>Existencia</th>
-                            <th>UdM</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for producto in productos %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td><a href="{% url 'dte:producto_detalle' pk=producto.codigo %}">{{ producto.codigo }}</a></td>
-                                <td>{% if producto.nombre|length > 50 %}
-                                <span title="{{ producto.nombre }}">{{ producto.nombre|slice:":50" }}...</span>
-                                    {% else %}
-                                        {{ producto.nombre }}
-                                    {% endif %}</td>
-                                <td align="right">{{ producto.precio}}</td>
-                                <td align="right">{{ producto.existencia}}</td>
-                                <td>{{ producto.unidadMedida}}</td>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Precio (USD)</th>
+                                <th>Existencia</th>
+                                <th>UdM</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for producto in productos %}
+                                <tr>
+                                    <td><a href="{% url 'dte:producto_detalle' pk=producto.codigo %}">{{ producto.codigo }}</a></td>
+                                    <td>{% if producto.nombre|length > 50 %}
+                                    <span title="{{ producto.nombre }}">{{ producto.nombre|slice:":50" }}...</span>
+                                        {% else %}
+                                            {{ producto.nombre }}
+                                        {% endif %}</td>
+                                    <td align="right">{{ producto.precio}}</td>
+                                    <td align="right">{{ producto.existencia}}</td>
+                                    <td>{{ producto.unidadMedida}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="card-body">
                 <div class="btn-group" role="group" aria-label="Basic example">

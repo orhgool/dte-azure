@@ -66,30 +66,32 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Documentos pendientes de pago</h4>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              
-              <td><strong>Fecha</strong></td>
-              <td><strong>Núnero</strong></td>
-              <td><strong>Cliente</strong></td>
-              <td align="right"><strong>Monto</strong></td>
-              <td align="center"><strong>Días</strong></td>
-              
-            </tr>            
-          </thead>
-          <tbody>
-            {% for doc in cxc %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
               <tr>
-              <td>{{doc.fecEmi|fecha}}</td>
-              <td><a href="{% url 'dte:actualizar' doc.codigoGeneracion %}">{{doc.numeroControl}}</a></td>
-              <td>{{doc.receptor}}</td>
-              <td align="right">$ {{doc.totalPagar}}</td>
-              <td align="center">0</td>              
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+
+                <td><strong>Fecha</strong></td>
+                <td><strong>Núnero</strong></td>
+                <td><strong>Cliente</strong></td>
+                <td align="right"><strong>Monto</strong></td>
+                <td align="center"><strong>Días</strong></td>
+                
+              </tr>            
+            </thead>
+            <tbody>
+              {% for doc in cxc %}
+                <tr>
+                <td>{{doc.fecEmi|fecha}}</td>
+                <td><a href="{% url 'dte:actualizar' doc.codigoGeneracion %}">{{doc.numeroControl}}</a></td>
+                <td>{{doc.receptor}}</td>
+                <td align="right">$ {{doc.totalPagar}}</td>
+                <td align="center">0</td>              
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
