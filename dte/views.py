@@ -43,10 +43,16 @@ def index(request):
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
-	numDia, valorDia, numMes, valorMes, dato1, dato2 = datosInicio(request.session['empresa'])
+
+	numDia, valorDia, numMes, valorMes = datosInicio(request.session['empresa'])
+	numDia = numDia or 0
+	valorDia = valorDia or 0
+	numMes = numMes or 0
+	valorMes = valorMes or 0
+	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
 	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False)
 	
-	context = {'listaDocumentos':documentos, 'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes, 'cxc':cxc}
+	context = {'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
 	#messages.success(request, request.session['logo'])
 	return render(request, 'dte/index.html', context)
