@@ -59,11 +59,6 @@ REST_FRAMEWORK = {
 }
 
 
-PDFKIT_CONFIG = {
-    'ignore_load_errors': True,
-}
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -162,7 +157,7 @@ STATIC_ROOT= os.path.join(PROJECT_DIR,'staticfiles/')
 STATIC_DIR= os.path.join(PROJECT_DIR,'static')
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ( os.path.join(PROJECT_DIR,'static/'),)
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 #WKHTMLTOPDF_CMD = '/path/to/my/wkhtmltopdf'

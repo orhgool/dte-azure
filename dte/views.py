@@ -24,9 +24,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from wkhtmltopdf.views import PDFTemplateView
-from pdfkit.configuration import Configuration
-
-
 
 
 @login_required(login_url='manager:login')
@@ -663,7 +660,7 @@ class VistaPreviaHTML(TemplateView):
 #@login_required(login_url='manager:login')
 class VistaPreviaPDFDTE(PDFTemplateView):
 	# '/usr/bin/wkhtmltopdf'
-	template_name = 'plantillas/dte_fcf.html'
+	template_name = ''
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
