@@ -33,7 +33,7 @@
                             {% for dte in page_obj %}
                                 <tr>
                                     <td>{{dte.fecEmi|fechaHora}}</td>
-                                    <td>{{ dte.receptor }}</td>
+                                    <td>{{ dte.receptor.nombreComercial }}</td>
                                     <td>{{dte.tipoDte.nombre_corto}}</td>
                                     <td>{{ dte.codigoGeneracion }}</td>
                                     <td>{{ dte.numeroControl }}</td>
