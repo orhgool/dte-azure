@@ -5,7 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>ALCASA - Sitria</title>
+    <title>ALFA - DTE</title>
     <style type="text/css">
     	table{
     		border: 0px solid grey;
@@ -92,7 +92,7 @@
 
   <body>
 	<div class="datos-emisor">
-		<img class="logo" src="{{logo}}" alt="logo" width="100", height="100"><br>
+		<img class="logo" src="" alt="logo" width="100", height="100"><br>
 		 <strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
@@ -104,6 +104,7 @@
 
 	<div class="qr">
 		<img src="{{qr}}"  width="150" height="150">
+		{{qr}}
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
