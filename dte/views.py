@@ -20,7 +20,6 @@ from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar, datosInicio
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, ConfigSeg
 from .guardarBlob import subir
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
