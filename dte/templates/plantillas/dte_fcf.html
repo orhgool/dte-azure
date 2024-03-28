@@ -6,6 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <title>ALFA -DTE</title>
+    <base href="http://alfadte.azurewebsites.net/">
     <style type="text/css">
     	table{
     		border: 0px solid grey;
@@ -94,7 +95,7 @@
 	<div class="datos-emisor">
 		<!--img class="logo" src="http://localhost:8000/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png"
 		alt="logo" width="100", height="100"><br-->
-		<img class="logo" src="{{logo}}"
+		<img class="logo" src=""
 		alt="logo" width="100", height="100"><br>
 		<strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
@@ -107,6 +108,7 @@
 
 	<div class="qr">
 		<img src="{{qr}}"  width="150" height="150">
+		{{qr}}
 	</div>
 	<div class="doc-id">
 		<table style="border: none">
@@ -283,7 +285,7 @@
 					<td><b>Recibido por</b></td>
 					<td>{{dte.receptor}}</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Sumas</b></td>
-					<td align="right" rowspan="2">{{dte.montoTotalOperacion|moneda}}</b></td>
+					<td align="right" rowspan="2">{{dte.montoTotalOperacion}}</b></td> <!-- |moneda -->
 				</tr>
 				<tr>
 					<td><b>Documento</b></td>
@@ -295,7 +297,7 @@
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Total</b></td>
-					<td align="right" rowspan="2">{{dte.totalPagar|moneda}}</td>
+					<td align="right" rowspan="2">{{dte.totalPagar}}</td>  <!-- |moneda -->
 				</tr>
 				<tr>
 					<td colspan="5">{{dte.observaciones}}.</td>

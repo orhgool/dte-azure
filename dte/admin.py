@@ -39,7 +39,11 @@ class ImpuestoAdValoremAdmin(admin.ModelAdmin):
 	list_display = ('codigo', 'nombre')
 
 class ClienteAdmin(admin.ModelAdmin):
-	list_display = ('razonsocial', 'nombreComercial')
+	search_fields = ['empresa__razonsocial', 'razonsocial', 'nombreComercial',]
+	list_display = ('razonsocial', 'nombreComercial', 'empresa__razonsocial')
+
+	def empresa__razonsocial(self, obj):
+		return obj.empresa.razonsocial
 
 
 admin.site.unregister(get_user_model())

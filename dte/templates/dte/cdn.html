@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load my_filters %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message.tags.capitalize }}:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="card-title">Subir Blob<h4>
+                </div>
+                <form method="post" action="{% url 'dte:cdn' %}">
+                    {% csrf_token %}
+                <input type="submit" name="" value="Enviar">
+                </form>
+                {% if res %}
+                    <p>Respuesta: {{res}}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
