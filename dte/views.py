@@ -27,6 +27,12 @@ from wkhtmltopdf.views import PDFTemplateView
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
 
+if os.name == 'posix':
+	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf")
+else:
+	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
+
+
 @login_required(login_url='manager:login')
 def index(request):
 	#messages.success(request, 'settings.PROJECT_DIR: ' + settings.PROJECT_DIR)
@@ -755,7 +761,6 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 		'margin-bottom': '0.5in',
 		'margin-left': '0.5in',
 		'encoding': "UTF-8",
-		'no-outline': None,
 	}
 
 	template_path = ''
@@ -799,7 +804,9 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 
 	html = template.render(context)
 
-	pdf = pdfkit.from_string(html, False, options=options)
+	config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
+
+	pdf = pdfkit.from_string(html, False, configuration=config, options=options)
 
 	# Generate download
 	response = HttpResponse(pdf, content_type='application/pdf')
