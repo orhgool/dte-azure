@@ -24,6 +24,7 @@ def fcf(codigo):
 	datos_detalle = []
 	documento_relacionado = []
 	tributos_consolidados = {}
+	tributos_consolidados_lista = []
 
 	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
@@ -180,6 +181,7 @@ def ccf(codigo):
 	datos_detalle = []
 	documento_relacionado = []
 	tributos_consolidados = {}
+	tributos_consolidados_lista = []
 
 	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)

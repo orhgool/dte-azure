@@ -14,6 +14,7 @@ urlpatterns = [
 	path('vista_previa/<str:tipo>/<str:codigo>/', VistaPreviaHTML.as_view(), name='vista_previa'),
 	path('prev/<str:codigo>/', vista_previa_pdf_dte, name='prev'),
 	path('pdf/<str:tipo>/<str:codigo>/', VistaPreviaPDFDTE.as_view(), name='pdf'),
+	path('pdf2/<str:tipo>/<str:codigo>/', vista_previa_pdf_dte, name='pdf2'),
 	path('html/<str:tipo>/<str:codigo>/', VistaPreviaHTML.as_view(), name='html'),
 	path('firmardte/<str:tipo>/<str:codigo>', firmarDte, name='firmardte'),
 	path('enviar_mh/<str:tipo>/<str:codigo>', EnviarDTEView.as_view(), name='enviar_mh'),

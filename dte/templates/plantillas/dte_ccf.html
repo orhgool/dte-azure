@@ -11,13 +11,39 @@
     		border: 0px solid grey;
     	}
 
-    	.logo{
-    		border-radius: 0%;
+    	div.logo{
+    		position: absolute;
+    		top: 0px;
+    		left: 0%;
+    		max-height: 95px;
+    		content:url('{{logo}}');
+    	}
+
+    	div.qr{
+    		position: absolute;
+    		top: 0px;
+    		left: 50%;
+    		transform: translateX(41px);
+    		max-height: 82px;
+    		content:url('{{qr}}');
+    	}
+
+    	.dte-id{
+    		position: absolute;
+    		padding: 1px;
+    		width: 50%;
+    		height: 80px;
+    		top: 0px;
+    		right: 0%;
+    		background: #F3F3F3;
+    		text-align: right;
+    		font-size: 17px;
+    		font-family: Calibri, sans-serif;
     	}
 
     	.datos-emisor{
     		position: absolute;
-    		top: 0%;
+    		top: 100px;
     		left: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
@@ -25,22 +51,25 @@
       }
 
     	.doc-id{
-			position: absolute;
-    		top: 60px;
-    		left: 35%;
+				position: absolute;
+    		top: 100px;
+    		right: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
     	}
 
-    	.qr{
+    	.nombre-dte{
     		position: absolute;
-    		top: 0px;
-    		left: 84%;
+    		right: 0px;
+    		top: 25px;
+    		font-size: 20px;
+    		font-family: Calibri, sans-serif;
+    		color: #1E74BC;
     	}
 
     	.datos-receptor{
     		position: absolute;
-    		top: 220px;
+    		top: 230px;
     		left: 0px;
     		width: 100%;
     		font-size: 13px;
@@ -91,9 +120,14 @@
   </head>
 
   <body>
+  	<div class="dte-id">
+  		<p>DOCUMENTO TRIBUTARIO ELECTRÓNICO</p>
+  		<p class="nombre-dte"><strong>COMPROBANTE DE CRÉDITO FISCAL</strong></p>
+  	</div>
+  <div class="logo"></div>
+  <div class="qr"></div>
 	<div class="datos-emisor">
-		<img class="logo" src="" alt="logo" width="100", height="100"><br>
-		 <strong>{{emisor.razonsocial}}</strong><br />
+		<strong>{{emisor.razonsocial}}</strong><br />
 		 {{emisor.direccionComplemento}}<br />
 		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
 		 NIT: {{emisor.nit}}
@@ -102,24 +136,11 @@
 		 Correo: {{emisor.correo}}
 	</div>
 
-	<div class="qr">
-		<img src="{{qr}}"  width="150" height="150">
-		{{qr}}
-	</div>
+	<!--div class="qr">
+		<img src="{{qr}}"  width="82" height="82">
+	</div-->
 	<div class="doc-id">
 		<table style="border: none">
-			<thead>
-				<tr>
-					<th colspan="4">
-						DOCUMENTO TRIBUTARIO ELECTRÓNICO
-					</th>
-				</tr>
-				<tr>
-					<th colspan="4">
-						COMPROBANTE DE CRÉDITO FISCAL
-					</th>
-				</tr>
-			</thead>
 			<tbody  class="table-border-bottom-0">
 				<tr>
 					<td>
@@ -165,6 +186,17 @@
 					</td>
 					<td colspan="2">
 						<strong>Fecha:</strong> {{fecha}}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Condición de la operación:</strong>
+					</td>
+					<td>
+						{{ dte.condicionOperacion }}
+					</td>
+					<td>
+						
 					</td>
 				</tr>
 			</tbody>
@@ -292,7 +324,7 @@
 					<td>{{dte.emisor}}</td>
 					<td>Nombre recibe</td>
 					<td>{{dte.receptor}}</td>
-					<td class="row-line-left" colspan="3"><b>Sum operaciones sin imp.</b></td>
+					<td class="row-line-left" colspan="3"><b>Sumas sin impuestos</b></td>
 					<td></td>
 					<td align="right">{{dte.subTotalVentas|moneda}}</td>
 				</tr>
