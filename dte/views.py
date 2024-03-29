@@ -806,7 +806,8 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 
 	config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
 
-	pdf = pdfkit.from_string(html, False, configuration=config, options=options)
+	#pdf = pdfkit.from_string(html, False, configuration=config, options=options)
+	pdf = pdfkit.from_string(html, False, options=options)
 
 	# Generate download
 	response = HttpResponse(pdf, content_type='application/pdf')
