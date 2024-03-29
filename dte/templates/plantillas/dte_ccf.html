@@ -54,7 +54,7 @@
     		left: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
-        max-width: 310px;
+        max-width: 340px;
       }
 
     	.doc-id{
@@ -121,7 +121,6 @@
     		font-weight: 600;
     	}
 
-
     </style>
 
   </head>
@@ -134,11 +133,11 @@
   <div class="logo"></div>
   <div class="qr"></div>
 	<div class="datos-emisor">
-		<strong>{{emisor.razonsocial}}</strong><br />
-		 {{emisor.direccionComplemento}}<br />
-		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
-		 NIT: {{emisor.nit}}
-		 NRC: {{emisor.nrc}} <br>
+		<strong>{{emisor.razonsocial}}</strong><br>
+		 {{emisor.direccionComplemento}}<br>
+		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br>
+		 Actividad: {{emisor.actividadEconomica}}<br>
+		 NIT: {{emisor.nit}} NRC: {{emisor.nrc}}<br>
 		 Teléfono: +503 {{emisor.telefono}}<br />
 		 Correo: {{emisor.correo}}
 	</div>
