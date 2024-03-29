@@ -11,36 +11,72 @@
     		border: 0px solid grey;
     	}
 
-    	.logo{
-    		border-radius: 0%;
+    	div.logo{
+    		position: absolute;
+    		top: 0px;
+    		left: 0%;
+    		max-height: 95px;
+    		content:url('{{logo}}');
+    	}
+
+    	div.qr{
+    		position: absolute;
+    		top: 0px;
+    		right: 50%;
+    		/*transform: translateX(-41px);*/
+    		max-height: 82px;
+    		content:url('{{qr}}');
+    	}
+
+    	.dte-id{
+    		position: absolute;
+    		padding: 1px;
+    		width: 50%;
+    		height: 80px;
+    		top: 0px;
+    		right: 0%;
+    		background: #F3F3F3;
+    		text-align: right;
+    		font-size: 17px;
+    		font-family: Calibri, sans-serif;
+    	}
+
+    	.pie-pagina{
+    		text-align: center;
+    		font-size: 10px;
+    		font-family: Calibri, sans-serif;
+    		color: #838383;
     	}
 
     	.datos-emisor{
     		position: absolute;
-    		top: 0%;
+    		top: 100px;
     		left: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
-        max-width: 250px;
+        max-width: 310px;
       }
 
     	.doc-id{
-			position: absolute;
-    		top: 60px;
-    		left: 35%;
+				position: absolute;
+    		top: 100px;
+    		right: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
     	}
 
-    	.qr{
+    	.nombre-dte{
     		position: absolute;
-    		top: 0px;
-    		left: 84%;
+    		right: 0px;
+    		top: 25px;
+    		font-size: 20px;
+    		font-family: Calibri, sans-serif;
+    		color: #1E74BC;
     	}
 
     	.datos-receptor{
     		position: absolute;
-    		top: 220px;
+    		top: 240px;
     		left: 0px;
     		width: 100%;
     		font-size: 13px;
@@ -80,7 +116,6 @@
     		border-right: 0pt solid black;
     		border-color: #C6C9CB;
     	}
-
     	strong{
     		font-weight: 600;
     	}
