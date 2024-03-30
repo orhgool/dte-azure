@@ -19,7 +19,6 @@ from decimal import Decimal
 from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar, datosInicio
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, ConfigSeg
-from .guardarBlob import subir
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -665,92 +664,6 @@ class VistaPreviaHTML(TemplateView):
 		return render(self.request, self.template_name, context, **response_kwargs)
 
 
-#@login_required(login_url='manager:login')
-class VistaPreviaPDFDTE(PDFTemplateView):
-	template_name = ''
-	pdf_options = {
-		'page-size': 'Letter',
-		'page-height': "11in",
-		'page-width': "8.5in",
-		'margin-top': '0.5in',
-		'margin-right': '0.5in',
-		'margin-bottom': '0.5in',
-		'margin-left': '0.5in',
-		'encoding': "UTF-8",
-		'no-outline': None,
-	}
-
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-
-		emisor = Empresa.objects.get(codigo=self.request.session['empresa'])
-
-		tipo = self.kwargs['tipo']
-		codigo = self.kwargs['codigo']
-		ruta_logo = ''
-		ruta_qr = ''
-
-		if tipo == '01':
-			self.template_name = 'plantillas/dte_fcf.html'
-			dte = DTECliente.objects.get(codigoGeneracion=codigo)
-			receptor = Cliente.objects.get(codigo=dte.receptor_id)
-			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
-
-			letras = CantLetras(dte.totalPagar)
-			fecha = dte.fecEmi.strftime('%d/%m/%Y')
-
-		if tipo == '03':
-			self.template_name = 'plantillas/dte_ccf.html'
-			dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
-				totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
-				totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
-				subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
-				totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
-			).first()
-			receptor = Cliente.objects.get(codigo=dte.receptor_id)
-			dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
-				precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
-				subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
-			)
-
-			letras = CantLetras(dte.totalPagar)
-			fecha = dte.fecEmi.strftime('%d/%m/%Y')
-
-			#if os.name=='posix':
-			#	ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png')
-			#else:
-			#	ruta_logo = os.path.join(settings.STATIC_URL,'clientes','logos', f'{self.request.session['empresa']}.png').replace('\\','/')
-
-		ruta_logo = f'https://alfadte.azurewebsites.net/static/clientes/logos/{self.request.session['empresa']}.png'
-		#ruta_qr = f'https://alfadte.azurewebsites.net/static/clientes/{self.request.session['empresa']}/{dte.codigoGeneracion}.png'
-		ruta_qr = 'https://almacendte.blob.core.windows.net/clientes/799B7357-74F8-4D43-B097-F0DD9A1C8489.png'
-
-		if self.request.session["empresa"] == 'A4BCBC83-4C59-4A3F-9C25-807D83AD0837':
-			ruta_logo = 'https://alfadte.azurewebsites.net/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png'
-
-		context['dte'] = dte
-		context['emisor'] = emisor
-		context['receptor'] = receptor
-		context['dte_detalle'] = dte_detalle
-		context['letras'] = letras
-		context['logo'] = ruta_logo
-		context['qr'] = ruta_qr
-		context['fecha'] = fecha
-
-		return context
-
-	def get(self, request, *args, **kwargs):
-		context = self.get_context_data(**kwargs)
-		rendered_html = render_to_string(self.template_name, context)
-
-		# Generar el PDF con las opciones especificadas
-		pdf = pdfkit.from_string(rendered_html, False, options=self.pdf_options)
-
-		response = HttpResponse(pdf, content_type='application/pdf')
-		response['Content-Disposition'] = 'inline; filename="documento.pdf"'
-		return response
-
-
 def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 	options = {
 		'page-size': 'Letter',
@@ -767,8 +680,7 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 	emisor = Empresa.objects.get(codigo=request.session['empresa'])
 	codigo = codigo
 
-	dte = DTECliente.objects.get(codigoGeneracion = codigo)
-	
+	dte = DTECliente.objects.get(codigoGeneracion = codigo)	
 	receptor = Cliente.objects.get(codigo = dte.receptor_id)
 	
 	if tipo == '01':
@@ -796,14 +708,11 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 	fecha = dte.fecEmi.strftime("%d/%m/%Y")
 	
 	logo = request.session['logo']
-	qr= 'https://almacendte.blob.core.windows.net/empresas/A4BCBC83-4C59-4A3F-9C25-807D83AD0837/94B59EC2-BB6D-4DD1-B091-147BBA0AC449.png'
+	qr = f'https://almacendte.blob.core.windows.net/empresas/{emisor.codigo}/{dte.codigoGeneracion}.png'
 	
-	context={'dte':dte,'emisor':emisor, 'receptor':receptor, 'dte_detalle':dte_detalle, 'letras':letras, 'logo':logo, 'qr':qr, 'fecha':fecha}
-
+	context = {'dte':dte, 'emisor':emisor, 'receptor':receptor, 'dte_detalle':dte_detalle, 'letras':letras, 'logo':logo, 'qr':qr, 'fecha':fecha}
 	template = get_template(template_name)
-
 	html = template.render(context)
-
 	config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
 
 	pdf = pdfkit.from_string(html, False, configuration=config, options=options)

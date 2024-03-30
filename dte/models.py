@@ -666,7 +666,7 @@ class DTECliente(models.Model):
 	condicionOperacion = models.ForeignKey(CondicionOperacion, on_delete=models.CASCADE, db_column = 'CondicionOperacion', default='2', verbose_name='Condición de la operación')
 	pagos = models.IntegerField(db_column = 'Pagos', blank=True, default=1)
 	numPagoElectronico = models.IntegerField(db_column = 'NumeroPagoElectronico', null=True, blank=True, verbose_name='Número de pago electrónico')
-	observaciones = models.CharField(db_column = 'Observaciones', max_length=3000, null=True, blank=True, verbose_name='Observaciones')
+	observaciones = models.CharField(db_column = 'Observaciones', max_length=3000, null=True, blank=True, default='', verbose_name='Observaciones')
 	placaVehiculo = models.CharField(db_column = 'PlacaVehiculo', max_length=10, blank=True, null=True, verbose_name='Placa del vehículo')
 	estadoDte = models.ForeignKey(EstadoDTE, on_delete=models.CASCADE, null=False, blank=True, default='001', verbose_name='Estado del DTE')
 	estadoPago = models.BooleanField(db_column='estadoPago', null=False, blank=True, default=True, verbose_name='Pagado')

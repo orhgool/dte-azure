@@ -7,10 +7,14 @@ from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
 from .jsons import fcf, ccf
+from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta
 from num2words import num2words
 
-wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
+if os.name == 'posix':
+	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf")
+else:
+	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
 
 def Correlativo(cod_empresa, cod_tipo):
 	try:
@@ -58,6 +62,8 @@ def genJson(codigo, tipo, empresa):
 	with open(ruta_archivo, 'w') as json_file:
 		json.dump(json_data, json_file, indent=2, ensure_ascii=False)
 
+	subirArchivo(empresa, f'{codigo}.json')
+
 	return ruta_archivo
 	#return ruta_archivo
 
@@ -85,6 +91,8 @@ def gen_qr(codigo, empresa):
 
 	img_path = os.path.join(qr_folder, f'{codigo}.png')
 	img.save(img_path)
+
+	subirArchivo(empresa, f'{codigo}.png')
 
 	return HttpResponse('ok')
 
