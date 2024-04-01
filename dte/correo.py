@@ -8,16 +8,17 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.staticfiles.storage import staticfiles_storage
-from .models import DTECliente, Empresa, Cliente
+from .models import DTECliente, Empresa, Cliente, Configuracion, TipoDocumento
 
-def enviar_correo(request, tipo, codigo, destino):
+def enviarCorreo(request, tipo, codigo):
+    config = Configuracion.objects.all().first()
     template = ''
     if tipo in {'01','03','05'}:
         template = 'dte:actualizar'
         tabla = get_object_or_404(DTECliente, codigoGeneracion=codigo)
-        emisor = get_object_or_404(Empresa, codigoGeneracion=codigo)
+        emisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
         cliente = Cliente.objects.get(codigo=tabla.receptor_id)
-        correos = [cliente_email.email for cliente_email in ClienteEmail.objects.filter(cliente=cliente)]
+        correo = cliente.correo
         sello = tabla.selloRecepcion
     elif tipo in {'07'}:
         pass
@@ -27,44 +28,46 @@ def enviar_correo(request, tipo, codigo, destino):
         #correos = proveedor.correo
         #sello = tabla.selloRecepcion
 
-    correos = ['alfaconsultores.sv@gmail.com',]
+    correo = 'alfaconsultores.sv@gmail.com'
 
-    tabTipo = TipoDocumento.objects.get(codigo=tipo)
+    tablaTipo = TipoDocumento.objects.get(codigo=tipo)
 
     # Datos de conexión
-    servidor_smtp = 'smtp-mail.outlook.com'
-    puerto_smtp = 587
-    cuenta_correo = 'facturacion.electronica.sv'
-    contraseña = 'Ammh0909$'
+    servidor_smtp = config.servidorSmtp
+    puerto_smtp = config.puertoSmtp
+    cuenta_correo = config.usuarioCorreo
+    contraseña = config.claveCorreo
 
     # Destinatario y contenido del correo
-    destinatario = ', '.join(correos) #'alfaconsultores.sv@gmail.com'
-    asunto = f'{tabTipo} cod.: {codigo}'
-    context = {'codigo':codigo, 'tipoDocumento':tabTipo.nombre, 'numeroControl': tabla.numeroControl, 'selloRecepcion': tabla.selloRecepcion, 'fecEmi': tabla.fecEmi.strftime("%Y-%m-%d"), 'fecha': tabla.fecEmi.strftime("%d-%m-%Y")}
-    cuerpo_html = render_to_string('sitria/correo.html', context)
+    destinatario = correo
+    asunto = f'{tablaTipo} cod.: {codigo}'
+    #context = {'codigo':codigo, 'tipoDocumento':tabTipo.nombre, 'numeroControl': tabla.numeroControl, 'selloRecepcion': tabla.selloRecepcion, 'fecEmi': tabla.fecEmi.strftime("%Y-%m-%d"), 'fecha': tabla.fecEmi.strftime("%d-%m-%Y")}
+    context = {}
+    cuerpo_html = render_to_string('dte/correo.html', context)
 
     # Configurar el correo
     mensaje = MIMEMultipart()
-    mensaje['From'] = 'ALCASA'
+    mensaje['From'] = 'Facturación electrónica'
     mensaje['To'] = destinatario
     mensaje['Subject'] = asunto
     mensaje.attach(MIMEText(cuerpo_html, 'html'))
 
-    # Adjuntar archivo JSON
-    json_filename = f'{codigo}.json'
-    json_path = os.path.join(settings.STATIC_DIR, 'json/', json_filename)
-    json_attachment = MIMEApplication(open(json_path, 'rb').read())
-    json_attachment.add_header('Content-Disposition', 'attachment', filename=json_filename)
-    mensaje.attach(json_attachment)
-
-    # Adjuntar archivo PDF
-    pdf_filename = f'{codigo}.pdf'
-    pdf_path = os.path.join(settings.STATIC_DIR, 'pdf/', pdf_filename)
-    pdf_attachment = MIMEApplication(open(pdf_path, 'rb').read())
-    pdf_attachment.add_header('Content-Disposition', 'attachment', filename=pdf_filename)
-    mensaje.attach(pdf_attachment)
-
     try:
+        # Adjuntar archivo JSON
+        json_filename = f'{codigo}.json'
+        json_path = os.path.join(settings.STATIC_DIR, f'clientes/{tabla.emisor_id}/', json_filename)
+        json_attachment = MIMEApplication(open(json_path, 'rb').read())
+        json_attachment.add_header('Content-Disposition', 'attachment', filename=json_filename)
+        mensaje.attach(json_attachment)
+
+        # Adjuntar archivo PDF
+        pdf_filename = f'{codigo}.pdf'
+        pdf_path = os.path.join(settings.STATIC_DIR, f'clientes/{tabla.emisor_id}/', pdf_filename)
+        pdf_attachment = MIMEApplication(open(pdf_path, 'rb').read())
+        pdf_attachment.add_header('Content-Disposition', 'attachment', filename=pdf_filename)
+        mensaje.attach(pdf_attachment)
+
+
         # Configurar la conexión con el servidor SMTP
         conexion_smtp = smtplib.SMTP(servidor_smtp, puerto_smtp)
         conexion_smtp.starttls()
@@ -78,5 +81,6 @@ def enviar_correo(request, tipo, codigo, destino):
         
     except Exception as e:
         mensaje_respuesta = f'Error al enviar el correo: {str(e)}'
+        messages.info(request, mensaje_respuesta)
 
     return HttpResponse(mensaje_respuesta)

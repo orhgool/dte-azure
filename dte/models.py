@@ -237,19 +237,22 @@ class Producto(models.Model):
 		ordering = ('nombre',)
 
 
-class ConfigSeg(models.Model):
-	usuario_correo = models.EmailField(db_column='UsuarioCorreo', null=False, default='none@usuario.com', max_length=500, verbose_name='Usuario de correo')
-	clave_correo = models.CharField(db_column='ClaveCorreo', null=False, default='', max_length=500, verbose_name='Clave de correo')
-	smtp = models.CharField(db_column='SMTP', null=False, default='', max_length=500, verbose_name='Servidor SMTP')
-	puerto_smtp = models.IntegerField(db_column='PuertoSMTP', null=False, default=587, verbose_name='Puerto SMTP')
-	EnableSsl = models.BooleanField(db_column='EnableSsl', null=False, default=True, verbose_name='Utiliza SSL')
+class Configuracion(models.Model):
+	usuarioCorreo = models.EmailField(null=False, default='none@usuario.com', max_length=50, verbose_name='Usuario de correo')
+	claveCorreo = models.CharField(null=False, default='', max_length=50, verbose_name='Clave de correo')
+	servidorSmtp = models.CharField(null=False, default='', max_length=50, verbose_name='Servidor SMTP')
+	puertoSmtp = models.IntegerField(null=False, default=587, verbose_name='Puerto SMTP')
+	enableSsl = models.BooleanField(null=False, default=True, verbose_name='Utiliza SSL')
+	blobUrl = models.CharField(null=False, default='', max_length=100, verbose_name='Blob url')
+	blobContenedor = models.CharField(null=False, default='', max_length=50, verbose_name='Blob contenedor')
+	blobCadenaConexion = models.TextField(null=False, default='', max_length=500, verbose_name='Blob cadena de conexión')
 	
 	def __str__(self):
-		return '%s' % (self.empresa)
+		return 'Configuración'
 
 	class Meta:
-		verbose_name = 'Configuración de seguridad'
-		verbose_name_plural = 'Configuraciones de seguridad'
+		verbose_name = 'Configuración'
+		verbose_name_plural = 'Configuración'
 
 class UrlSistema(models.Model):
 	tipo = models.CharField(db_column='tipo', max_length=20, null=False, blank=False, default='', verbose_name='Tipo')

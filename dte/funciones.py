@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
-from .jsons import fcf, ccf
+from .jsons import fcf, ccf, nc, nd
 from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta
 from num2words import num2words
@@ -51,10 +51,18 @@ def getUrl(empresa, tipo):
 def genJson(codigo, tipo, empresa):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
 	archivo = {}
-	if tipo=='01':
+	if tipo == '01':
 		json_data = fcf(codigo)
 	elif tipo == '03':
 		json_data = ccf(codigo)
+	elif tipo == '05':
+		json_data = nc(codigo)
+	elif tipo == '06':
+		json_data = nd(codigo)
+	elif tipo == '11':
+		json_data = fex(codigo)
+	elif tipo == '14':
+		json_data = fse(codigo)
 
 	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
 	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
@@ -68,7 +76,7 @@ def genJson(codigo, tipo, empresa):
 	#return ruta_archivo
 
 
-def gen_qr(codigo, empresa):
+def genQr(codigo, empresa):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
 	ambiente = dato_empresa.ambiente_id
 	empresa = dato_empresa.codigo
@@ -97,9 +105,88 @@ def gen_qr(codigo, empresa):
 	return HttpResponse('ok')
 
 
+def genPdf(codigo, tipo, empresa):
+	config = Configuracion.objects.all().first()
+	options = {
+		'page-size': 'Letter',
+		'page-height': "11in",
+		'page-width': "8.5in",
+		'margin-top': '0.5in',
+		'margin-right': '0.5in',
+		'margin-bottom': '0.5in',
+		'margin-left': '0.5in',
+		'encoding': "UTF-8"
+	}
+
+	template_path = ''
+	emisor = Empresa.objects.get(codigo=empresa)
+	codigo = codigo
+
+	dte = DTECliente.objects.get(codigoGeneracion = codigo)	
+	receptor = Cliente.objects.get(codigo = dte.receptor_id)
+	
+	if tipo == '01':
+		template_name = 'plantillas/dte_fcf.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+	if tipo == '03':
+		template_name = 'plantillas/dte_ccf.html'
+		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+		).first()
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte).annotate(
+			precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
+			subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
+		)
+
+		
+	letras = CantLetras(dte.totalPagar)
+	fecha = dte.fecEmi.strftime("%d/%m/%Y")
+	
+	logo = f'{config.blobUrl}{config.blobContenedor}/logos/{emisor.codigo}_logo.png'
+	qr = f'{config.blobUrl}{config.blobContenedor}/{emisor.codigo}/{dte.codigoGeneracion}.png'
+	
+	context = {'dte':dte, 'emisor':emisor, 'receptor':receptor, 'dte_detalle':dte_detalle, 'letras':letras, 'logo':logo, 'qr':qr, 'fecha':fecha}
+	template = get_template(template_name)
+	html = template.render(context)
+
+	config = pdfkit.configuration(wkhtmltopdf=wkhtml_to_pdf)
+
+	pdf = pdfkit.from_string(html, False, configuration=config, options=options)
+
+	pdf_nombre = codigo + '.pdf'
+	
+	pdf_path = os.path.join(settings.STATIC_DIR,'clientes', empresa, pdf_nombre)
+
+	with open(pdf_path, 'wb') as pdf_file:
+		pdf_file.write(pdf)
+
+	# Generar respuesta para la descarga
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = f'attachment; filename="{pdf_nombre}"'
+
+	# Leer el PDF desde el archivo y escribirlo en la respuesta
+	with open(pdf_path, 'rb') as pdf_file:
+		response.write(pdf_file.read())
+
+	subirArchivo(empresa, f'{codigo}.pdf')
+
+	if response.status_code==200:
+		respuesta = 'PDF generado: ' + logo
+	else:
+		respuesta = response
+
+	return respuesta
+
 
 def firmar(codigo, tipo):
-	if tipo in {'01','03'}:
+	if tipo in {'01','03','05','06','11','14'}:
 		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	
 	emisor = Empresa.objects.get(codigo=dte.emisor_id)

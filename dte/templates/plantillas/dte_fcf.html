@@ -42,7 +42,7 @@
     	}
 
     	.pie-pagina{
-    		text-align: center;
+    		text-align: left;
     		font-size: 10px;
     		font-family: Calibri, sans-serif;
     		color: #838383;
@@ -54,7 +54,7 @@
     		left: 0%;
     		font-size: 13px;
         font-family: Calibri, sans-serif;
-        max-width: 310px;
+        max-width: 360px;
       }
 
     	.doc-id{
@@ -76,7 +76,7 @@
 
     	.datos-receptor{
     		position: absolute;
-    		top: 240px;
+    		top: 255px;
     		left: 0px;
     		width: 100%;
     		font-size: 13px;
@@ -84,7 +84,7 @@
     	}
 
     	.sub-tabla{
-    		font-size: 15px;
+    		font-size: 13px;
     		border: none;
     		width: 100%;
         font-family: Calibri, sans-serif;
@@ -116,47 +116,33 @@
     		border-right: 0pt solid black;
     		border-color: #C6C9CB;
     	}
+
     	strong{
     		font-weight: 600;
     	}
-
 
     </style>
 
   </head>
 
   <body>
+	<div class="dte-id">
+		<p>DOCUMENTO TRIBUTARIO ELECTRÓNICO</p>
+		<p class="nombre-dte"><strong>FACTURA</strong></p>
+	</div>
+  <div class="logo"></div>
+  <div class="qr"></div>
 	<div class="datos-emisor">
-		<!--img class="logo" src="http://localhost:8000/media/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837.png"
-		alt="logo" width="100", height="100"><br-->
-		<img class="logo" src=""
-		alt="logo" width="100", height="100"><br>
-		<strong>{{emisor.razonsocial}}</strong><br />
-		 {{emisor.direccionComplemento}}<br />
-		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br />
-		 NIT: {{emisor.nit}}
-		 NRC: {{emisor.nrc}} <br>
+		<strong>{{emisor.razonsocial}}</strong><br>
+		 {{emisor.direccionComplemento}}<br>
+		 {{emisor.municipio|title}}, {{emisor.departamento|title}}<br>
+		 Actividad: {{emisor.actividadEconomica}}<br>
+		 NIT: {{emisor.nit}} NRC: {{emisor.nrc}}<br>
 		 Teléfono: +503 {{emisor.telefono}}<br />
 		 Correo: {{emisor.correo}}
 	</div>
-
-	<div class="qr">
-		<img src="{{qr}}"  width="150" height="150">
-	</div>
 	<div class="doc-id">
 		<table style="border: none">
-			<thead>
-				<tr>
-					<th colspan="4">
-						DOCUMENTO TRIBUTARIO ELECTRÓNICO
-					</th>
-				</tr>
-				<tr>
-					<th colspan="4">
-						FACTURA
-					</th>
-				</tr>
-			</thead>
 			<tbody  class="table-border-bottom-0">
 				<tr>
 					<td>
@@ -204,6 +190,17 @@
 						<strong>Fecha:</strong> {{fecha}}
 					</td>
 				</tr>
+				<tr>
+					<td>
+						<strong>Condición de la operación:</strong>
+					</td>
+					<td>
+						{{ dte.condicionOperacion }}
+					</td>
+					<td>
+						
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -226,7 +223,7 @@
 						{{ receptor.razonsocial }}
 					</td>
 					<td width="10%">
-						<strong>Documento</strong>
+						<strong>{{ receptor.tipoDocumentoCliente }}</strong>
 					</td>
 					<td width="15%">
 						{{ receptor.numeroDocumento }}
@@ -277,7 +274,7 @@
 				
 			</thead>
 			<tbody>
-				<tr valign="top" height="600px">
+				<tr valign="top" height="650px">
 					<td colspan="9" class="row-line">
 						<table class="sub-tabla">
 							<tr>
@@ -318,7 +315,7 @@
 					<td><b>Recibido por</b></td>
 					<td>{{dte.receptor}}</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Sumas</b></td>
-					<td align="right" rowspan="2">{{dte.montoTotalOperacion}}</b></td> <!-- |moneda -->
+					<td align="right" rowspan="2">{{dte.montoTotalOperacion|moneda}}</b></td> <!-- |moneda -->
 				</tr>
 				<tr>
 					<td><b>Documento</b></td>
@@ -330,13 +327,14 @@
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Total</b></td>
-					<td align="right" rowspan="2">{{dte.totalPagar}}</td>  <!-- |moneda -->
+					<td align="right" rowspan="2">{{dte.totalPagar|moneda}}</td>  <!-- |moneda -->
 				</tr>
 				<tr>
 					<td colspan="5">{{dte.observaciones}}.</td>
 				</tr>
 			</tbody>
 		</table>
+		<p class="pie-pagina">Facturación electrónica ALFA | alfa.com.sv | Whatsapp +503 6984 8539</p>
 	</div>
 </body>
 </html>

@@ -72,8 +72,11 @@
                         <div class="col-md-2">
                             {{ form.fecEmi|as_crispy_field }}
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             {{ form.observaciones|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.condicionOperacion|as_crispy_field }}
                         </div>
                         <div class="col-md-2">
                             {{ form.estadoPago|as_crispy_field }}
@@ -91,6 +94,9 @@
                             <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
                             {% if not sello %}
                             <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
+                            {% endif %}
+                            {% if sello %}
+                            <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Re-enviar correo al cliente</a>
                             {% endif %}
                         </div>
                 </div>
@@ -121,17 +127,36 @@
                                 <h4 class="card-title">Detalle</h4>
                             <table class="table card-header">
                                 <thead class="text-secondary">
-                                    <th>Tipo <span style="color: red;" class="required">*</span></th>
-                                    <th>Cantidad <span style="color: red;" class="required">*</span></th>
-                                    <th>U. Medida <span style="color: red;" class="required">*</span></th>
-                                    <th>Descripción <span style="color: red;" class="required">*</span></th>
-                                    <th>Precio <span style="color: red;" class="required">*</span></th>
-                                    <th>Descuento</th>
-                                    <th>Vta no sujeta</th>
-                                    <th>Venta exenta</th>
-                                    <th>Venta gravada</th>
-                                    <th>ID <span style="color: red;" class="required">*</span></th>
-                                    <th>Eliminar?</th>
+                                    {% if TipoDocumento.codigo == '01' or TipoDocumento.codigo == '03' %}
+                                        <th>Tipo <span style="color: red;" class="required">*</span></th>
+                                        <th>Cantidad <span style="color: red;" class="required">*</span></th>
+                                        <th>U. Medida <span style="color: red;" class="required">*</span></th>
+                                        <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Precio <span style="color: red;" class="required">*</span></th>
+                                        <th>Descuento</th>
+                                        <th>Vta no sujeta</th>
+                                        <th>Venta exenta</th>
+                                        <th>Venta gravada</th>
+                                        <th>ID <span style="color: red;" class="required">*</span></th>
+                                        <th>Eliminar?</th>
+                                    {% endif %}
+                                    {% if TipoDocumento.codigo == '05' or TipoDocumento.codigo == '06' %}
+                                        <th>Tipo <span style="color: red;" class="required">*</span></th>
+                                        <th>Tipo doc.<span style="color: red;" class="required">*</span></th>
+                                        <th>Tipo generac.<span style="color: red;" class="required">*</span></th>
+                                        <th># Doc. <span style="color: red;" class="required">*</span></th>
+                                        <th>Fec. Emisión <span style="color: red;" class="required">*</span></th>
+                                        <th>Cant. <span style="color: red;" class="required">*</span></th>
+                                        <th>UdM. <span style="color: red;" class="required">*</span></th>
+                                        <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Precio <span style="color: red;" class="required">*</span></th>
+                                        <th>Descuento</th>
+                                        <th>Vta no sujeta</th>
+                                        <th>Venta exenta</th>
+                                        <th>Venta gravada</th>
+                                        <th>ID <span style="color: red;" class="required">*</span></th>
+                                        <th>Eliminar?</th>
+                                    {% endif %}
                                 </thead>    
                                 <tbody id="item-detalles">  <!-- id="item-inlineformsetname" -->
                                     <!-- formset non forms errors -->
@@ -185,12 +210,6 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <div align="right">
-                                {% if not sello %}
-                                <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Añadir otro</a> <!-- 
-                                id="add-inlineformsetname-button" -->
-                                {% endif %}
-                            </div>
                         </div>
                         
                     {% endwith %}
@@ -198,6 +217,12 @@
                     <!--div align="center">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div-->
+                            <div align="right">
+                                {% if not sello %}
+                                <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Añadir otro</a> <!-- 
+                                id="add-inlineformsetname-button" -->
+                                {% endif %}
+                            </div>
                 </div>
             </div>
         </div>

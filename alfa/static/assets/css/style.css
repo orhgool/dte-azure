@@ -1757,6 +1757,7 @@
   --danger: #fc5a5a;
   --light: #aab2bd;
   --dark: #001737;
+  --error: #f96868;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;

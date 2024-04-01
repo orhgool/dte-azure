@@ -16,9 +16,10 @@ from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from decimal import Decimal
+from .correo import enviarCorreo
 from .forms import *
-from .funciones import CodGeneracion, Correlativo, getUrl, genJson, gen_qr, CantLetras, firmar, datosInicio
-from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, ConfigSeg
+from .funciones import CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf, CantLetras, firmar, datosInicio
+from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -34,15 +35,9 @@ else:
 
 @login_required(login_url='manager:login')
 def index(request):
-	#messages.success(request, 'settings.PROJECT_DIR: ' + settings.PROJECT_DIR)
-	#messages.success(request, 'settings.STATIC_ROOT: ' + settings.STATIC_ROOT)
-	#messages.success(request, 'settings.STATIC_DIR: ' + settings.STATIC_DIR)
-	#messages.success(request, 'settings.STATIC_URL: ' + settings.STATIC_URL)
-	#messages.success(request, 'settings.MEDIA_URL: ' + settings.MEDIA_URL)
-	#messages.success(request, 'settings.MEDIA_ROOT: ' + settings.MEDIA_ROOT)
-	#messages.success(request, 'os.name: ' + os.name)
+	config = Configuracion.objects.all().first()
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
-	request.session['logo'] = 'https://almacendte.blob.core.windows.net/empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
+	request.session['logo'] = config.blobUrl + 'empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
 	
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
@@ -183,10 +178,10 @@ class DTEInline():
 
 		if not self.object.selloRecepcion:
 			if self.object.numeroControl:
-				qr = gen_qr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
+				qr = genQr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
-
+				#messages.info(self.request, pdf)
 		messages.success(self.request, 'Documento guardado')
 		#messages.success(self.request, json)
 		#return redirect('dte:lista_dte', tipo='cliente')
@@ -213,7 +208,8 @@ class DTEInline():
 			# Inicio de cálculos
 			total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
 			if dte.tipoDte.codigo=='01':
-				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+					totalGravada=total_gravada,
 					subTotalVentas = total_gravada,
 					subTotal = total_gravada,
 					ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
@@ -221,7 +217,8 @@ class DTEInline():
 					totalPagar = float(total_gravada))
 
 			if dte.tipoDte.codigo=='03':
-				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(totalGravada=total_gravada,
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+					totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
 					subTotal=total_gravada,
 					ivaPerci1=0, #float(total_gravada)*float(0.13),
@@ -271,13 +268,25 @@ class DTECreate(DTEInline, CreateView):
 		return ctx
 
 	def get_named_formsets(self):
+		formDetalle = None
+		if self.kwargs.get('pk') in {'01','03'}:
+			formDetalle = DTEClienteDetalleFormSet
+		elif self.kwargs.get('pk') in {'05','06'}:
+			formDetalle = NCDDetalleFormSet
+		elif self.kwargs.get('pk') == '11':
+			formDetalle = DTEClienteDetalleFormSet
+		elif self.kwargs.get('pk') == '14':
+			formDetalle = DTEClienteDetalleFormSet
+
 		if self.request.method == 'GET':
+			#messages.info(self.request, self.kwargs.get('pk'))
 			return {
-				'detalles' : DTEClienteDetalleFormSet(prefix='detalles')
+				'detalles' : formDetalle(prefix='detalles')
 			}
 		else:
+			#messages.info(self.request, self.kwargs.get('pk'))
 			return {
-				'detalles' : DTEClienteDetalleFormSet(self.request.POST or None, self.request.FILES or None, prefix='detalles'),
+				'detalles' : formDetalle(self.request.POST or None, self.request.FILES or None, prefix='detalles'),
 			}
 
 			#messages.success(self.request, DTEClienteDetalleFormSet(prefix='detalles')) #Borrar
@@ -300,8 +309,17 @@ class DTEUpdate(DTEInline, UpdateView):
 
 	def get_named_formsets(self):
 		#messages.success(self.request, {'DTEUpdate: ':self.request})
+		dte = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+		if dte.tipoDte.codigo in {'01','03'}:
+			formDetalle = DTEClienteDetalleFormSet
+		elif dte.tipoDte.codigo in {'05','06'}:
+			formDetalle = NCDDetalleFormSet
+		elif dte.tipoDte.codigo == '11':
+			formDetalle = DTEClienteDetalleFormSet
+		elif dte.tipoDte.codigo == '14':
+			formDetalle = DTEClienteDetalleFormSet
 		return {
-		'detalles': DTEClienteDetalleFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
+		'detalles': formDetalle(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
 		}
 
 
@@ -311,7 +329,7 @@ class EnviarDTEView(APIView):
 	#	template = 'sitria:actualizar_dte'
 	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
 		
-		tConfigSeg = None #ConfigSeg.objects.filter(empresa='001').first()
+		tConfiguracion = None #Configuracion.objects.filter(empresa='001').first()
 		if tipo in {'01','03'}:
 			modelo = DTECliente.objects.get(codigoGeneracion=codigo)
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
@@ -402,6 +420,7 @@ class EnviarDTEView(APIView):
 			with open(archivo, 'w') as json_file:
 				json.dump(contenido_actual, json_file, indent=2)
 
+			genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
 			#res = gen_pdf(codigo, tipo, version, ambiente)
 			#estado = EstadoDTE.objects.get(codigo='005')
 			#cambiarEstadoDte(tipo, codigo, estado)
@@ -703,6 +722,12 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 			subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
 		)
 
+	if tipo in {'05', '06'}:
+		template_name = 'plantillas/dte_ccf.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
 	
 	letras = CantLetras(dte.totalPagar)
 	fecha = dte.fecEmi.strftime("%d/%m/%Y")
@@ -770,3 +795,8 @@ def cdn(request):
 		return render(request, 'dte/cdn.html', context)
 	
 	return render(request, 'dte/cdn.html', context)
+
+def correoACliente(request, tipo, codigo):
+	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
+	return redirect('dte:actualizar', pk=codigo)
+

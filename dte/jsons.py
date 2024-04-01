@@ -15,7 +15,658 @@ def replace_in_dict(obj, find, replace):
 	else:
 		return obj
 
-def fcf(codigo):
+def fcf(codigo): # 01 - Factura
+	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	from .funciones import CantLetras, CodGeneracion, Correlativo
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
+	
+
+	identificacion_data = {
+			'version': dte.version,
+			'ambiente': dte.ambiente.codigo,
+			'tipoDte': dte.tipoDte.codigo,
+			'numeroControl': dte.numeroControl,
+			'codigoGeneracion': dte.codigoGeneracion,
+			'tipoModelo': int(dte.tipoModelo_id),
+			'tipoOperacion': int(dte.tipoTransmision_id),
+			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
+			'tipoMoneda': 'USD',
+			'tipoContingencia': None,
+			'motivoContin': None
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {'nit': emisor.nit.replace('-',''),
+					'nrc': emisor.nrc.replace('-',''),
+					'nombre': emisor.razonsocial,
+					'codActividad': emisor.actividadEconomica_id, 
+					'descActividad': emisor.actividadEconomica.descripcion,
+					'nombreComercial': emisor.nombreComercial,
+					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+					'direccion': {'departamento':emisor.departamento_id,
+									'municipio':emisor.municipio.codigo,
+									'complemento':emisor.direccionComplemento},
+					'telefono': emisor.telefono,
+					'correo': emisor.correo,
+					'codEstableMH': None,
+					'codEstable': None,
+					'codPuntoVentaMH': None,
+					'codPuntoVenta': None
+					}
+
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
+						'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
+					}
+
+	otrosDocumentos_data = None
+	ventaTercero_data = None
+
+	for index, detalle in enumerate(detalleDTECliente):
+		datos_detalle.append({
+			'numItem': index + 1,
+			'tipoItem': int(detalle.tipoItem.codigo),
+			'numeroDocumento': None,
+			'cantidad': round(float(detalle.cantidad), 3),
+			'codigo': None,
+			'codTributo': None,
+			'uniMedida': int(detalle.uniMedida.codigo),
+			'descripcion': detalle.descripcion,
+			'precioUni': float(detalle.precioUni),
+			'montoDescu': float(detalle.montoDescu),
+			'ventaNoSuj': float(detalle.ventaNoSuj),
+			'ventaExenta': float(detalle.ventaExenta),
+			'ventaGravada': float(detalle.ventaGravada),
+			'noGravado': float(detalle.noGravado),
+			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
+			'psv': 0.0,
+			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+		})
+
+	cuerpoDocumento_data = datos_detalle
+
+	resumen_data = {
+		'totalNoSuj': float(dte.totalNoSuj),
+		'totalExenta': float(dte.totalExenta),
+		'totalGravada': float(dte.totalGravada),
+		'subTotalVentas': float(dte.subTotalVentas),
+		'descuNoSuj': float(dte.descuNoSuj),
+		'descuExenta': float(dte.descuExenta),
+		'descuGravada': float(dte.descuGravada),
+		'porcentajeDescuento': float(dte.porcentajeDescuento),
+		'totalDescu': float(dte.totalDescu),
+		'tributos': None, #tributos_consolidados_lista,
+		'subTotal': float(dte.montoTotalOperacion),
+		'ivaRete1': float(dte.ivaRete1),
+		'reteRenta': float(dte.reteRenta),
+	    'montoTotalOperacion': float(dte.montoTotalOperacion),
+	    'totalNoGravado': float(dte.totalNoGravado),
+	    'totalPagar': float(dte.totalPagar),
+	    'totalLetras': CantLetras(float(dte.totalPagar)),
+	    'totalIva': float(dte.totalGravada) / float(0.13),
+	    'saldoFavor': 0.0,
+	    'condicionOperacion': 1,
+	    'pagos': None,
+	    'numPagoElectronico': None
+	}
+
+	extension_data = {
+		'nombEntrega': emisor.razonsocial,
+		'docuEntrega': emisor.nit.replace('-',''),
+		'nombRecibe': receptor.razonsocial,
+		'docuRecibe': receptor.numeroDocumento.replace('-',''),
+		'placaVehiculo': None,
+		'observaciones': None
+	}
+
+	apendice_data = None
+
+	json_data = {
+			'identificacion': identificacion_data,
+			'documentoRelacionado' : documentoRelacionado_data,
+			'emisor': emisor_data,
+			'receptor': receptor_data,
+			'otrosDocumentos': otrosDocumentos_data,
+			'ventaTercero': ventaTercero_data,
+			'cuerpoDocumento': cuerpoDocumento_data,
+			'resumen': resumen_data,
+			'extension': extension_data,
+			'apendice': apendice_data,
+		}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
+	return json_data
+
+
+def ccf(codigo): # 03 - Crédito fiscal
+	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	from .funciones import CantLetras, CodGeneracion, Correlativo
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
+	
+
+	identificacion_data = {
+			'version': dte.version,
+			'ambiente': dte.ambiente.codigo,
+			'tipoDte': dte.tipoDte.codigo,
+			'numeroControl': dte.numeroControl,
+			'codigoGeneracion': dte.codigoGeneracion,
+			'tipoModelo': int(dte.tipoModelo_id),
+			'tipoOperacion': int(dte.tipoTransmision_id),
+			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
+			'tipoMoneda': 'USD',
+			'tipoContingencia': None,
+			'motivoContin': None
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {'nit': emisor.nit.replace('-',''),
+					'nrc': emisor.nrc.replace('-',''),
+					'nombre': emisor.razonsocial,
+					'codActividad': emisor.actividadEconomica_id, 
+					'descActividad': emisor.actividadEconomica.descripcion,
+					'nombreComercial': emisor.nombreComercial,
+					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+					'direccion': {'departamento':emisor.departamento_id,
+									'municipio':emisor.municipio.codigo,
+									'complemento':emisor.direccionComplemento},
+					'telefono': emisor.telefono,
+					'correo': emisor.correo,
+					'codEstableMH': None,
+					'codEstable': None,
+					'codPuntoVentaMH': None,
+					'codPuntoVenta': None
+					}
+
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'nombreComercial': receptor.nombreComercial,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
+					}
+
+	otrosDocumentos_data = None
+	ventaTercero_data = None
+
+	for detalle in detalleDTECliente:
+		totales_IVA = round(float(0), 2)
+		current = round(float(0), 2)
+		
+		restributos = DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)
+		tributos_detalle = []
+		for tributo in restributos:
+			if tributo.codigo.codigo in tributos_consolidados:
+				totales_IVA += float(tributo.valor)
+				current = tributos_consolidados[tributo.codigo.codigo]["valor"] 
+				current += round(float(tributo.valor), 2)
+				tributos_consolidados[tributo.codigo.codigo]["valor"] = round(float(current), 2)
+			else:
+				totales_IVA = float(tributo.valor)
+				tributos_consolidados[tributo.codigo.codigo] = {
+					"codigo": tributo.codigo.codigo,
+					"descripcion": tributo.descripcion,
+					"valor": round(totales_IVA, 2)
+				}
+		tributos_consolidados_lista = list(tributos_consolidados.values())
+
+	for index, detalle in enumerate(detalleDTECliente):
+		datos_detalle.append({
+			'numItem': index + 1,
+			'tipoItem': int(detalle.tipoItem.codigo),
+			'numeroDocumento': None,
+			'cantidad': round(float(detalle.cantidad), 3),
+			'codigo': None,
+			'codTributo': None,
+			'uniMedida': int(detalle.uniMedida.codigo),
+			'descripcion': detalle.descripcion,
+			'precioUni': float(detalle.precioUni),
+			'montoDescu': float(detalle.montoDescu),
+			'ventaNoSuj': float(detalle.ventaNoSuj),
+			'ventaExenta': float(detalle.ventaExenta),
+			'ventaGravada': float(detalle.ventaGravada),
+			'noGravado': float(detalle.noGravado),
+			'tributos': [str(ctributo.codigo.codigo) for ctributo in DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
+			'psv': 0.0,
+			'noGravado': round((float(detalle.noGravado) * float(0.13)), 2)
+		})
+
+	cuerpoDocumento_data = datos_detalle
+
+	resumen_data = {
+		'totalNoSuj': float(dte.totalNoSuj),
+		'totalExenta': float(dte.totalExenta),
+		'totalGravada': float(dte.totalGravada),
+		'subTotalVentas': float(dte.subTotalVentas),
+		'descuNoSuj': float(dte.descuNoSuj),
+		'descuExenta': float(dte.descuExenta),
+		'descuGravada': float(dte.descuGravada),
+		'porcentajeDescuento': float(dte.porcentajeDescuento),
+		'totalDescu': float(dte.totalDescu),
+		'tributos': tributos_consolidados_lista if tributos_consolidados_lista else None,
+		'subTotal': float(dte.subTotal),
+		'ivaPerci1': float(dte.ivaPerci1),
+		'ivaRete1': 0.0,
+		'reteRenta': 0.0,
+	    'montoTotalOperacion': float(dte.montoTotalOperacion),
+	    'totalNoGravado': 0.0,
+	    'totalPagar': float(dte.totalPagar),
+	    'totalLetras': CantLetras(float(dte.totalPagar)),
+	    'saldoFavor': 0.0,
+	    'condicionOperacion': 1,
+	    'pagos': None,
+	    'numPagoElectronico': None
+	}
+
+	extension_data = {
+		'nombEntrega': emisor.razonsocial,
+		'docuEntrega': emisor.nit.replace('-',''),
+		'nombRecibe': receptor.razonsocial,
+		'docuRecibe': receptor.numeroDocumento.replace('-',''),
+		'placaVehiculo': None,
+		'observaciones': None
+	}
+
+	apendice_data = None
+
+	json_data = {
+			'identificacion': identificacion_data,
+			'documentoRelacionado' : documentoRelacionado_data,
+			'emisor': emisor_data,
+			'receptor': receptor_data,
+			'otrosDocumentos': otrosDocumentos_data,
+			'ventaTercero': ventaTercero_data,
+			'cuerpoDocumento': cuerpoDocumento_data,
+			'resumen': resumen_data,
+			'extension': extension_data,
+			'apendice': apendice_data,
+		}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
+	return json_data
+
+
+def nc(codigo): # 05 - Nota de crédito
+	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	from .funciones import CantLetras, CodGeneracion, Correlativo
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
+	
+
+	identificacion_data = {
+			'version': dte.version,
+			'ambiente': dte.ambiente.codigo,
+			'tipoDte': dte.tipoDte.codigo,
+			'numeroControl': dte.numeroControl,
+			'codigoGeneracion': dte.codigoGeneracion,
+			'tipoModelo': int(dte.tipoModelo_id),
+			'tipoOperacion': int(dte.tipoTransmision_id),
+			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
+			'tipoMoneda': 'USD',
+			'tipoContingencia': None,
+			'motivoContin': None
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {'nit': emisor.nit.replace('-',''),
+					'nrc': emisor.nrc.replace('-',''),
+					'nombre': emisor.razonsocial,
+					'codActividad': emisor.actividadEconomica_id, 
+					'descActividad': emisor.actividadEconomica.descripcion,
+					'nombreComercial': emisor.nombreComercial,
+					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+					'direccion': {'departamento':emisor.departamento_id,
+									'municipio':emisor.municipio.codigo,
+									'complemento':emisor.direccionComplemento},
+					'telefono': emisor.telefono,
+					'correo': emisor.correo,
+					'codEstableMH': None,
+					'codEstable': None,
+					'codPuntoVentaMH': None,
+					'codPuntoVenta': None
+					}
+
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
+						'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
+					}
+
+	otrosDocumentos_data = None
+	ventaTercero_data = None
+
+	for index, detalle in enumerate(detalleDTECliente):
+		datos_detalle.append({
+			'numItem': index + 1,
+			'tipoItem': int(detalle.tipoItem.codigo),
+			'numeroDocumento': None,
+			'cantidad': round(float(detalle.cantidad), 3),
+			'codigo': None,
+			'codTributo': None,
+			'uniMedida': int(detalle.uniMedida.codigo),
+			'descripcion': detalle.descripcion,
+			'precioUni': float(detalle.precioUni),
+			'montoDescu': float(detalle.montoDescu),
+			'ventaNoSuj': float(detalle.ventaNoSuj),
+			'ventaExenta': float(detalle.ventaExenta),
+			'ventaGravada': float(detalle.ventaGravada),
+			'noGravado': float(detalle.noGravado),
+			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
+			'psv': 0.0,
+			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+		})
+
+	cuerpoDocumento_data = datos_detalle
+
+	resumen_data = {
+		'totalNoSuj': 0.0,
+		'totalExenta': 0.0,
+		'totalGravada': float(dte.subTotal),
+		'subTotalVentas': float(dte.subTotal),
+		'descuNoSuj': float(dte.descuNoSuj),
+		'descuExenta': float(dte.descuExenta),
+		'descuGravada': float(dte.descuGravada),
+		'porcentajeDescuento': float(dte.porcentajeDescuento),
+		'totalDescu': float(dte.totalDescu),
+		'tributos': None, #tributos_consolidados_lista,
+		'subTotal': float(dte.montoTotalOperacion),
+		'ivaPerci1': float(dte.ivaPerci1),
+		'ivaRete1': 0.0,
+		'reteRenta': 0.0,
+	    'montoTotalOperacion': float(dte.montoTotalOperacion),
+	    'totalNoGravado': 0.0,
+	    'totalPagar': float(dte.totalPagar),
+	    'totalLetras': CantLetras(float(dte.totalPagar)),
+	    'totalIva': float(dte.ivaPerci1),
+	    'saldoFavor': 0.0,
+	    'condicionOperacion': 1,
+	    'pagos': None,
+	    'numPagoElectronico': None
+	}
+
+	extension_data = {
+		'nombEntrega': emisor.razonsocial,
+		'docuEntrega': emisor.nit.replace('-',''),
+		'nombRecibe': receptor.razonsocial,
+		'docuRecibe': receptor.numeroDocumento.replace('-',''),
+		'placaVehiculo': None,
+		'observaciones': None
+	}
+
+	apendice_data = None
+
+	json_data = {
+			'identificacion': identificacion_data,
+			'documentoRelacionado' : documentoRelacionado_data,
+			'emisor': emisor_data,
+			'receptor': receptor_data,
+			'otrosDocumentos': otrosDocumentos_data,
+			'ventaTercero': ventaTercero_data,
+			'cuerpoDocumento': cuerpoDocumento_data,
+			'resumen': resumen_data,
+			'extension': extension_data,
+			'apendice': apendice_data,
+		}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
+	return json_data
+
+
+def nd(codigo): # 06 - Nota de débito
+	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	from .funciones import CantLetras, CodGeneracion, Correlativo
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
+	
+
+	identificacion_data = {
+			'version': dte.version,
+			'ambiente': dte.ambiente.codigo,
+			'tipoDte': dte.tipoDte.codigo,
+			'numeroControl': dte.numeroControl,
+			'codigoGeneracion': dte.codigoGeneracion,
+			'tipoModelo': int(dte.tipoModelo_id),
+			'tipoOperacion': int(dte.tipoTransmision_id),
+			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
+			'tipoMoneda': 'USD',
+			'tipoContingencia': None,
+			'motivoContin': None
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {'nit': emisor.nit.replace('-',''),
+					'nrc': emisor.nrc.replace('-',''),
+					'nombre': emisor.razonsocial,
+					'codActividad': emisor.actividadEconomica_id, 
+					'descActividad': emisor.actividadEconomica.descripcion,
+					'nombreComercial': emisor.nombreComercial,
+					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+					'direccion': {'departamento':emisor.departamento_id,
+									'municipio':emisor.municipio.codigo,
+									'complemento':emisor.direccionComplemento},
+					'telefono': emisor.telefono,
+					'correo': emisor.correo,
+					'codEstableMH': None,
+					'codEstable': None,
+					'codPuntoVentaMH': None,
+					'codPuntoVenta': None
+					}
+
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
+						'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
+					}
+
+	otrosDocumentos_data = None
+	ventaTercero_data = None
+
+	for index, detalle in enumerate(detalleDTECliente):
+		datos_detalle.append({
+			'numItem': index + 1,
+			'tipoItem': int(detalle.tipoItem.codigo),
+			'numeroDocumento': None,
+			'cantidad': round(float(detalle.cantidad), 3),
+			'codigo': None,
+			'codTributo': None,
+			'uniMedida': int(detalle.uniMedida.codigo),
+			'descripcion': detalle.descripcion,
+			'precioUni': float(detalle.precioUni),
+			'montoDescu': float(detalle.montoDescu),
+			'ventaNoSuj': float(detalle.ventaNoSuj),
+			'ventaExenta': float(detalle.ventaExenta),
+			'ventaGravada': float(detalle.ventaGravada),
+			'noGravado': float(detalle.noGravado),
+			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
+			'psv': 0.0,
+			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+		})
+
+	cuerpoDocumento_data = datos_detalle
+
+	resumen_data = {
+		'totalNoSuj': 0.0,
+		'totalExenta': 0.0,
+		'totalGravada': float(dte.subTotal),
+		'subTotalVentas': float(dte.subTotal),
+		'descuNoSuj': float(dte.descuNoSuj),
+		'descuExenta': float(dte.descuExenta),
+		'descuGravada': float(dte.descuGravada),
+		'porcentajeDescuento': float(dte.porcentajeDescuento),
+		'totalDescu': float(dte.totalDescu),
+		'tributos': None, #tributos_consolidados_lista,
+		'subTotal': float(dte.montoTotalOperacion),
+		'ivaPerci1': float(dte.ivaPerci1),
+		'ivaRete1': 0.0,
+		'reteRenta': 0.0,
+	    'montoTotalOperacion': float(dte.montoTotalOperacion),
+	    'totalNoGravado': 0.0,
+	    'totalPagar': float(dte.totalPagar),
+	    'totalLetras': CantLetras(float(dte.totalPagar)),
+	    'totalIva': float(dte.ivaPerci1),
+	    'saldoFavor': 0.0,
+	    'condicionOperacion': 1,
+	    'pagos': None,
+	    'numPagoElectronico': None
+	}
+
+	extension_data = {
+		'nombEntrega': emisor.razonsocial,
+		'docuEntrega': emisor.nit.replace('-',''),
+		'nombRecibe': receptor.razonsocial,
+		'docuRecibe': receptor.numeroDocumento.replace('-',''),
+		'placaVehiculo': None,
+		'observaciones': None
+	}
+
+	apendice_data = None
+
+	json_data = {
+			'identificacion': identificacion_data,
+			'documentoRelacionado' : documentoRelacionado_data,
+			'emisor': emisor_data,
+			'receptor': receptor_data,
+			'otrosDocumentos': otrosDocumentos_data,
+			'ventaTercero': ventaTercero_data,
+			'cuerpoDocumento': cuerpoDocumento_data,
+			'resumen': resumen_data,
+			'extension': extension_data,
+			'apendice': apendice_data,
+		}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
+	return json_data
+
+
+def fex(codigo): # 11 - Factura de exportación
 	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
 	from .funciones import CantLetras, CodGeneracion, Correlativo
 	json_data = {}
@@ -172,7 +823,7 @@ def fcf(codigo):
 	return json_data
 
 
-def ccf(codigo):
+def fse(codigo): # 14 - Factura de sujeto excluido
 	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
 	from .funciones import CantLetras, CodGeneracion, Correlativo
 	json_data = {}
@@ -224,12 +875,12 @@ def ccf(codigo):
 					'codPuntoVenta': None
 					}
 
-	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
+						'numDocumento': receptor.numeroDocumento.replace('-',''),
 						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
 						'descActividad': receptor.actividadEconomica.descripcion,
-						'nombreComercial': receptor.nombreComercial,
 						'direccion': {'departamento':receptor.departamento_id,
 									'municipio':receptor.municipio.codigo,
 									'complemento':receptor.direccionComplemento},
@@ -239,27 +890,6 @@ def ccf(codigo):
 
 	otrosDocumentos_data = None
 	ventaTercero_data = None
-
-	for detalle in detalleDTECliente:
-		totales_IVA = round(float(0), 2)
-		current = round(float(0), 2)
-		
-		restributos = DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)
-		tributos_detalle = []
-		for tributo in restributos:
-			if tributo.codigo.codigo in tributos_consolidados:
-				totales_IVA += float(tributo.valor)
-				current = tributos_consolidados[tributo.codigo.codigo]["valor"] 
-				current += round(float(tributo.valor), 2)
-				tributos_consolidados[tributo.codigo.codigo]["valor"] = round(float(current), 2)
-			else:
-				totales_IVA = float(tributo.valor)
-				tributos_consolidados[tributo.codigo.codigo] = {
-					"codigo": tributo.codigo.codigo,
-					"descripcion": tributo.descripcion,
-					"valor": round(totales_IVA, 2)
-				}
-		tributos_consolidados_lista = list(tributos_consolidados.values())
 
 	for index, detalle in enumerate(detalleDTECliente):
 		datos_detalle.append({
@@ -277,9 +907,9 @@ def ccf(codigo):
 			'ventaExenta': float(detalle.ventaExenta),
 			'ventaGravada': float(detalle.ventaGravada),
 			'noGravado': float(detalle.noGravado),
-			'tributos': [str(ctributo.codigo.codigo) for ctributo in DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
+			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
 			'psv': 0.0,
-			'noGravado': round((float(detalle.noGravado) * float(0.13)), 2)
+			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
 		})
 
 	cuerpoDocumento_data = datos_detalle
@@ -288,21 +918,21 @@ def ccf(codigo):
 		'totalNoSuj': 0.0,
 		'totalExenta': 0.0,
 		'totalGravada': float(dte.subTotal),
-		'subTotalVentas': float(dte.subTotalVentas),
+		'subTotalVentas': float(dte.subTotal),
 		'descuNoSuj': float(dte.descuNoSuj),
 		'descuExenta': float(dte.descuExenta),
 		'descuGravada': float(dte.descuGravada),
 		'porcentajeDescuento': float(dte.porcentajeDescuento),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': tributos_consolidados_lista if tributos_consolidados_lista else None,
-		'subTotal': float(dte.subTotal),
-		'ivaPerci1': float(dte.ivaPerci1),
+		'tributos': None, #tributos_consolidados_lista,
+		'subTotal': float(dte.montoTotalOperacion),
 		'ivaRete1': 0.0,
 		'reteRenta': 0.0,
 	    'montoTotalOperacion': float(dte.montoTotalOperacion),
 	    'totalNoGravado': 0.0,
 	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
+	    'totalIva': float(dte.ivaPerci1),
 	    'saldoFavor': 0.0,
 	    'condicionOperacion': 1,
 	    'pagos': None,
@@ -347,4 +977,4 @@ def ccf(codigo):
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
 
 
-	return json_data	
+	return json_data		

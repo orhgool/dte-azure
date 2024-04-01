@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory
-from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa, Producto
+from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa, Producto, TipoDocumento
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from .funciones import CodGeneracion
@@ -31,13 +31,14 @@ class DTEForm(forms.ModelForm):
 
 	class Meta:
 		model = DTECliente
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl', 'receptor', 'tipoDte', 'version', 'fecEmi','observaciones', 'estadoPago')
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl', 'receptor', 'tipoDte', 'version', 'fecEmi','observaciones','condicionOperacion', 'estadoPago')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'codigoGeneracion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'numeroControl': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'receptor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'tipoDte': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+			'condicionOperacion': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'version': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
 			'observaciones': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
@@ -65,10 +66,86 @@ class DTEDetalleForm(forms.ModelForm):
 		}
 
 
+class NCDDetalleForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(NCDDetalleForm, self).__init__(*args, **kwargs)
+		self.fields['tipoDoc'].queryset = TipoDocumento.objects.filter(codigo__in=['01','03'])
+
+	class Meta:
+		model = DTEClienteDetalle
+		fields = ('codigoDetalle', 'tipoItem', 'tipoDoc', 'tipoGeneracion', 'numeroDocumento', 
+		'fechaEmision', 'cantidad', 'uniMedida', 'descripcion',	'precioUni', 'montoDescu', 
+		'ventaNoSuj', 'ventaExenta', 'ventaGravada')
+		widgets = {
+			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'tipoDoc': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'tipoGeneracion': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'numeroDocumento': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'fechaEmision': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
+			'cantidad': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1'}),
+			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'precioUni': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaExenta': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaGravada': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+		}
+
+
+class FEXDetalleForm(forms.ModelForm):
+	
+	class Meta:
+		model = DTEClienteDetalle
+		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'ventaNoSuj', 
+			'ventaExenta', 'ventaGravada')
+		widgets = {
+			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'cantidad': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1'}),
+			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'precioUni': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaExenta': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaGravada': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+		}
+
+
+
+class FSEDetalleForm(forms.ModelForm):
+	
+	class Meta:
+		model = DTEClienteDetalle
+		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'ventaNoSuj', 
+			'ventaExenta', 'ventaGravada')
+		widgets = {
+			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'cantidad': forms.NumberInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1'}),
+			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'precioUni': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaExenta': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+			'ventaGravada': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
+		}
+
+
 DTEClienteDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=DTEDetalleForm,
 	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'ventaNoSuj', 
 			'ventaExenta', 'ventaGravada'
+			), extra=0, can_delete=False, can_delete_extra=True
+)
+
+NCDDetalleFormSet = inlineformset_factory(
+	DTECliente,	DTEClienteDetalle, form=NCDDetalleForm,
+	fields=('tipoItem', 'tipoDoc', 'tipoGeneracion', 'numeroDocumento', 'fechaEmision', 'cantidad', 
+		'uniMedida', 'descripcion',	'precioUni', 'montoDescu', 'ventaNoSuj', 'ventaExenta', 'ventaGravada'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
 

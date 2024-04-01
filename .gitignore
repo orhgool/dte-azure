@@ -68,3 +68,4 @@ venv.bak/
 docker-compose-correcto.yml
 docker-compose.yml
 Dockerfile
+wkhtmltopdf.exe

@@ -30,7 +30,8 @@ urlpatterns = [
     path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),
     path('autocompletar-producto/', autocompletar_producto, name='autocompletar_producto'),
     path('direcciones/', direcciones, name='direcciones'),
-    path('cdn/', cdn, name='cdn')
+    path('cdn/', cdn, name='cdn'),
+    path('correo/<str:tipo>/<str:codigo>', correoACliente, name='correo'),
 ]
 
 if settings.DEBUG:
