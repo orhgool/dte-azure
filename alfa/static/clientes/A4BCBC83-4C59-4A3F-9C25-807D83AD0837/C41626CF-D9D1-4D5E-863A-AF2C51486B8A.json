@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000017",
+    "codigoGeneracion": "C41626CF-D9D1-4D5E-863A-AF2C51486B8A",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-04-01",
+    "horEmi": "09:31:26",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "A L F A",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03010205021015",
+    "nrc": null,
+    "nombre": "Cliente 002 DECO",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Ferreteria La Industrial"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "usb",
+      "precioUni": 5.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 5.0,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 0.58
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 5.0,
+    "subTotalVentas": 5.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 5.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 5.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 5.0,
+    "totalLetras": "CINCO 00/100 USD",
+    "totalIva": 0.58,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
+    "docuEntrega": "03070711201016",
+    "nombRecibe": "Cliente 002 DECO",
+    "docuRecibe": "03010205021015",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "C41626CF-D9D1-4D5E-863A-AF2C51486B8A",
+    "selloRecibido": "202418ECCC6A455C474E9BA3387CC6BC3AA5EYJV",
+    "fhProcesamiento": "01/04/2024 09:37:32",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

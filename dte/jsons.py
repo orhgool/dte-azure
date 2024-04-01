@@ -124,7 +124,7 @@ def fcf(codigo): # 01 - Factura
 	    'totalNoGravado': float(dte.totalNoGravado),
 	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
-	    'totalIva': float(dte.totalGravada) / float(0.13),
+	    'totalIva': round((float(dte.totalGravada) - (float(dte.totalGravada) / float(1.13))),2),
 	    'saldoFavor': 0.0,
 	    'condicionOperacion': 1,
 	    'pagos': None,
