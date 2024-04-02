@@ -1,0 +1,102 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000001",
+    "codigoGeneracion": "C4D5C63A-C806-4A08-9513-F877BBFC7C0C",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-04-02",
+    "horEmi": "08:28:33",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "A L F A",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 1,
+    "recintoFiscal": "02",
+    "regimen": "EX-1.1000.000"
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142407620011",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "complemento": "KM 9 y medio complejo corporativo SISCO",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "producto",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 100.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 100.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 100.0,
+    "totalLetras": "CIEN 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": "02",
+    "descIncoterms": "FCA-Libre transportista",
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "C4D5C63A-C806-4A08-9513-F877BBFC7C0C",
+    "selloRecibido": "20240E09B6CC917E482593827B83B18A0E8D0S71",
+    "fhProcesamiento": "02/04/2024 09:09:41",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

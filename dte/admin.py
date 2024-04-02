@@ -10,6 +10,7 @@ class DtesEmpresaInline(admin.TabularInline):
 	extra = 0
 
 class EmpresaAdmin(admin.ModelAdmin):
+	list_display = ('codigo', 'razonsocial',)
 	inlines = [DtesEmpresaInline]
 
 class UserProfileAdmin(admin.StackedInline):
@@ -62,7 +63,7 @@ admin.site.register(Empresa, EmpresaAdmin)
 admin.site.register(EstadoDTE)
 admin.site.register(FormaPago)
 admin.site.register(ImpuestoAdValorem, ImpuestoAdValoremAdmin)
-admin.site.register(Incoterm)
+admin.site.register(Incoterms)
 admin.site.register(ModeloFacturacion)
 admin.site.register(Moneda)
 admin.site.register(Municipio)

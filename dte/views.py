@@ -18,7 +18,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
-from .funciones import CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf, CantLetras, firmar, datosInicio
+from .funciones import CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf, CantLetras, firmar, datosInicio, gen_prueba
 from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -206,7 +206,7 @@ class DTEInline():
 			#
 
 			# Inicio de cálculos
-			total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
+			total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']			
 			if dte.tipoDte.codigo=='01':
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
@@ -216,7 +216,7 @@ class DTEInline():
 					montoTotalOperacion = float(total_gravada),
 					totalPagar = float(total_gravada))
 
-			if dte.tipoDte.codigo=='03':
+			if dte.tipoDte.codigo in {'03','05','06'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
@@ -224,12 +224,32 @@ class DTEInline():
 					ivaPerci1=0, #float(total_gravada)*float(0.13),
 					montoTotalOperacion=float(total_gravada)*float(1.13),
 					totalPagar=float(total_gravada)*float(1.13))
+			if dte.tipoDte.codigo in {'11'}:
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+					totalGravada=total_gravada,
+					montoTotalOperacion=total_gravada,
+					totalPagar=total_gravada)
+			if dte.tipoDte.codigo in {'14'}:
+				total_compra = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_compra=Sum(F('compra')))['total_compra']
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+					totalCompra=total_compra,
+					reteRenta=round((float(total_compra)*float(0.1)),2),
+					subTotal=total_compra,
+					totalPagar=round((float(total_compra)-(float(total_compra)*0.1)),2))
 			# Fin de cálculos
 
 			instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
 			instancia2 = TributoResumen.objects.get(codigo='20')
-			t = DTEClienteDetalleTributo(codigoDetalle=instancia1, codigo=instancia2, descripcion=instancia2.nombre, valor=instancia1.ventaGravada*Decimal(0.13))
-			t.save()
+			obj, created = DTEClienteDetalleTributo.objects.get_or_create(
+				codigoDetalle=instancia1,
+				codigo=instancia2,
+				defaults={'descripcion': instancia2.nombre, 'valor': instancia1.ventaGravada * Decimal(0.13)}
+			)
+
+			# Si el registro ya existía, actualiza el valor
+			if not created:
+				obj.valor = instancia1.ventaGravada * Decimal(0.13)
+				obj.save()
 		messages.success(self.request, 'Detalle guardado')
 
 
@@ -274,9 +294,9 @@ class DTECreate(DTEInline, CreateView):
 		elif self.kwargs.get('pk') in {'05','06'}:
 			formDetalle = NCDDetalleFormSet
 		elif self.kwargs.get('pk') == '11':
-			formDetalle = DTEClienteDetalleFormSet
+			formDetalle = FEXDetalleFormSet
 		elif self.kwargs.get('pk') == '14':
-			formDetalle = DTEClienteDetalleFormSet
+			formDetalle = FSEDetalleFormSet
 
 		if self.request.method == 'GET':
 			#messages.info(self.request, self.kwargs.get('pk'))
@@ -315,9 +335,9 @@ class DTEUpdate(DTEInline, UpdateView):
 		elif dte.tipoDte.codigo in {'05','06'}:
 			formDetalle = NCDDetalleFormSet
 		elif dte.tipoDte.codigo == '11':
-			formDetalle = DTEClienteDetalleFormSet
+			formDetalle = FEXDetalleFormSet
 		elif dte.tipoDte.codigo == '14':
-			formDetalle = DTEClienteDetalleFormSet
+			formDetalle = FSEDetalleFormSet
 		return {
 		'detalles': formDetalle(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
 		}
@@ -330,7 +350,7 @@ class EnviarDTEView(APIView):
 	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
 		
 		tConfiguracion = None #Configuracion.objects.filter(empresa='001').first()
-		if tipo in {'01','03'}:
+		if tipo in {'01','03','04','05','06','11','14'}:
 			modelo = DTECliente.objects.get(codigoGeneracion=codigo)
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
 			ambiente = modelo.ambiente.codigo
@@ -400,7 +420,7 @@ class EnviarDTEView(APIView):
 		if response.status_code == 200:
 			respuesta_servicio = response.json()
 
-			if tipo in {'01','03','04','05','06a','08','09','11','14','15'}:
+			if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
 				gsello = DTECliente.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
 				gsello.save()
@@ -713,6 +733,7 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
 			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
 			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
 			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
 			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
 		).first()
@@ -722,13 +743,30 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 			subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
 		)
 
-	if tipo in {'05', '06'}:
-		template_name = 'plantillas/dte_ccf.html'
+	if tipo == '05':
+		template_name = 'plantillas/dte_nc.html'
 		dte = DTECliente.objects.get(codigoGeneracion=codigo)
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
-	
+	if tipo == '06':
+		template_name = 'plantillas/dte_nd.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+	if tipo == '11':
+		template_name = 'plantillas/dte_fex.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+	if tipo == '14':
+		template_name = 'plantillas/dte_fse.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
 	letras = CantLetras(dte.totalPagar)
 	fecha = dte.fecEmi.strftime("%d/%m/%Y")
 	
@@ -800,3 +838,12 @@ def correoACliente(request, tipo, codigo):
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
 	return redirect('dte:actualizar', pk=codigo)
 
+def pruebas(request):
+	empresa = get_object_or_404(Empresa, codigo = request.session['empresa'])
+	context = {'empresa':empresa}
+	return render(request, 'dte/pruebas.html', context)
+
+def enviarPrueba(request, tipo):
+
+	gen_prueba(request, tipo=tipo)
+	return redirect('dte:prueba')

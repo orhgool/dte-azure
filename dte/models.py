@@ -40,7 +40,7 @@ class Pais(models.Model):
 
 	class Meta:
 		verbose_name = 'País'
-		verbose_name_plural = 'Países'
+		verbose_name_plural = 'Paises'
 		ordering = ('nombre',)
 
 class Actividadeconomica(models.Model):
@@ -529,10 +529,10 @@ class RecintoFiscal(models.Model):
 
 class Regimen(models.Model):
 	codigo = models.CharField(db_column='Codigo', primary_key=True, null=False, max_length=50, verbose_name='Código')
-	nombre = models.CharField(db_column='Nombre', max_length = 100, default = 'N/A', blank=True)
+	nombre = models.CharField(db_column='Nombre', max_length = 300, default = 'N/A', blank=True)
 
 	def __str__(self):
-		return "%s" % (self.nombre)
+		return "%s %s" % (self.codigo, self.nombre)
 
 	class Meta:
 		verbose_name = 'Régimen'
@@ -553,7 +553,7 @@ class Transporte(models.Model):
 		ordering = ('codigo',)
 
 
-class Incoterm(models.Model):
+class Incoterms(models.Model):
 	codigo = models.CharField(db_column='Codigo', primary_key=True, null=False, max_length=50, verbose_name='Código')
 	nombre = models.CharField(db_column='Nombre', max_length = 100, default = 'N/A', blank=True)
 
@@ -561,8 +561,8 @@ class Incoterm(models.Model):
 		return "%s" % (self.nombre)
 
 	class Meta:
-		verbose_name = 'Intcoterm'
-		verbose_name_plural = "Intcoterms"
+		verbose_name = 'Incoterms'
+		verbose_name_plural = "Incoterms"
 		ordering = ('nombre',)
 
 
@@ -658,6 +658,7 @@ class DTECliente(models.Model):
 	porcentajeDescuento = models.DecimalField(db_column = 'PorcentajeDescuento', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Porcentaje descuento')
 	totalDescu = models.DecimalField(db_column = 'TotalDescuento', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total descuento')
 	subTotal = models.DecimalField(db_column = 'SubTotal', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Sub total')
+	totalCompra = models.DecimalField(db_column = 'TotalCompra', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total compra')
 	ivaPerci1 = models.DecimalField(db_column = 'IVAPercibido', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='IVA rercibido')
 	ivaRete1 = models.DecimalField(db_column = 'IVARetenido', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='IVA retenido')
 	reteRenta = models.DecimalField(db_column = 'RetencionRenta', max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Retención de renta')
@@ -675,6 +676,10 @@ class DTECliente(models.Model):
 	estadoPago = models.BooleanField(db_column='estadoPago', null=False, blank=True, default=True, verbose_name='Pagado')
 	docfirmado = models.TextField(db_column='DocFirmado', null=True, blank=True, verbose_name='Documento firmado')
 	fechaPago = models.DateTimeField(db_column = 'fechaPago', default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de pago')
+	tipoItemExpor = models.ForeignKey(TipoItem, on_delete=models.CASCADE, null=True, blank=True, default=1, verbose_name='Tipo ítem de exportación')
+	recintoFiscal = models.ForeignKey(RecintoFiscal, on_delete=models.CASCADE, null=True, blank=True, default='02', verbose_name='Recinto fiscal')
+	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default='EX-1.1000.000', verbose_name='Regimen')
+	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default='01', verbose_name='Incoterms')
 		
 	def __str__(self):
 		return "%s" % (self.numeroControl)
@@ -699,7 +704,7 @@ class DTEClienteDetalle(models.Model):
 	#from .funciones import CodGeneracion
 	codigoDetalle = models.CharField(db_column='CodigoDetalle', primary_key=True, blank=True, max_length=36)
 	dte = models.ForeignKey(DTECliente, on_delete=models.CASCADE, blank=True, default='', related_name='detalles')
-	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=0, verbose_name='Tipo de ítem')
+	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=1, verbose_name='Tipo de ítem')
 	tipoDoc = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, default='01', verbose_name='Tipo de documento')
 	tipoGeneracion = models.ForeignKey(TipoGeneracionDocumento, on_delete=models.CASCADE, default=2, verbose_name='Tipo de generación')
 	numeroDocumento = models.CharField(db_column='numeroDocumento', max_length=36, blank=True, null=True, default='', verbose_name='Número de documento')

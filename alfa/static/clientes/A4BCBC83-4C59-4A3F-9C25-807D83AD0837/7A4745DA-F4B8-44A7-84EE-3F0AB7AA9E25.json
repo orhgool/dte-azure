@@ -1,0 +1,99 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000002",
+    "codigoGeneracion": "7A4745DA-F4B8-44A7-84EE-3F0AB7AA9E25",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2024-04-02",
+    "horEmi": "09:31:40",
+    "tipoMoneda": "USD"
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142407620011",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "codActividad": "52102",
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
+    },
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "servicio",
+      "precioUni": 500.0,
+      "montoDescu": 0.0,
+      "compra": 500.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "servicio",
+      "precioUni": 500.0,
+      "montoDescu": 0.0,
+      "compra": 500.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "totalPagar": 1000.0,
+    "totalLetras": "MIL 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "7A4745DA-F4B8-44A7-84EE-3F0AB7AA9E25",
+    "selloRecibido": "202406E06EC22AA64645A05817530A01BF37FJPM",
+    "fhProcesamiento": "02/04/2024 10:14:36",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

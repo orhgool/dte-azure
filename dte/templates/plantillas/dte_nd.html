@@ -128,7 +128,7 @@
   <body>
 	<div class="dte-id">
 		<p>DOCUMENTO TRIBUTARIO ELECTRÓNICO</p>
-		<p class="nombre-dte"><strong>COMPROBANTE DE CRÉDITO FISCAL</strong></p>
+		<p class="nombre-dte"><strong>NOTA DE DÉBITO</strong></p>
 	</div>
   <div class="logo"></div>
   <div class="qr"></div>
@@ -346,13 +346,11 @@
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>
 					<td class="row-line-left" colspan="3"><b>IVA 13%</td>
-					<td align="right">{{dte.IVA|moneda}}</b></td>
+					<td align="right">{{dte.ivaPerci1|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td colspan="5">
-						{% if dte.observaciones %}
-						{{dte.observaciones}}
-						{% endif %}.
+						{{dte.observaciones}}.
 					</td>
 					<td class="row-line-left" colspan="3"><b>SubTotal</td>
 					<td align="right">{{dte.subTotal|moneda}}</b></td>
@@ -365,7 +363,7 @@
 				<tr>
 					<td colspan="5"></td>
 					<td class="row-line-left" colspan="3"><b>Monto total operación</b></td>
-					<td align="right">{{dte.totalGravadaIVA|moneda}}</td>
+					<td align="right">{{dte.totalGravada|moneda}}</td>
 				</tr>
 				<tr>
 					<td colspan="5"></td>
@@ -375,7 +373,7 @@
 				<tr>
 					<td colspan="5"></td>
 					<td class="row-line-left" colspan="3"><strong><b>Total a pagar</b></strong></td>
-					<td align="right"><strong>{{dte.totalPagarIVA|moneda}}</strong></td>
+					<td align="right"><strong>{{dte.totalPagar|moneda}}</strong></td>
 				</tr>
 			</tbody>
 		</table>

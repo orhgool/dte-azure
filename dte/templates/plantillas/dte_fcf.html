@@ -330,7 +330,10 @@
 					<td align="right" rowspan="2">{{dte.totalPagar|moneda}}</td>  <!-- |moneda -->
 				</tr>
 				<tr>
-					<td colspan="5">{{dte.observaciones}}.</td>
+					<td colspan="5">
+						{% if dte.observaciones %}
+						{{dte.observaciones}}
+						{% endif %}.</td>
 				</tr>
 			</tbody>
 		</table>

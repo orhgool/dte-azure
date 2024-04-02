@@ -356,6 +356,7 @@ def nc(codigo): # 05 - Nota de crédito
 	json_data = {}
 	datos_emisor = {}
 	datos_receptor = {}
+	docrelacionado_detalle = []
 	datos_detalle = []
 	documento_relacionado = []
 	tributos_consolidados = {}
@@ -375,15 +376,14 @@ def nc(codigo): # 05 - Nota de crédito
 			'codigoGeneracion': dte.codigoGeneracion,
 			'tipoModelo': int(dte.tipoModelo_id),
 			'tipoOperacion': int(dte.tipoTransmision_id),
+			'tipoContingencia': None,
+			'motivoContin': None,
 			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
 			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
-			'tipoMoneda': 'USD',
-			'tipoContingencia': None,
-			'motivoContin': None
+			'tipoMoneda': 'USD'
 		}
 
-	documentoRelacionado_data = None
-
+	
 	emisor_data = {'nit': emisor.nit.replace('-',''),
 					'nrc': emisor.nrc.replace('-',''),
 					'nombre': emisor.razonsocial,
@@ -395,17 +395,13 @@ def nc(codigo): # 05 - Nota de crédito
 									'municipio':emisor.municipio.codigo,
 									'complemento':emisor.direccionComplemento},
 					'telefono': emisor.telefono,
-					'correo': emisor.correo,
-					'codEstableMH': None,
-					'codEstable': None,
-					'codPuntoVentaMH': None,
-					'codPuntoVenta': None
+					'correo': emisor.correo
 					}
 
-	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
-						'numDocumento': receptor.numeroDocumento.replace('-',''),
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
 						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
+						'nombreComercial': None,
 						'codActividad': receptor.actividadEconomica_id,
 						'descActividad': receptor.actividadEconomica.descripcion,
 						'direccion': {'departamento':receptor.departamento_id,
@@ -418,11 +414,38 @@ def nc(codigo): # 05 - Nota de crédito
 	otrosDocumentos_data = None
 	ventaTercero_data = None
 
+	for detalle in detalleDTECliente:
+		totales_IVA = round(float(0), 2)
+		current = round(float(0), 2)
+		
+		restributos = DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)
+		tributos_detalle = []
+		for tributo in restributos:
+			if tributo.codigo.codigo in tributos_consolidados:
+				totales_IVA += float(tributo.valor)
+				current = tributos_consolidados[tributo.codigo.codigo]["valor"] 
+				current += round(float(tributo.valor), 2)
+				tributos_consolidados[tributo.codigo.codigo]["valor"] = round(float(current), 2)
+			else:
+				totales_IVA = float(tributo.valor)
+				tributos_consolidados[tributo.codigo.codigo] = {
+					"codigo": tributo.codigo.codigo,
+					"descripcion": tributo.descripcion,
+					"valor": round(totales_IVA, 2)
+				}
+		tributos_consolidados_lista = list(tributos_consolidados.values())
+
 	for index, detalle in enumerate(detalleDTECliente):
+		docrelacionado_detalle.append({
+			'tipoDocumento': detalle.tipoDoc.codigo,
+			'tipoGeneracion': int(detalle.tipoGeneracion.codigo),
+			'numeroDocumento': detalle.numeroDocumento,
+			'fechaEmision': detalle.fechaEmision.strftime("%Y-%m-%d")
+			})
 		datos_detalle.append({
 			'numItem': index + 1,
 			'tipoItem': int(detalle.tipoItem.codigo),
-			'numeroDocumento': None,
+			'numeroDocumento': detalle.numeroDocumento,
 			'cantidad': round(float(detalle.cantidad), 3),
 			'codigo': None,
 			'codTributo': None,
@@ -433,38 +456,29 @@ def nc(codigo): # 05 - Nota de crédito
 			'ventaNoSuj': float(detalle.ventaNoSuj),
 			'ventaExenta': float(detalle.ventaExenta),
 			'ventaGravada': float(detalle.ventaGravada),
-			'noGravado': float(detalle.noGravado),
-			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
-			'psv': 0.0,
-			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+			'tributos': [str(ctributo.codigo.codigo) for ctributo in DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
 		})
 
+	documentoRelacionado_data = docrelacionado_detalle
 	cuerpoDocumento_data = datos_detalle
 
 	resumen_data = {
-		'totalNoSuj': 0.0,
-		'totalExenta': 0.0,
-		'totalGravada': float(dte.subTotal),
-		'subTotalVentas': float(dte.subTotal),
+		'totalNoSuj': float(dte.totalNoSuj),
+		'totalExenta': float(dte.totalExenta),
+		'totalGravada': float(dte.totalGravada),
+		'subTotalVentas': float(dte.subTotalVentas),
 		'descuNoSuj': float(dte.descuNoSuj),
 		'descuExenta': float(dte.descuExenta),
 		'descuGravada': float(dte.descuGravada),
-		'porcentajeDescuento': float(dte.porcentajeDescuento),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': None, #tributos_consolidados_lista,
-		'subTotal': float(dte.montoTotalOperacion),
+		'tributos': tributos_consolidados_lista,
+		'subTotal': float(dte.subTotal),
 		'ivaPerci1': float(dte.ivaPerci1),
-		'ivaRete1': 0.0,
-		'reteRenta': 0.0,
+		'ivaRete1': float(dte.ivaRete1),
+		'reteRenta': float(dte.reteRenta),
 	    'montoTotalOperacion': float(dte.montoTotalOperacion),
-	    'totalNoGravado': 0.0,
-	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
-	    'totalIva': float(dte.ivaPerci1),
-	    'saldoFavor': 0.0,
-	    'condicionOperacion': 1,
-	    'pagos': None,
-	    'numPagoElectronico': None
+	    'condicionOperacion': 1
 	}
 
 	extension_data = {
@@ -472,7 +486,6 @@ def nc(codigo): # 05 - Nota de crédito
 		'docuEntrega': emisor.nit.replace('-',''),
 		'nombRecibe': receptor.razonsocial,
 		'docuRecibe': receptor.numeroDocumento.replace('-',''),
-		'placaVehiculo': None,
 		'observaciones': None
 	}
 
@@ -481,10 +494,10 @@ def nc(codigo): # 05 - Nota de crédito
 	json_data = {
 			'identificacion': identificacion_data,
 			'documentoRelacionado' : documentoRelacionado_data,
+			'ventaTercero': ventaTercero_data,
 			'emisor': emisor_data,
 			'receptor': receptor_data,
-			'otrosDocumentos': otrosDocumentos_data,
-			'ventaTercero': ventaTercero_data,
+			#'otrosDocumentos': otrosDocumentos_data,
 			'cuerpoDocumento': cuerpoDocumento_data,
 			'resumen': resumen_data,
 			'extension': extension_data,
@@ -514,6 +527,7 @@ def nd(codigo): # 06 - Nota de débito
 	json_data = {}
 	datos_emisor = {}
 	datos_receptor = {}
+	docrelacionado_detalle = []
 	datos_detalle = []
 	documento_relacionado = []
 	tributos_consolidados = {}
@@ -533,15 +547,14 @@ def nd(codigo): # 06 - Nota de débito
 			'codigoGeneracion': dte.codigoGeneracion,
 			'tipoModelo': int(dte.tipoModelo_id),
 			'tipoOperacion': int(dte.tipoTransmision_id),
+			'tipoContingencia': None,
+			'motivoContin': None,
 			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
 			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
-			'tipoMoneda': 'USD',
-			'tipoContingencia': None,
-			'motivoContin': None
+			'tipoMoneda': 'USD'
 		}
 
-	documentoRelacionado_data = None
-
+	
 	emisor_data = {'nit': emisor.nit.replace('-',''),
 					'nrc': emisor.nrc.replace('-',''),
 					'nombre': emisor.razonsocial,
@@ -553,17 +566,13 @@ def nd(codigo): # 06 - Nota de débito
 									'municipio':emisor.municipio.codigo,
 									'complemento':emisor.direccionComplemento},
 					'telefono': emisor.telefono,
-					'correo': emisor.correo,
-					'codEstableMH': None,
-					'codEstable': None,
-					'codPuntoVentaMH': None,
-					'codPuntoVenta': None
+					'correo': emisor.correo
 					}
 
-	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
-						'numDocumento': receptor.numeroDocumento.replace('-',''),
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
 						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
+						'nombreComercial': None,
 						'codActividad': receptor.actividadEconomica_id,
 						'descActividad': receptor.actividadEconomica.descripcion,
 						'direccion': {'departamento':receptor.departamento_id,
@@ -576,11 +585,38 @@ def nd(codigo): # 06 - Nota de débito
 	otrosDocumentos_data = None
 	ventaTercero_data = None
 
+	for detalle in detalleDTECliente:
+		totales_IVA = round(float(0), 2)
+		current = round(float(0), 2)
+		
+		restributos = DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)
+		tributos_detalle = []
+		for tributo in restributos:
+			if tributo.codigo.codigo in tributos_consolidados:
+				totales_IVA += float(tributo.valor)
+				current = tributos_consolidados[tributo.codigo.codigo]["valor"] 
+				current += round(float(tributo.valor), 2)
+				tributos_consolidados[tributo.codigo.codigo]["valor"] = round(float(current), 2)
+			else:
+				totales_IVA = float(tributo.valor)
+				tributos_consolidados[tributo.codigo.codigo] = {
+					"codigo": tributo.codigo.codigo,
+					"descripcion": tributo.descripcion,
+					"valor": round(totales_IVA, 2)
+				}
+		tributos_consolidados_lista = list(tributos_consolidados.values())
+		
 	for index, detalle in enumerate(detalleDTECliente):
+		docrelacionado_detalle.append({
+			'tipoDocumento': detalle.tipoDoc.codigo,
+			'tipoGeneracion': int(detalle.tipoGeneracion.codigo),
+			'numeroDocumento': detalle.numeroDocumento,
+			'fechaEmision': detalle.fechaEmision.strftime("%Y-%m-%d")
+			})
 		datos_detalle.append({
 			'numItem': index + 1,
 			'tipoItem': int(detalle.tipoItem.codigo),
-			'numeroDocumento': None,
+			'numeroDocumento': detalle.numeroDocumento,
 			'cantidad': round(float(detalle.cantidad), 3),
 			'codigo': None,
 			'codTributo': None,
@@ -591,37 +627,29 @@ def nd(codigo): # 06 - Nota de débito
 			'ventaNoSuj': float(detalle.ventaNoSuj),
 			'ventaExenta': float(detalle.ventaExenta),
 			'ventaGravada': float(detalle.ventaGravada),
-			'noGravado': float(detalle.noGravado),
-			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
-			'psv': 0.0,
-			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+			'tributos': [str(ctributo.codigo.codigo) for ctributo in DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
 		})
 
+	documentoRelacionado_data = docrelacionado_detalle
 	cuerpoDocumento_data = datos_detalle
 
 	resumen_data = {
-		'totalNoSuj': 0.0,
-		'totalExenta': 0.0,
-		'totalGravada': float(dte.subTotal),
-		'subTotalVentas': float(dte.subTotal),
+		'totalNoSuj': float(dte.totalNoSuj),
+		'totalExenta': float(dte.totalExenta),
+		'totalGravada': float(dte.totalGravada),
+		'subTotalVentas': float(dte.subTotalVentas),
 		'descuNoSuj': float(dte.descuNoSuj),
 		'descuExenta': float(dte.descuExenta),
 		'descuGravada': float(dte.descuGravada),
-		'porcentajeDescuento': float(dte.porcentajeDescuento),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': None, #tributos_consolidados_lista,
-		'subTotal': float(dte.montoTotalOperacion),
+		'tributos': tributos_consolidados_lista,
+		'subTotal': float(dte.subTotal),
 		'ivaPerci1': float(dte.ivaPerci1),
-		'ivaRete1': 0.0,
-		'reteRenta': 0.0,
+		'ivaRete1': float(dte.ivaRete1),
+		'reteRenta': float(dte.reteRenta),
 	    'montoTotalOperacion': float(dte.montoTotalOperacion),
-	    'totalNoGravado': 0.0,
-	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
-	    'totalIva': float(dte.ivaPerci1),
-	    'saldoFavor': 0.0,
 	    'condicionOperacion': 1,
-	    'pagos': None,
 	    'numPagoElectronico': None
 	}
 
@@ -630,7 +658,6 @@ def nd(codigo): # 06 - Nota de débito
 		'docuEntrega': emisor.nit.replace('-',''),
 		'nombRecibe': receptor.razonsocial,
 		'docuRecibe': receptor.numeroDocumento.replace('-',''),
-		'placaVehiculo': None,
 		'observaciones': None
 	}
 
@@ -639,10 +666,10 @@ def nd(codigo): # 06 - Nota de débito
 	json_data = {
 			'identificacion': identificacion_data,
 			'documentoRelacionado' : documentoRelacionado_data,
+			'ventaTercero': ventaTercero_data,
 			'emisor': emisor_data,
 			'receptor': receptor_data,
-			'otrosDocumentos': otrosDocumentos_data,
-			'ventaTercero': ventaTercero_data,
+			#'otrosDocumentos': otrosDocumentos_data,
 			'cuerpoDocumento': cuerpoDocumento_data,
 			'resumen': resumen_data,
 			'extension': extension_data,
@@ -695,7 +722,7 @@ def fex(codigo): # 11 - Factura de exportación
 			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
 			'tipoMoneda': 'USD',
 			'tipoContingencia': None,
-			'motivoContin': None
+			'motivoContigencia': None
 		}
 
 	documentoRelacionado_data = None
@@ -715,18 +742,22 @@ def fex(codigo): # 11 - Factura de exportación
 					'codEstableMH': None,
 					'codEstable': None,
 					'codPuntoVentaMH': None,
-					'codPuntoVenta': None
+					'codPuntoVenta': None,
+					'tipoItemExpor': int(dte.tipoItemExpor_id),
+					'recintoFiscal': dte.recintoFiscal_id,
+					'regimen': dte.regimen_id
 					}
 
 	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
 						'numDocumento': receptor.numeroDocumento.replace('-',''),
-						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
-						'codActividad': receptor.actividadEconomica_id,
+						#'codActividad': receptor.actividadEconomica_id,
+						'nombreComercial': None,
 						'descActividad': receptor.actividadEconomica.descripcion,
-						'direccion': {'departamento':receptor.departamento_id,
-									'municipio':receptor.municipio.codigo,
-									'complemento':receptor.direccionComplemento},
+						'complemento':receptor.direccionComplemento,
+						'codPais': receptor.pais_id,
+						'nombrePais': str(receptor.pais),
+						'tipoPersona': int(receptor.tipoPersona_id),
 						'telefono': receptor.telefono,
 						'correo': receptor.correo
 					}
@@ -737,49 +768,36 @@ def fex(codigo): # 11 - Factura de exportación
 	for index, detalle in enumerate(detalleDTECliente):
 		datos_detalle.append({
 			'numItem': index + 1,
-			'tipoItem': int(detalle.tipoItem.codigo),
-			'numeroDocumento': None,
 			'cantidad': round(float(detalle.cantidad), 3),
 			'codigo': None,
-			'codTributo': None,
 			'uniMedida': int(detalle.uniMedida.codigo),
 			'descripcion': detalle.descripcion,
 			'precioUni': float(detalle.precioUni),
 			'montoDescu': float(detalle.montoDescu),
-			'ventaNoSuj': float(detalle.ventaNoSuj),
-			'ventaExenta': float(detalle.ventaExenta),
 			'ventaGravada': float(detalle.ventaGravada),
+			'tributos': [str(ctributo.codigo.codigo) for ctributo in DTEClienteDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
 			'noGravado': float(detalle.noGravado),
-			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
-			'psv': 0.0,
-			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
 		})
 
 	cuerpoDocumento_data = datos_detalle
 
 	resumen_data = {
-		'totalNoSuj': 0.0,
-		'totalExenta': 0.0,
-		'totalGravada': float(dte.subTotal),
-		'subTotalVentas': float(dte.subTotal),
-		'descuNoSuj': float(dte.descuNoSuj),
-		'descuExenta': float(dte.descuExenta),
-		'descuGravada': float(dte.descuGravada),
+		'totalGravada': float(dte.totalGravada),
+		'descuento': float(dte.descuGravada),
 		'porcentajeDescuento': float(dte.porcentajeDescuento),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': None, #tributos_consolidados_lista,
-		'subTotal': float(dte.montoTotalOperacion),
-		'ivaRete1': 0.0,
-		'reteRenta': 0.0,
-	    'montoTotalOperacion': float(dte.montoTotalOperacion),
+		'seguro': 0, #tributos_consolidados_lista,
+		'flete': 0,
+		'montoTotalOperacion': float(dte.montoTotalOperacion),
 	    'totalNoGravado': 0.0,
 	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
-	    'totalIva': float(dte.ivaPerci1),
-	    'saldoFavor': 0.0,
 	    'condicionOperacion': 1,
 	    'pagos': None,
-	    'numPagoElectronico': None
+	    'numPagoElectronico': None,
+	    'codIncoterms': dte.incoterms_id,
+	    'descIncoterms': str(dte.incoterms),
+	    'observaciones': dte.observaciones
 	}
 
 	extension_data = {
@@ -795,14 +813,14 @@ def fex(codigo): # 11 - Factura de exportación
 
 	json_data = {
 			'identificacion': identificacion_data,
-			'documentoRelacionado' : documentoRelacionado_data,
+			#'documentoRelacionado' : documentoRelacionado_data,
 			'emisor': emisor_data,
 			'receptor': receptor_data,
 			'otrosDocumentos': otrosDocumentos_data,
 			'ventaTercero': ventaTercero_data,
 			'cuerpoDocumento': cuerpoDocumento_data,
 			'resumen': resumen_data,
-			'extension': extension_data,
+			#'extension': extension_data,
 			'apendice': apendice_data,
 		}
 
@@ -848,11 +866,11 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 			'codigoGeneracion': dte.codigoGeneracion,
 			'tipoModelo': int(dte.tipoModelo_id),
 			'tipoOperacion': int(dte.tipoTransmision_id),
+			'tipoContingencia': None,
+			'motivoContin': None,
 			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
 			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
-			'tipoMoneda': 'USD',
-			'tipoContingencia': None,
-			'motivoContin': None
+			'tipoMoneda': 'USD'
 		}
 
 	documentoRelacionado_data = None
@@ -862,8 +880,6 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 					'nombre': emisor.razonsocial,
 					'codActividad': emisor.actividadEconomica_id, 
 					'descActividad': emisor.actividadEconomica.descripcion,
-					'nombreComercial': emisor.nombreComercial,
-					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
 					'direccion': {'departamento':emisor.departamento_id,
 									'municipio':emisor.municipio.codigo,
 									'complemento':emisor.direccionComplemento},
@@ -877,7 +893,6 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 
 	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
 						'numDocumento': receptor.numeroDocumento.replace('-',''),
-						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
 						'descActividad': receptor.actividadEconomica.descripcion,
@@ -895,48 +910,29 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 		datos_detalle.append({
 			'numItem': index + 1,
 			'tipoItem': int(detalle.tipoItem.codigo),
-			'numeroDocumento': None,
 			'cantidad': round(float(detalle.cantidad), 3),
 			'codigo': None,
-			'codTributo': None,
 			'uniMedida': int(detalle.uniMedida.codigo),
 			'descripcion': detalle.descripcion,
 			'precioUni': float(detalle.precioUni),
 			'montoDescu': float(detalle.montoDescu),
-			'ventaNoSuj': float(detalle.ventaNoSuj),
-			'ventaExenta': float(detalle.ventaExenta),
-			'ventaGravada': float(detalle.ventaGravada),
-			'noGravado': float(detalle.noGravado),
-			'tributos': None, #[str(ctributo.codigo.codigo) for ctributo in DTEDetalleTributo.objects.filter(codigoDetalle=detalle.codigoDetalle)],
-			'psv': 0.0,
-			'ivaItem': round((float(detalle.ventaGravada) - (float(detalle.ventaGravada) / float(1.13))), 2)
+			'compra': float(detalle.compra)
 		})
 
 	cuerpoDocumento_data = datos_detalle
 
 	resumen_data = {
-		'totalNoSuj': 0.0,
-		'totalExenta': 0.0,
-		'totalGravada': float(dte.subTotal),
-		'subTotalVentas': float(dte.subTotal),
-		'descuNoSuj': float(dte.descuNoSuj),
-		'descuExenta': float(dte.descuExenta),
-		'descuGravada': float(dte.descuGravada),
-		'porcentajeDescuento': float(dte.porcentajeDescuento),
+		'totalCompra': float(dte.totalCompra),
+		'descu': float(dte.totalDescu),
 		'totalDescu': float(dte.totalDescu),
-		'tributos': None, #tributos_consolidados_lista,
-		'subTotal': float(dte.montoTotalOperacion),
-		'ivaRete1': 0.0,
-		'reteRenta': 0.0,
-	    'montoTotalOperacion': float(dte.montoTotalOperacion),
-	    'totalNoGravado': 0.0,
+		'subTotal': float(dte.subTotal),
+		'ivaRete1': float(dte.ivaRete1),
+		'reteRenta': float(dte.reteRenta),
 	    'totalPagar': float(dte.totalPagar),
 	    'totalLetras': CantLetras(float(dte.totalPagar)),
-	    'totalIva': float(dte.ivaPerci1),
-	    'saldoFavor': 0.0,
 	    'condicionOperacion': 1,
 	    'pagos': None,
-	    'numPagoElectronico': None
+	    'observaciones': None
 	}
 
 	extension_data = {
@@ -952,14 +948,14 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 
 	json_data = {
 			'identificacion': identificacion_data,
-			'documentoRelacionado' : documentoRelacionado_data,
+			#'documentoRelacionado' : documentoRelacionado_data,
 			'emisor': emisor_data,
-			'receptor': receptor_data,
-			'otrosDocumentos': otrosDocumentos_data,
-			'ventaTercero': ventaTercero_data,
+			'sujetoExcluido': receptor_data,
+			#'otrosDocumentos': otrosDocumentos_data,
+			#'ventaTercero': ventaTercero_data,
 			'cuerpoDocumento': cuerpoDocumento_data,
 			'resumen': resumen_data,
-			'extension': extension_data,
+			#'extension': extension_data,
 			'apendice': apendice_data,
 		}
 

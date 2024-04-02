@@ -50,12 +50,12 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'dte:index' %}">Inicio</a>
             </li>
-            <li class="nav-item  dropdown d-none d-md-block">
+            <li class="nav-item  dropdown d-none d-md-block list-arrow">
               <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Nuevo </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
                 {% for doc in listaDocumentos %}
                 <a class="dropdown-item" href="{% url 'dte:nuevo' doc.dte_id %}">
-                  <i class="mdi mdi-file-document mr-2"></i>{{doc.nombre_documento}}</a>
+                  <i class="mdi mdi-chevron-right"></i>{{doc.nombre_documento}}</a>
                 {% endfor %}
               </div>
             </li>
@@ -66,10 +66,10 @@
               <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Clientes </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
                 <a class="dropdown-item" href="{% url 'dte:cliente_create' %}">
-                  <i class="mdi mdi-file-document mr-2"></i> Nuevo
+                  <i class="mdi mdi-chevron-right"></i> Nuevo
                 </a>
                 <a class="dropdown-item" href="{% url 'dte:cliente_list' %}">
-                  <i class="mdi mdi-file-document mr-2"></i> Lista de clientes
+                  <i class="mdi mdi-chevron-right"></i> Lista de clientes
                 </a>
               </div>
             </li>
@@ -77,10 +77,10 @@
               <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Productos </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
                 <a class="dropdown-item" href="{% url 'dte:producto_nuevo' %}">
-                  <i class="mdi mdi-file-document mr-2"></i> Nuevo
+                  <i class="mdi mdi-chevron-right"></i> Nuevo
                 </a>
                 <a class="dropdown-item" href="{% url 'dte:lista_producto' %}">
-                  <i class="mdi mdi-file-document mr-2"></i> Lista de Productos
+                  <i class="mdi mdi-chevron-right"></i> Lista de Productos
                 </a>
               </div>
             </li>

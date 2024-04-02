@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
-from .jsons import fcf, ccf, nc, nd
+from .jsons import fcf, ccf, nc, nd, fex, fse
 from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta
 from num2words import num2words
@@ -131,7 +131,7 @@ def genPdf(codigo, tipo, empresa):
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
-	if tipo == '03':
+	if tipo in {'03','05','06'}:
 		template_name = 'plantillas/dte_ccf.html'
 		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
 			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
@@ -144,6 +144,16 @@ def genPdf(codigo, tipo, empresa):
 			precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
 			subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
 		)
+	if tipo == '11':
+		template_name = 'plantillas/dte_ccf.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+	if tipo == '14':
+		template_name = 'plantillas/dte_ccf.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
 		
 	letras = CantLetras(dte.totalPagar)
@@ -285,3 +295,8 @@ def datosInicio(pk):
 	subtotal_mes = subtotal_mes or 0
 
 	return num_registros_hoy, subtotal_hoy, num_registros_mes, subtotal_mes
+
+
+def gen_prueba(request, tipo):
+	messages.success(request, 'Prueba generada: ' + tipo)
+	return HttpResponse('Prueba generada')

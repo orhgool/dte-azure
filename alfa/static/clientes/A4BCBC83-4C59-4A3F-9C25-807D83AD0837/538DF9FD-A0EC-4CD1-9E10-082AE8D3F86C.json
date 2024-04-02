@@ -3,22 +3,22 @@
     "version": 3,
     "ambiente": "00",
     "tipoDte": "05",
-    "numeroControl": "DTE-05-00000000-000000000000001",
-    "codigoGeneracion": "FF242830-9BEE-4C62-A561-5F7B5ACFBB47",
+    "numeroControl": "DTE-05-00000000-000000000000002",
+    "codigoGeneracion": "538DF9FD-A0EC-4CD1-9E10-082AE8D3F86C",
     "tipoModelo": 1,
     "tipoOperacion": 1,
     "tipoContingencia": null,
     "motivoContin": null,
     "fecEmi": "2024-04-01",
-    "horEmi": "11:51:08",
+    "horEmi": "12:24:54",
     "tipoMoneda": "USD"
   },
   "documentoRelacionado": [
     {
       "tipoDocumento": "03",
-      "tipoGeneracion": 1,
-      "numeroDocumento": "83938",
-      "fechaEmision": "2024-04-01"
+      "tipoGeneracion": 2,
+      "numeroDocumento": "A3EA1C3F-1AF3-4E58-9C99-E0DB15C19607",
+      "fechaEmision": "2024-03-29"
     }
   ],
   "ventaTercero": null,
@@ -57,17 +57,17 @@
     {
       "numItem": 1,
       "tipoItem": 1,
-      "numeroDocumento": "83938",
+      "numeroDocumento": "A3EA1C3F-1AF3-4E58-9C99-E0DB15C19607",
       "cantidad": 1.0,
       "codigo": null,
       "codTributo": null,
-      "uniMedida": 59,
-      "descripcion": "producto",
-      "precioUni": 100.0,
+      "uniMedida": 99,
+      "descripcion": "desc",
+      "precioUni": 30.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 100.0,
+      "ventaGravada": 30.0,
       "tributos": [
         "20"
       ]
@@ -76,8 +76,8 @@
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 100.0,
-    "subTotalVentas": 100.0,
+    "totalGravada": 30.0,
+    "subTotalVentas": 30.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
@@ -86,15 +86,15 @@
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 13.0
+        "valor": 3.9
       }
     ],
-    "subTotal": 100.0,
+    "subTotal": 30.0,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 113.0,
-    "totalLetras": "CIENTO TRECE 00/100 USD",
+    "montoTotalOperacion": 33.9,
+    "totalLetras": "TREINTA Y TRES 90/100 USD",
     "condicionOperacion": 1
   },
   "extension": {
@@ -110,9 +110,9 @@
     "ambiente": "00",
     "versionApp": 2,
     "estado": "PROCESADO",
-    "codigoGeneracion": "FF242830-9BEE-4C62-A561-5F7B5ACFBB47",
-    "selloRecibido": "2024807D92CFEA26410099DB3ED5A14DF16EHU0H",
-    "fhProcesamiento": "01/04/2024 12:08:50",
+    "codigoGeneracion": "538DF9FD-A0EC-4CD1-9E10-082AE8D3F86C",
+    "selloRecibido": "20241470B57C7B984210A7972BBBA1B181CCSKWC",
+    "fhProcesamiento": "01/04/2024 12:26:21",
     "clasificaMsg": "10",
     "codigoMsg": "001",
     "descripcionMsg": "RECIBIDO",

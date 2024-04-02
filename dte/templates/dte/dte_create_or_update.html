@@ -81,6 +81,20 @@
                         <div class="col-md-2">
                             {{ form.estadoPago|as_crispy_field }}
                         </div>
+                    {% if TipoDocumento.codigo == '11' %}
+                        <div class="col-md-2">
+                            {{ form.tipoItemExpor|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.recintoFiscal|as_crispy_field }}
+                        </div>
+                        <div class="col-md-5">
+                            {{ form.regimen|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.incoterms|as_crispy_field }}
+                        </div>
+                    {% endif %}
                     </div>
 
                     <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -154,6 +168,28 @@
                                         <th>Vta no sujeta</th>
                                         <th>Venta exenta</th>
                                         <th>Venta gravada</th>
+                                        <th>ID <span style="color: red;" class="required">*</span></th>
+                                        <th>Eliminar?</th>
+                                    {% endif %}
+                                    {% if TipoDocumento.codigo == '11' %}
+                                        <th>Cant. <span style="color: red;" class="required">*</span></th>
+                                        <th>UdM. <span style="color: red;" class="required">*</span></th>
+                                        <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Precio <span style="color: red;" class="required">*</span></th>
+                                        <th>Descuento</th>
+                                        <th>Vta gravada</th>
+                                        <th>No Gravada</th>
+                                        <th>ID <span style="color: red;" class="required">*</span></th>
+                                        <th>Eliminar?</th>
+                                    {% endif %}
+                                    {% if TipoDocumento.codigo == '14' %}
+                                        <th>Tipo <span style="color: red;" class="required">*</span></th>
+                                        <th>Cant. <span style="color: red;" class="required">*</span></th>
+                                        <th>UdM. <span style="color: red;" class="required">*</span></th>
+                                        <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Precio <span style="color: red;" class="required">*</span></th>
+                                        <th>Descuento</th>
+                                        <th>Valor compra</th>
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
                                     {% endif %}

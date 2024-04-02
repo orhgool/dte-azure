@@ -33,10 +33,10 @@
                             {% for dte in page_obj %}
                                 <tr>
                                     <td>{{dte.fecEmi|fechaHora}}</td>
-                                    <td>{{ dte.receptor.nombreComercial }}</td>
-                                    <td>{{dte.tipoDte.nombre_corto}}</td>
-                                    <td>{{ dte.codigoGeneracion }}</td>
-                                    <td>{{ dte.numeroControl }}</td>
+                                    <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
+                                    <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
+                                    <td>{{dte.codigoGeneracion}}</td>
+                                    <td>{{dte.numeroControl}}</td>
                                     <td><a href="{% url 'dte:actualizar' dte.codigoGeneracion %}">Modificar</a></td>
                                 </tr>
                             {% endfor %}

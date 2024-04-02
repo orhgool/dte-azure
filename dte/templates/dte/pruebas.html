@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>Mensaje:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+        	<div class="card-body">
+        		<div class="card-title"><h1>{{empresa}}</h1></div>
+				<ul>
+					<li>
+						Factura <a href="{% url 'dte:enviar_prueba' tipo='01' %}">enviar</a>
+					</li>
+					<li>
+						CCF <a href="{% url 'dte:enviar_prueba' tipo='03' %}">enviar</a>
+					</li>
+					<li>
+						Nota de remisión <a href="{% url 'dte:enviar_prueba' tipo='04' %}">enviar</a>
+					</li>
+					<li>
+						Nota de crédito <a href="{% url 'dte:enviar_prueba' tipo='05' %}">enviar</a>
+					</li>
+					<li>
+						Nota de débido <a href="{% url 'dte:enviar_prueba' tipo='06' %}">enviar</a>
+					</li>
+					<li>
+						Factura de exportación <a href="{% url 'dte:enviar_prueba' tipo='11' %}">enviar</a>
+					</li>
+					<li>
+						Factura de sujeto excluido <a href="{% url 'dte:enviar_prueba' tipo='14' %}">enviar</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

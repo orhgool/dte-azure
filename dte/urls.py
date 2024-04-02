@@ -32,6 +32,8 @@ urlpatterns = [
     path('direcciones/', direcciones, name='direcciones'),
     path('cdn/', cdn, name='cdn'),
     path('correo/<str:tipo>/<str:codigo>', correoACliente, name='correo'),
+    path('pruebas/', pruebas, name='prueba'),
+    path('enviar_prueba/<str:tipo>', enviarPrueba, name='enviar_prueba'),
 ]
 
 if settings.DEBUG:

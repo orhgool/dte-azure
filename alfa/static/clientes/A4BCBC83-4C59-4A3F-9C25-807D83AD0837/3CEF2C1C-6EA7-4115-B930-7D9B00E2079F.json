@@ -2,26 +2,18 @@
   "identificacion": {
     "version": 3,
     "ambiente": "00",
-    "tipoDte": "05",
-    "numeroControl": "DTE-05-00000000-000000000000001",
-    "codigoGeneracion": "FF242830-9BEE-4C62-A561-5F7B5ACFBB47",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000021",
+    "codigoGeneracion": "3CEF2C1C-6EA7-4115-B930-7D9B00E2079F",
     "tipoModelo": 1,
     "tipoOperacion": 1,
+    "fecEmi": "2024-04-02",
+    "horEmi": "15:45:30",
+    "tipoMoneda": "USD",
     "tipoContingencia": null,
-    "motivoContin": null,
-    "fecEmi": "2024-04-01",
-    "horEmi": "11:51:08",
-    "tipoMoneda": "USD"
+    "motivoContin": null
   },
-  "documentoRelacionado": [
-    {
-      "tipoDocumento": "03",
-      "tipoGeneracion": 1,
-      "numeroDocumento": "83938",
-      "fechaEmision": "2024-04-01"
-    }
-  ],
-  "ventaTercero": null,
+  "documentoRelacionado": null,
   "emisor": {
     "nit": "03070711201016",
     "nrc": "2998565",
@@ -36,15 +28,19 @@
       "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
     },
     "telefono": "69848539",
-    "correo": "alfaconsultores.sv@gmail.com"
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
   },
   "receptor": {
     "nit": "06142407620011",
     "nrc": "4340",
     "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-    "nombreComercial": null,
     "codActividad": "52102",
     "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "nombreComercial": "ALCASA",
     "direccion": {
       "departamento": "05",
       "municipio": "11",
@@ -53,55 +49,66 @@
     "telefono": "22121270",
     "correo": "alcasa@alcasa.com.sv"
   },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
   "cuerpoDocumento": [
     {
       "numItem": 1,
-      "tipoItem": 1,
-      "numeroDocumento": "83938",
-      "cantidad": 1.0,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2.0,
       "codigo": null,
       "codTributo": null,
-      "uniMedida": 59,
-      "descripcion": "producto",
-      "precioUni": 100.0,
+      "uniMedida": 99,
+      "descripcion": "servicio",
+      "precioUni": 117.42,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 100.0,
+      "ventaGravada": 234.84,
+      "noGravado": 0.0,
       "tributos": [
         "20"
-      ]
+      ],
+      "psv": 0.0
     }
   ],
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 100.0,
-    "subTotalVentas": 100.0,
+    "totalGravada": 234.84,
+    "subTotalVentas": 234.84,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
     "totalDescu": 0.0,
     "tributos": [
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 13.0
+        "valor": 30.53
       }
     ],
-    "subTotal": 100.0,
+    "subTotal": 234.84,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 113.0,
-    "totalLetras": "CIENTO TRECE 00/100 USD",
-    "condicionOperacion": 1
+    "montoTotalOperacion": 265.37,
+    "totalNoGravado": 0.0,
+    "totalPagar": 265.37,
+    "totalLetras": "DOSCIENTOS SESENTA Y CINCO 37/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
   },
   "extension": {
     "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
     "docuEntrega": "03070711201016",
     "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
     "docuRecibe": "06142407620011",
+    "placaVehiculo": null,
     "observaciones": null
   },
   "apendice": null,
@@ -110,9 +117,9 @@
     "ambiente": "00",
     "versionApp": 2,
     "estado": "PROCESADO",
-    "codigoGeneracion": "FF242830-9BEE-4C62-A561-5F7B5ACFBB47",
-    "selloRecibido": "2024807D92CFEA26410099DB3ED5A14DF16EHU0H",
-    "fhProcesamiento": "01/04/2024 12:08:50",
+    "codigoGeneracion": "3CEF2C1C-6EA7-4115-B930-7D9B00E2079F",
+    "selloRecibido": "202444189A1EC487489992320F93BB651616U0SX",
+    "fhProcesamiento": "02/04/2024 16:12:14",
     "clasificaMsg": "10",
     "codigoMsg": "001",
     "descripcionMsg": "RECIBIDO",
