@@ -131,11 +131,12 @@ def genPdf(codigo, tipo, empresa):
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
-	if tipo in {'03','05','06'}:
+	if tipo == '03':
 		template_name = 'plantillas/dte_ccf.html'
 		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
 			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
 			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
 			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
 			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
 		).first()
@@ -144,13 +145,27 @@ def genPdf(codigo, tipo, empresa):
 			precio_con_iva=ExpressionWrapper(F('precioUni') * 1.13, output_field=DecimalField()),
 			subt_precio_con_iva=ExpressionWrapper(F('ventaGravada') * 1.13, output_field=DecimalField())
 		)
-	if tipo == '11':
-		template_name = 'plantillas/dte_ccf.html'
+
+	if tipo == '05':
+		template_name = 'plantillas/dte_nc.html'
 		dte = DTECliente.objects.get(codigoGeneracion=codigo)
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+	if tipo == '06':
+		template_name = 'plantillas/dte_nd.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
+	if tipo == '11':
+		template_name = 'plantillas/dte_fex.html'
+		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		receptor = Cliente.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+
 	if tipo == '14':
-		template_name = 'plantillas/dte_ccf.html'
+		template_name = 'plantillas/dte_fse.html'
 		dte = DTECliente.objects.get(codigoGeneracion=codigo)
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
