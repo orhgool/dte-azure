@@ -14,6 +14,8 @@ urlpatterns = [
 	path('vista_previa/<str:tipo>/<str:codigo>/', vista_previa_pdf_dte, name='vista_previa'),
 	path('firmardte/<str:tipo>/<str:codigo>', firmarDte, name='firmardte'),
 	path('enviar_mh/<str:tipo>/<str:codigo>', EnviarDTEView.as_view(), name='enviar_mh'),
+	path('enviar_mh_anulacion/<str:tipo>/<str:cod_anulacion>', EnviarDTEView.as_view(), name='enviar_mh_anulacion'),
+	path('enviar_mh_prueba/<str:tipo>/<str:codigo>/<str:doc>/', EnviarDTEView_prueba.as_view(), name='enviar_mh_prueba'),
 	path('nuevo/<str:pk>', DTECreate.as_view(), name='nuevo'),
 	path('actualizar/<str:pk>', DTEUpdate.as_view(), name='actualizar'),
 	path('eliminar/<str:pk>', eliminar_detalle, name='eliminar_detalle'),
@@ -31,9 +33,11 @@ urlpatterns = [
     path('autocompletar-producto/', autocompletar_producto, name='autocompletar_producto'),
     path('direcciones/', direcciones, name='direcciones'),
     path('cdn/', cdn, name='cdn'),
+    path('ver_correo/<str:tipo>/<str:codigo>', verCorreo, name='verCorreo'),
     path('correo/<str:tipo>/<str:codigo>', correoACliente, name='correo'),
     path('pruebas/', pruebas, name='prueba'),
     path('enviar_prueba/<str:tipo>', enviarPrueba, name='enviar_prueba'),
+    path('invalidar_dte/<str:tipo>/<str:codigo>', invalidarDte, name='invalidarDte'),
 ]
 
 if settings.DEBUG:

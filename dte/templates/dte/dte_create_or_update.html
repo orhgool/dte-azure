@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load my_filters %}
 {% load crispy_forms_tags %}
 {% crispy example_form example_form.helper %}
 {% block content %}
@@ -18,6 +19,11 @@
 {% if sello %}
     <div class="alert alert-warning" role="alert" align="center">
         Documento enviado al ministerio, sello de recepción <strong>{{ sello }}</strong>
+    </div>
+{% endif %}
+{% if anulado %}
+    <div class="alert alert-warning" role="alert" align="center">
+        <strong>Documento anulado</strong> <p>DTE de anulación: {{anulado.codigoGeneracion}} del {{anulado.fechaEmision|fecha}}</p>
     </div>
 {% endif %}
 
@@ -42,6 +48,28 @@
     </div>
   </div>
 </div>
+<!-- Modal anular Dte -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Anular DTE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de anular el documento?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="anularDocumento('{{Documento.tipoDte.codigo}}', '{{Documento.codigoGeneracion}}')">Sí, anular</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin Modal anular Dte -->
+
 <form enctype="multipart/form-data" class="container" method="post" id="product_form">
     {% csrf_token %}
     <!-- main form start --- in our case product form -->
@@ -49,7 +77,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{TipoDocumento}}</h4>
+                    <h4 class="card-title">{{Documento.tipoDte}}</h4>
                     <div class="row">
                         <div class="col-md-2" style="display: none;">
                             {{ form.emisor|as_crispy_field }}
@@ -111,6 +139,9 @@
                             {% endif %}
                             {% if sello %}
                             <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Re-enviar correo al cliente</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">
+                              Anular
+                            </button>
                             {% endif %}
                         </div>
                 </div>
@@ -275,7 +306,7 @@
     $(document).ready(function() {
         $('#item-detalles').on('focus', '.detalles-1-descripcion input', function() {
             $(this).autocomplete({
-                source: '{% url "dte:autocompletar_producto" %}',
+                source: '{% url "dte:autocompletar_producto" %}'
                 minLength: 2 // mínimo de caracteres antes de realizar la búsqueda
             });
         });
@@ -348,6 +379,12 @@
   });
 </script>
 
+<script type="text/javascript">
+    function anularDocumento(tipo, codigo) {
+    // Redirigir a la URL de anulación con los parámetros
+    window.location.href = "/invalidar_dte/"+ tipo + "/" + codigo;
+  }
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Función para actualizar el campo 'ventaGravada' basado en 'cantidad' y 'precioUni'

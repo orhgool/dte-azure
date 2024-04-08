@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000026",
+    "codigoGeneracion": "E84B3358-ED29-4E08-A1F0-1B931D406CBE",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-04-06",
+    "horEmi": "08:09:00",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "016312457",
+    "nombre": "Proveedor de servicios",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Ferreteria La Industrial"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 99,
+      "descripcion": "servicios",
+      "precioUni": 1000.0,
+      "montoDescu": 0.0,
+      "compra": 1000.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 100.0,
+    "totalPagar": 900.0,
+    "totalLetras": "NOVECIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "E84B3358-ED29-4E08-A1F0-1B931D406CBE",
+    "selloRecibido": "2024579A5ECB86264FD489BBB54A57B8B085YGEQ",
+    "fhProcesamiento": "06/04/2024 08:09:10",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

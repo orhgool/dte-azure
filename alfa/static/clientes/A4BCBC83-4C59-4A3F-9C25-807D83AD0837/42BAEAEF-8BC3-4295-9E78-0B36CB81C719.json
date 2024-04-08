@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "05",
+    "numeroControl": "DTE-05-00000000-000000000000051",
+    "codigoGeneracion": "42BAEAEF-8BC3-4295-9E78-0B36CB81C719",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-04-05",
+    "horEmi": "16:57:55",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": [
+    {
+      "tipoDocumento": "03",
+      "tipoGeneracion": 1,
+      "numeroDocumento": "9239",
+      "fechaEmision": "2024-04-04"
+    }
+  ],
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "A L F A",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "receptor": {
+    "nit": "06142407620011",
+    "nrc": "4340",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "nombreComercial": "ALCASA",
+    "codActividad": "52102",
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
+    },
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": "9239",
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Correccion",
+      "precioUni": 20.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 20.0,
+      "tributos": [
+        "20"
+      ]
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 20.0,
+    "subTotalVentas": 20.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 2.6
+      }
+    ],
+    "subTotal": 20.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 22.6,
+    "totalLetras": "VEINTIDOS 60/100 USD",
+    "condicionOperacion": 1
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "42BAEAEF-8BC3-4295-9E78-0B36CB81C719",
+    "selloRecibido": "20246E222DE12EA442B6BA87172912D133CAMEPL",
+    "fhProcesamiento": "05/04/2024 16:58:03",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

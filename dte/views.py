@@ -15,11 +15,12 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from datetime import datetime, timedelta
 from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
 from .funciones import CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf, CantLetras, firmar, datosInicio, gen_prueba
-from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion
+from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, TipoInvalidacion, DTEInvalidacion
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -320,9 +321,11 @@ class DTEUpdate(DTEInline, UpdateView):
 		
 	def get_context_data(self, **kwargs):
 		ctx = super(DTEUpdate, self).get_context_data(**kwargs)
-		nombreTipoDoc = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
-		ctx['TipoDocumento'] = nombreTipoDoc.tipoDte
-		ctx['sello'] = nombreTipoDoc.selloRecepcion
+		Documento = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+		anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
+		ctx['Documento'] = Documento
+		ctx['sello'] = Documento.selloRecepcion
+		ctx['anulado'] = anulado if anulado else None
 		ctx['named_formsets'] = self.get_named_formsets()
 		#messages.success(self.request, {'DTEUpdate: ':'update', 'ctx':ctx})
 		return ctx
@@ -345,7 +348,7 @@ class DTEUpdate(DTEInline, UpdateView):
 
 
 class EnviarDTEView(APIView):
-	def get(self, request, tipo, codigo):
+	def get(self, request, tipo, codigo=None, cod_anulacion=None):
 	#	template = 'sitria:actualizar_dte'
 	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
 		
@@ -356,16 +359,20 @@ class EnviarDTEView(APIView):
 			ambiente = modelo.ambiente.codigo
 			version = modelo.version
 			docfirmado = modelo.docfirmado
-				
-		
+		elif tipo == 'anulacion':
+			#messages.info(request, cod_anulacion)
+			modelo = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
+			codigo = modelo.codigoDte
+			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
+			ambiente = emisor.ambiente.codigo
+			version = 2
+			docfirmado = modelo.docfirmado
+			#return redirect('dte:index')
 
-		if tipo=='anula':
-			archivo = os.path.join(settings.STATIC_DIR, 'json/', codigo + '.json')
+		if os.name == 'posix':
+			archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{cod_anulacion if cod_anulacion else codigo}.json')
 		else:
-			if os.name == 'posix':
-				archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
-			else:
-				archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('/', '\\')
+			archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{cod_anulacion if cod_anulacion else codigo}.json').replace('/', '\\')
 
 		with open(archivo, 'rb') as file:
 			archivo_adjunto = file.read()
@@ -386,8 +393,8 @@ class EnviarDTEView(APIView):
 				'documento': docfirmado,
 				'codigoGeneracion': codigo,
 			}
-		if tipo in {'anula'}:
-			url = "https://api.dtes.mh.gob.sv/fesv/anulardte"
+		if tipo in {'anulacion'}:
+			url = getUrl(emisor.codigo, 'Anulardte')
 			headers = {
 				'Authorization': emisor.token,
 				'User-Agent': 'alca/1.0',
@@ -396,7 +403,7 @@ class EnviarDTEView(APIView):
 			data={
 				'ambiente': ambiente,
 				'idEnvio': 1,
-				'version': version,
+				'version': 2,
 				'documento': docfirmado
 			}
 		if tipo in {'contingencia'}:
@@ -428,6 +435,11 @@ class EnviarDTEView(APIView):
 				gsello = DTEProveedor.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
 				gsello.save()
+			elif tipo in {'anulacion'}:
+				gsello = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
+				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				gsello.save()
+			
 
 			try:
 				with open(archivo, 'r') as json_file:
@@ -440,7 +452,10 @@ class EnviarDTEView(APIView):
 			with open(archivo, 'w') as json_file:
 				json.dump(contenido_actual, json_file, indent=2)
 
-			genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
+			if not cod_anulacion:
+				genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
+				correo = enviarCorreo(request, codigo=codigo, tipo=tipo)
+				#messages.info(correo)
 			#res = gen_pdf(codigo, tipo, version, ambiente)
 			#estado = EstadoDTE.objects.get(codigo='005')
 			#cambiarEstadoDte(tipo, codigo, estado)
@@ -461,22 +476,22 @@ class EnviarDTEView(APIView):
 
 
 def firmarDte(request, codigo, tipo): ########## BORRAR ###################
-	if tipo in {'01','03'}:
-		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	
-	emisor = Empresa.objects.get(codigo=dte.emisor_id)
+	emisor = Empresa.objects.get(codigo=request.session['empresa'])
 	usuariomh = emisor.usuarioMH
 	pwd = emisor.passwordPri
 
 	if os.name == 'posix':
-		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
 	else:
-		archivo = os.path.join(settings.STATIC_DIR, emisor.codigo, f'{codigo}.json').replace('/', '\\')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('\\', '/')
+
+	#messages.info(request, 'Archivo: ' + archivo)
 	
 	with open(archivo, 'rb') as file:
 		json_data = json.load(file)
 
-	firma_url = getUrl(request.session['empresa'], 'Firmadodte')
+	firma_url = getUrl(emisor.codigo, 'Firmadodte')
 
 	data = {
 		'nit': usuariomh,
@@ -490,37 +505,164 @@ def firmarDte(request, codigo, tipo): ########## BORRAR ###################
 		'dteJson':json_data
 	}
 
+	#messages.info(request, {'data1': data1})
+
 	headers = {'content-Type': 'application/JSON'}
+	#messages.info(request, 'Firmado: ' + codigo)
 	response = requests.post(firma_url, json=data, headers=headers)
+
 
 	if response.status_code == 200:
 		response_data = json.loads(response.text)
+		#messages.info(request, {'response': response_data})
 		status_value = response_data.get("status", None)
 		body_value = response_data.get("body", None)
 
-		if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
-			guardar_firma = DTECliente.objects.get(codigoGeneracion=codigo)
-			guardar_firma.docfirmado = body_value
-			guardar_firma.save()
-		elif tipo in {'07'}:
-			pass
+		#if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
+		#	guardar_firma = DTECliente.objects.get(codigoGeneracion=codigo)
+		#	guardar_firma.docfirmado = body_value
+		#	guardar_firma.save()
+		#elif tipo in {'07'}:
+		#	pass
 
-		with open(archivo, 'r') as json_file:
-			data = json.load(json_file)
+		#with open(archivo, 'r') as json_file:
+		#	data = json.load(json_file)
 
-		try:
-			with open(archivo, 'r') as json_file:
-					contenido_actual = json.load(json_file)
-		except FileNotFoundError:
-			contenido_actual = {}
+		#try:
+		#	with open(archivo, 'r') as json_file:
+		#			contenido_actual = json.load(json_file)
+		#except FileNotFoundError:
+		#	contenido_actual = {}
 
-		contenido_actual['token'] = body_value
+		#contenido_actual['token'] = body_value
 
 		#return redirect('dte:index')
 		#return redirect('dte:actualizar', pk=codigo)
-		return JsonResponse(response_data)
+		#return JsonResponse(response_data)
+		#messages.success(request, body_value)
+		return redirect('dte:enviar_mh_prueba', tipo=tipo, codigo=codigo, doc=body_value)
 	else:
+		messages.info(request, data)
 		return JsonResponse({'resp':data, 'codigo':response.status_code, 'url':firma_url})
+
+
+class EnviarDTEView_prueba(APIView):
+	def get(self, request, tipo, codigo, doc, cod_anulacion=None):
+		#messages.info(request, doc)
+	#	template = 'sitria:actualizar_dte'
+	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
+		if tipo in {'01','07','08','09','11','14','15'}:
+			versionN = 1
+		elif tipo in {'03','04','05','06'}:
+			versionN = 3
+
+		tConfiguracion = None #Configuracion.objects.filter(empresa='001').first()
+		if tipo in {'01','03','04','05','06','11','14','anulacion'}:
+			#modelo = DTECliente.objects.get(codigoGeneracion=codigo)
+			emisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+			ambiente = '00' #modelo.ambiente.codigo
+			version = versionN #modelo.version
+			docfirmado = doc #modelo.docfirmado				
+		
+
+		if os.name == 'posix':
+			archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
+		else:
+			archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('/', '\\')
+
+		with open(archivo, 'rb') as file:
+			archivo_adjunto = file.read()
+			nombre_archivo = os.path.basename(archivo)
+
+		if tipo in {'01','03','04','05','06','07','07A','08','09','11','14','15'}:
+			url = getUrl(emisor.codigo, 'Recepciondte')
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alfa/1.0',
+				'Content-Type': 'application/json',
+			}			
+			data={
+				'ambiente': ambiente,
+				'idEnvio': 1,
+				'version': version,
+				'tipoDte': tipo,
+				'documento': docfirmado,
+				'codigoGeneracion': codigo,
+			}
+		if tipo in {'anulacion'}:
+			url = getUrl(emisor.codigo, 'Anulardte')
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alfa/1.0',
+				'Content-Type': 'application/json'
+			}			
+			data={
+				'ambiente': ambiente,
+				'idEnvio': 1,
+				'version': version,
+				'documento': docfirmado
+			}
+		if tipo in {'contingencia'}:
+			url = getUrl(emisor.codigo, 'Contingencia')
+			headers = {
+				'Authorization': emisor.token,
+				'User-Agent': 'alfa/1.0',
+				'Content-Type': 'application/json',
+			}			
+			data={
+				'nitEmisor': '06142407620011',
+				'documento': docfirmado,
+			}
+
+			#consol={'url':url, 'headers':headers, 'data':data}
+
+		#files = {(nombre_archivo, archivo_adjunto)}
+
+		response = requests.post(url, headers=headers, json=data)
+
+		if response.status_code == 200:
+			respuesta_servicio = response.json()
+
+			#if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
+			#	gsello = DTECliente.objects.get(codigoGeneracion=codigo)
+			#	gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+			#	gsello.save()
+			#elif tipo in {'07'}:
+			#	gsello = DTEProveedor.objects.get(codigoGeneracion=codigo)
+			#	gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+			#	gsello.save()
+
+			try:
+				with open(archivo, 'r') as json_file:
+					contenido_actual = json.load(json_file)
+			except FileNotFoundError:
+				contenido_actual = {}
+
+			contenido_actual['selloRecepcion'] = respuesta_servicio
+
+			with open(archivo, 'w') as json_file:
+				json.dump(contenido_actual, json_file, indent=2)
+
+			#genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
+			#res = gen_pdf(codigo, tipo, version, ambiente)
+			#estado = EstadoDTE.objects.get(codigo='005')
+			#cambiarEstadoDte(tipo, codigo, estado)
+			#messages.success(request, res)
+			messages.success(request, respuesta_servicio)
+			#return redirect(template, codigo=codigo)
+			return redirect('dte:actualizar', pk=codigo)
+			#return redirect('dte:prueba')
+
+		else:
+			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+			messages.info(request, error_message)
+			#return redirect(template, codigo=codigo)
+			#return redirect('dte:actualizar', pk=codigo)
+			return redirect('dte:prueba')
+	
+	def post(self, request, codigo, doc_firmado):
+		# Manejar la lógica para solicitudes GET si es necesario
+		return Response({"detail": "Solicitud POST procesada correctamente."})
 
 
 def autocompletar_producto(request):
@@ -834,6 +976,16 @@ def cdn(request):
 	
 	return render(request, 'dte/cdn.html', context)
 
+
+def verCorreo(request, tipo, codigo):
+	datos = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	empresa = get_object_or_404(Empresa, codigo=datos.emisor.codigo)
+	logo = request.session['logo']
+	enlace = f'https://admin.factura.gob.sv/consultaPublica?ambiente={empresa.ambiente.codigo}&codGen={datos.codigoGeneracion}&fechaEmi={datos.fecEmi.strftime("%Y-%m-%d")}'
+	context={'datos':datos, 'logo':logo, 'enlace':enlace}
+	return render(request, 'plantillas/correo_receptor.html', context)
+
+
 def correoACliente(request, tipo, codigo):
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
 	return redirect('dte:actualizar', pk=codigo)
@@ -844,6 +996,37 @@ def pruebas(request):
 	return render(request, 'dte/pruebas.html', context)
 
 def enviarPrueba(request, tipo):
+	res = gen_prueba(request, tipo=tipo, empresa=request.session['empresa'])
+	#messages.success(request, res)
+	return redirect('dte:firmardte', tipo=tipo, codigo=res)
+	#return redirect('dte:enviar_mh', tipo=tipo, codigo=res)
+	#messages.success(request, res)
 
-	gen_prueba(request, tipo=tipo)
-	return redirect('dte:prueba')
+	#return redirect('dte:prueba')
+
+def invalidarDte(request, tipo, codigo):
+	cod_anulacion = CodGeneracion()
+	dte = get_object_or_404(DTECliente, codigoGeneracion = codigo)
+	tipoI = get_object_or_404(TipoInvalidacion, codigo=2)
+	emisor_instance = get_object_or_404(Empresa, codigo=request.session['empresa'])
+	receptor_instance = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	tipoDocumento_instance = get_object_or_404(TipoDocumento, codigo=dte.tipoDte_id)
+	tipoInvalidacion_instance = get_object_or_404(TipoInvalidacion, codigo=2)
+	invalidado = DTEInvalidacion(codigoGeneracion = cod_anulacion,
+		emisor = emisor_instance,
+		receptor = receptor_instance,
+		codigoDte = dte.codigoGeneracion,
+		tipoDte = tipoDocumento_instance,
+		fechaEmision = datetime.now(),
+		tipoInvalidacion = tipoInvalidacion_instance,
+		docfirmado='',
+		selloRecepcion='')
+	invalidado.save()
+	json = genJson(codigo=codigo, tipo='anulacion', empresa=request.session['empresa'], codigo_anulacion=cod_anulacion)
+	firma = firmar(codigo=codigo, cod_anulacion=cod_anulacion, tipo='anulacion')
+
+	#messages.success(request, json)
+
+	#return redirect('dte:actualizar', pk=codigo)
+	#messages.info(request, cod_anulacion)
+	return redirect('dte:enviar_mh_anulacion', tipo='anulacion', cod_anulacion=cod_anulacion)

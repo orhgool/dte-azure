@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "F6B132C7-1397-4D10-BFC2-26835AD1F2B6",
+    "fecAnula": "2024-04-07",
+    "horAnula": "16:35:23"
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nomEstablecimiento": "A L F A",
+    "tipoEstablecimiento": "02",
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "14",
+    "codigoGeneracion": "297C5E13-F101-46EF-8360-B9167BB91303",
+    "selloRecibido": "20242E61A35A88264F25A839FD64A512AB0FCRVL",
+    "numeroControl": "DTE-14-00000000-000000000000004",
+    "fecEmi": "2024-04-06",
+    "montoIva": 0.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "06142407620011",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "ALFA CONSULTORES, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03070711201016",
+    "nombreSolicita": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "06142407620011"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "F6B132C7-1397-4D10-BFC2-26835AD1F2B6",
+    "selloRecibido": "20243BD9ADC07CCA4CABAD786B5FDAAC9C35HNHL",
+    "fhProcesamiento": "07/04/2024 16:35:33",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

@@ -973,4 +973,95 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
 
 
-	return json_data		
+	return json_data
+
+
+def anulacion(codAnulacion, codigoDte): # Anulacion
+	#detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	#from .funciones import CodGeneracion
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigoDte)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	#datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
+	
+
+	identificacion_data = {
+			'version': 2,
+			'ambiente': dte.ambiente.codigo,
+			'codigoGeneracion': codAnulacion,
+			'fecAnula': datetime.now().strftime("%Y-%m-%d"),
+			'horAnula': datetime.now().strftime("%H:%M:%S")
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {
+		'nit': emisor.nit.replace('-',''),
+		'nombre': emisor.razonsocial,
+		'nomEstablecimiento': emisor.nombreComercial,
+		'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+		'telefono': emisor.telefono,
+		'correo': emisor.correo,
+		'codEstable': None,
+		'codPuntoVenta': None,
+		'codEstableMH': None,
+		'codPuntoVentaMH': None
+	}
+
+	documento_data = {
+		'tipoDte': dte.tipoDte_id,
+	    'codigoGeneracion': dte.codigoGeneracion,
+	    'selloRecibido': dte.selloRecepcion,
+	    'numeroControl': dte.numeroControl,
+	    'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+	    'montoIva': float(dte.montoTotalOperacion),
+	    'codigoGeneracionR': None,
+	    'tipoDocumento': '36',
+	    'numDocumento': dte.receptor.numeroDocumento.replace('-',''),
+	    'nombre': dte.receptor.razonsocial,
+	    'telefono': dte.receptor.telefono,
+	    'correo': dte.receptor.correo,
+	}
+
+	motivo_data = {
+	    'tipoAnulacion': 2,
+	    'motivoAnulacion': 'Rescindir de la operacion realizada',
+	    'nombreResponsable': dte.emisor.razonsocial,
+	    'tipDocResponsable': '36',
+	    'numDocResponsable': dte.emisor.nit.replace('-','') if dte.emisor.nit.replace('-','') else dte.emisor.dui.replace('-',''),
+	    'nombreSolicita': dte.receptor.razonsocial,
+	    'tipDocSolicita': '36',
+	    'numDocSolicita': dte.receptor.numeroDocumento.replace('-','')
+  	}
+
+
+	json_data = {
+		'identificacion': identificacion_data,
+		'emisor': emisor_data,
+		'documento': documento_data,
+		'motivo': motivo_data
+	}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
+	return json_data	

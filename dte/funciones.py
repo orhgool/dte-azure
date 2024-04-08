@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
-from .jsons import fcf, ccf, nc, nd, fex, fse
+from .jsons import fcf, ccf, nc, nd, fex, fse, anulacion
+from .jsons_pruebas import fcf_p, ccf_p, nc_p, nd_p, fex_p, fse_p
 from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta
 from num2words import num2words
@@ -48,7 +49,7 @@ def getUrl(empresa, tipo):
 	return url.url
 
 
-def genJson(codigo, tipo, empresa):
+def genJson(codigo, tipo, empresa, codigo_anulacion=None):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
 	archivo = {}
 	if tipo == '01':
@@ -63,18 +64,47 @@ def genJson(codigo, tipo, empresa):
 		json_data = fex(codigo)
 	elif tipo == '14':
 		json_data = fse(codigo)
+	elif tipo == 'anulacion':
+		json_data = anulacion(codAnulacion=codigo_anulacion, codigoDte=codigo)
 
 	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
-	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
+	if tipo == 'anulacion':
+		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo_anulacion}.json')
+	else:
+		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
 
 	with open(ruta_archivo, 'w') as json_file:
 		json.dump(json_data, json_file, indent=2, ensure_ascii=False)
 
-	subirArchivo(empresa, f'{codigo}.json')
+	if tipo == 'anulacion':
+		subirArchivo(empresa, f'{codigo_anulacion}.json')
+	else:
+		subirArchivo(empresa, f'{codigo}.json')
 
 	return ruta_archivo
 	#return ruta_archivo
 
+def gen_prueba(request, tipo, empresa):
+	codigo=CodGeneracion()
+	#messages.success(request, 'Prueba generada: ' + tipo)
+	if tipo=='01':
+		json_data = fcf_p(empresa, codigo)
+	if tipo=='03':
+		json_data = ccf_p(empresa, codigo)
+	if tipo=='05':
+		json_data = nc_p(empresa, codigo)
+	if tipo=='06':
+		json_data = nd_p(empresa, codigo)
+	if tipo=='11':
+		json_data = fex_p(empresa, codigo)
+	if tipo=='14':
+		json_data = fse_p(empresa, codigo)
+
+	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
+	with open(ruta_archivo, 'w') as json_file:
+		json.dump(json_data, json_file, indent=2, ensure_ascii=False)
+
+	return codigo
 
 def genQr(codigo, empresa):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
@@ -210,18 +240,20 @@ def genPdf(codigo, tipo, empresa):
 	return respuesta
 
 
-def firmar(codigo, tipo):
+def firmar(codigo, tipo, cod_anulacion=None):
 	if tipo in {'01','03','05','06','11','14'}:
 		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	elif tipo == 'anulacion':
+		dte = get_object_or_404(DTEInvalidacion, codigoGeneracion=cod_anulacion)
 	
 	emisor = Empresa.objects.get(codigo=dte.emisor_id)
 	usuariomh = emisor.usuarioMH
 	pwd = emisor.passwordPri
 
 	if os.name == 'posix':
-		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{cod_anulacion if cod_anulacion else codigo}.json')
 	else:
-		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{codigo}.json').replace('\\', '/')
+		archivo = os.path.join(settings.STATIC_DIR,'clientes', emisor.codigo, f'{cod_anulacion if cod_anulacion else codigo}.json').replace('\\', '/')
 	
 	with open(archivo, 'rb') as file:
 		json_data = json.load(file)
@@ -254,6 +286,10 @@ def firmar(codigo, tipo):
 			guardar_firma.save()
 		elif tipo in {'07'}:
 			pass
+		elif tipo == 'anulacion':
+			guardar_firma = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
+			guardar_firma.docfirmado = body_value
+			guardar_firma.save()
 
 		with open(archivo, 'r') as json_file:
 			data = json.load(json_file)
@@ -312,6 +348,3 @@ def datosInicio(pk):
 	return num_registros_hoy, subtotal_hoy, num_registros_mes, subtotal_mes
 
 
-def gen_prueba(request, tipo):
-	messages.success(request, 'Prueba generada: ' + tipo)
-	return HttpResponse('Prueba generada')

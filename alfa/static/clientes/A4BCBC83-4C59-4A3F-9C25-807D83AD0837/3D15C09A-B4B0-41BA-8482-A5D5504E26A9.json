@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000102",
+    "codigoGeneracion": "3D15C09A-B4B0-41BA-8482-A5D5504E26A9",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-04-08",
+    "horEmi": "05:41:46",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "A L F A",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19"
+    },
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142407620011",
+    "nrc": "4340",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "codActividad": "52102",
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "KM 9 y medio complejo corporativo SISCO"
+    },
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 99,
+      "descripcion": "producto",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 11.5
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 100.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 100.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 100.0,
+    "totalLetras": "CIEN 00/100 USD",
+    "totalIva": 11.5,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "ALFA CONSULTORES, S.A. DE C.V.",
+    "docuEntrega": "03070711201016",
+    "nombRecibe": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "docuRecibe": "06142407620011",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "3D15C09A-B4B0-41BA-8482-A5D5504E26A9",
+    "selloRecibido": "20240C909FC8DA304C3ABD28664A8277057CYHSI",
+    "fhProcesamiento": "08/04/2024 05:42:26",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

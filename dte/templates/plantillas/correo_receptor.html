@@ -1,0 +1,84 @@
+{% load static %}
+{% load humanize %}
+{% load my_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Facturción ALFA</title>
+	<style type="text/css">
+		body {
+			max-width: 800px;
+			align-content: center;
+			font-size: 17px;
+    		font-family: Calibri, sans-serif;
+		}
+
+		div.logo{
+    		position: relative;
+    		left: 45%;
+    		top: 0px;
+    		max-height: 95px;
+    		content:url('{{logo}}');
+    	}
+
+    	.regla-horizontal {
+		    height: 20px;
+		    background: #005ab4;
+		    border: none;
+		}
+
+
+		.tabla-datos {
+			align: center;
+		}
+
+		.celda-dato {
+			color: #005ab4;
+		}
+
+		.leyenda {
+			font-style: italic;
+			text-align: center;
+			color: #555555;
+		}
+
+		strong{
+    		font-weight: 600;
+    	}
+		
+	</style>
+</head>
+<body>
+	<div class="logo"></div>
+	<hr class="regla-horizontal">
+	<div class=""></div>
+	<p>Estimado cliente,</p>
+	<p>Adjunto encontrará su comprobante electrónico con el siguiente detalle:</p>
+	<table class="tabla-datos">
+		<tr>
+			<td><strong>Tipo</strong></td><td class="celda-dato">{{datos.tipoDte}}</td>
+		</tr>
+		<tr>
+			<td><strong>Receptor</strong></td><td class="celda-dato">{{datos.receptor}}</td>
+		</tr>
+		<tr>
+			<td><strong>Código de generación</strong></td><td class="celda-dato">{{datos.codigoGeneracion}}</td>
+		</tr>
+		<tr>
+			<td><strong>Sello de recepción</strong></td><td class="celda-dato">{{datos.selloRecepcion}}</td>
+		</tr>
+		<tr>
+			<td><strong>Fecha de emisión</strong></td><td class="celda-dato">{{datos.fecEmi|fecha}}</td>
+		</tr>
+		<tr>
+			<td><strong>Monto</strong></td><td class="celda-dato">{{datos.montoTotalOperacion|moneda}} USD</td>
+		</tr>
+	</table>
+
+	<p>Puede hacer la consulta en línea en el portal del Ministerio de Hacienda en el siguiente enlace:</p>
+	<a href="{{enlace}}">Consulta en línea</a>
+	<p class="leyenda">Correo generado de forma automática, por favor no responder</p>
+</body>
+</html>

@@ -779,6 +779,58 @@ class DTEClienteDetalleTributo(models.Model):
 		verbose_name = 'DTE Detalle tributo'
 		verbose_name_plural = "DTE Detalle tributos"
 
+
+class DTEInvalidacion(models.Model):
+	codigoGeneracion = models.CharField(primary_key=True, default='', max_length=36, verbose_name='Código de generación')
+	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
+	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, default='001')
+	codigoDte = models.CharField(default='', max_length=36, verbose_name='Código DTE a anular')
+	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, db_column = 'TipoDTE', default='', verbose_name='Tipo DTE')
+	fechaEmision = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de emisión')
+	tipoInvalidacion = models.ForeignKey(TipoInvalidacion, on_delete=models.CASCADE, default=2, verbose_name='Tipo de anulación')
+	docfirmado = models.TextField(db_column='DocFirmado', null=True, blank=True, verbose_name='Documento firmado')
+	selloRecepcion = models.CharField(default='', max_length=50, verbose_name='Sello de recepción')
+	
+
+	def __str__(self):
+		return self.codigoGeneracion
+
+	class Meta:
+		verbose_name = 'Invalidación DTE'
+		verbose_name_plural = "Invalidaciones de DTE's"
+
+class DTEContingencia(models.Model):
+	codigoGeneracion = models.CharField(primary_key=True, default='', max_length=36, verbose_name='Código de generación')
+	version = models.IntegerField(db_column = 'Version', verbose_name='Versión JSON', default=3)
+	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, db_column = 'Ambiente', default='00', verbose_name='Ambiente de trabajo')
+	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
+	fTransmision = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de transmisión')
+	tipoContingencia = models.ForeignKey(TipoContingencia, on_delete=models.CASCADE, default=2, verbose_name='Tipo de contingencia')
+	finicio = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha inicio de contingencia')
+	fFinal = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha fin de contingencia')
+	docfirmado = models.TextField(db_column='DocFirmado', null=True, blank=True, verbose_name='Documento firmado')
+	selloRecepcion = models.CharField(default='', max_length=50, verbose_name='Sello de recepción')
+	
+
+	def __str__(self):
+		return self.codigoGeneracion
+
+	class Meta:
+		verbose_name = 'Contingencia DTE'
+		verbose_name_plural = "Contingencia de DTE's"
+
+class DTEContingenciaDetalle(models.Model):
+	dteContingencia = models.ForeignKey(DTEContingencia, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Dte')
+	codigoGeneracionDTE = models.CharField(default='', max_length=36, verbose_name='Codigo DTE a reportar')
+	
+	def __str__(self):
+		return 'DTE %s - detalle %s' % (self.dteContingencia, self. codigoGeneracionDTE)
+
+	class Meta:
+		verbose_name = 'Detalle contingencia DTE'
+		verbose_name_plural = "Detalles contingencia de DTE's"
+
+
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='001')

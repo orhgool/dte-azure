@@ -13,7 +13,7 @@ from .models import DTECliente, Empresa, Cliente, Configuracion, TipoDocumento
 def enviarCorreo(request, tipo, codigo):
     config = Configuracion.objects.all().first()
     template = ''
-    if tipo in {'01','03','05'}:
+    if tipo in {'01','03','05','06','11','14'}:
         template = 'dte:actualizar'
         tabla = get_object_or_404(DTECliente, codigoGeneracion=codigo)
         emisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
@@ -40,10 +40,13 @@ def enviarCorreo(request, tipo, codigo):
 
     # Destinatario y contenido del correo
     destinatario = correo
-    asunto = f'{tablaTipo} cod.: {codigo}'
-    #context = {'codigo':codigo, 'tipoDocumento':tabTipo.nombre, 'numeroControl': tabla.numeroControl, 'selloRecepcion': tabla.selloRecepcion, 'fecEmi': tabla.fecEmi.strftime("%Y-%m-%d"), 'fecha': tabla.fecEmi.strftime("%d-%m-%Y")}
-    context = {}
-    cuerpo_html = render_to_string('dte/correo.html', context)
+    asunto = f'{tabla.emisor.nombreComercial}, {tablaTipo.nombre_corto} cod.: {codigo}'
+    datos = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+    empresa = get_object_or_404(Empresa, codigo=datos.emisor.codigo)
+    logo = request.session['logo']
+    enlace = f'https://admin.factura.gob.sv/consultaPublica?ambiente={empresa.ambiente.codigo}&codGen={datos.codigoGeneracion}&fechaEmi={datos.fecEmi.strftime("%Y-%m-%d")}'
+    context={'datos':datos, 'logo':logo, 'enlace':enlace}
+    cuerpo_html = render_to_string('plantillas/correo_receptor.html', context)
 
     # Configurar el correo
     mensaje = MIMEMultipart()
@@ -77,7 +80,7 @@ def enviarCorreo(request, tipo, codigo):
         conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
         conexion_smtp.quit()
 
-        mensaje_respuesta = 'Correo enviado con éxito.'
+        mensaje_respuesta = 'Correo enviado'
         
     except Exception as e:
         mensaje_respuesta = f'Error al enviar el correo: {str(e)}'
