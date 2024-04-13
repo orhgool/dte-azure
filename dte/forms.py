@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory
-from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa, Producto, TipoDocumento
+from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa, Producto, TipoDocumento, DTEContingencia, DTEContingenciaDetalle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from .funciones import CodGeneracion
@@ -24,7 +24,7 @@ class UserForm(forms.ModelForm):
 		fields = ['username', 'email', 'first_name', 'last_name']
 
 class DTEForm(forms.ModelForm):
-	def __init__(self, *args, empresa=None, **kwargs):
+	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
 		super(DTEForm, self).__init__(*args, **kwargs)
 		if empresa:
 			self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
@@ -241,3 +241,42 @@ class EmpresaPerfilForm(forms.ModelForm):
 			'passwordPri': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'token': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; align: center', 'readonly':'True'}),
 		}
+
+
+class ContingenciaForm(forms.ModelForm):
+	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
+		super(ContingenciaForm, self).__init__(*args, **kwargs)
+		if empresa:
+			pass
+			#self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
+
+	class Meta:
+		model = DTEContingencia
+		fields = ('codigoGeneracion', 'tipoDte', 'version', 'fTransmision', 'tipoContingencia',
+			'fInicio','fFinal')
+		widgets = {
+			#'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
+			'codigoGeneracion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
+			'version': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
+			'fTransmision': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
+			'fInicio': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
+			'fFinal': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
+			'tipoContingencia': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+		}
+			
+
+class ContingenciaDetalleForm(forms.ModelForm):	
+	class Meta:
+		model = DTEContingenciaDetalle
+		fields = ('tipoDte', 'codigoGeneracionDTE')
+		widgets = {
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'codigoGeneracionDTE': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+		}
+
+
+ContingenciaDetalleFormSet = inlineformset_factory(
+	DTEContingencia, DTEContingenciaDetalle, form=ContingenciaDetalleForm,
+	fields=('tipoDte', 'codigoGeneracionDTE'
+			), extra=0, can_delete=False, can_delete_extra=True
+)

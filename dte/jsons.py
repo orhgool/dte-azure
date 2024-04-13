@@ -1064,4 +1064,82 @@ def anulacion(codAnulacion, codigoDte): # Anulacion
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
 
 
+	return json_data
+
+
+def contingencia(codContingencia, codigoDte): # Contingencia
+	#detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	#from .funciones import CodGeneracion
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	dte = get_object_or_404(DTEContingencia, codigoGeneracion=codigoDte)
+	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
+	
+	identificacion_data = {
+			'version': 3,
+			'ambiente': dte.ambiente.codigo,
+			'codigoGeneracion': codContingencia,
+			'fTransmision': datetime.now().strftime("%Y-%m-%d"),
+			'hTransmision': datetime.now().strftime("%H:%M:%S")
+		}
+
+	emisor_data = {
+		'nit': emisor.nit.replace('-',''),
+		'nombre': emisor.razonsocial,
+		'nombreResponsable': emisor.nombreComercial,
+		'tipoDocResponsable': '36',
+		'numeroDocResponsalble'
+		'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+		'telefono': emisor.telefono,
+		'correo': emisor.correo,
+		'codPuntoVenta': None,
+		'codEstableMH': None
+	}
+
+	for index, detalle in enumerate(detalleDTECliente):
+		datos_detalle.append({
+			'noItem': index + 1,
+			'tipoDoc': int(detalle.tipoDte.codigo),
+			'codigoGeneracion': detalle.codigoGeneracionDTE
+		})
+
+	detalleDTE_data = datos_detalle
+
+	motivo_data = {
+	    'fInicio': dte.fInicio.strftime("%Y-%m-%d"),
+	    'fFin': dte.fFinal.strftime("%Y-%m-%d"),
+	    'hInicio': dte.fInicio.strftime("%H:%M:%S"),
+	    'hFin': dte.fFinal.strftime("%H:%M:%S"),
+	    'tipoContingencia': dte.tipoContingencia.codigo,
+	    'motivoContingencia': dte.tipoContingencia
+  	}
+
+
+	json_data = {
+		'identificacion': identificacion_data,
+		'emisor': emisor_data,
+		'detalleDTE': detalleDTE_data,
+		'motivo': motivo_data
+	}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+
 	return json_data	

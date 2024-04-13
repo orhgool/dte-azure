@@ -23,6 +23,13 @@ class CustomUserAdmin(UserAdmin):
 	form = CustomUserChangeForm
 	inlines = (UserProfileAdmin,)
 
+class DtesEmpresaAdmin(admin.ModelAdmin):
+	search_fields = ['empresa',]
+	list_display = ('empresa_razonsocial','dte')
+
+	def empresa_razonsocial(self, obj):
+		return obj.empresa.nombreComercial
+
 class DteClienteAdmin(admin.ModelAdmin):
 	search_fields = ['codigoGeneracion',]
 	list_display = ('codigoGeneracion', 'numeroControl', 'emisor_razonsocial')
@@ -58,7 +65,7 @@ admin.site.register(ControlDocumento, ControlDocumentoAdmin)
 admin.site.register(Departamento)
 admin.site.register(DTECliente, DteClienteAdmin)
 admin.site.register(DomicilioFiscal)
-admin.site.register(DtesEmpresa)
+admin.site.register(DtesEmpresa, DtesEmpresaAdmin)
 admin.site.register(Empresa, EmpresaAdmin)
 admin.site.register(EstadoDTE)
 admin.site.register(FormaPago)

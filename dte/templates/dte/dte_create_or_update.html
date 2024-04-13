@@ -77,38 +77,56 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{Documento.tipoDte}}</h4>
+                    <h4 class="card-title">{{Documento.tipoDte}}{{TipoDocumento}}</h4>
                     <div class="row">
+                        {% if form.emisor %}
                         <div class="col-md-2" style="display: none;">
                             {{ form.emisor|as_crispy_field }}
                         </div>
+                        {% endif %}
                         <div class="col-md-3">
                             {{ form.codigoGeneracion|as_crispy_field }}
                         </div>
+                        {% if form.numeroControl %}
                         <div class="col-md-3">
                             {{ form.numeroControl|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.receptor %}
                         <div class="col-md-2">
                             {{ form.receptor|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.tipoDte %}
                         <div class="col-md-2" style="display: none;">
                             {{ form.tipoDte|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.version %}
                         <div class="col-md-2">
                             {{ form.version|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.fecEmi %}
                         <div class="col-md-2">
                             {{ form.fecEmi|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.observaciones %}
                         <div class="col-md-8">
                             {{ form.observaciones|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.condicionOperacion %}
                         <div class="col-md-2">
                             {{ form.condicionOperacion|as_crispy_field }}
                         </div>
+                        {% endif %}
+                        {% if form.estadoPago %}
                         <div class="col-md-2">
                             {{ form.estadoPago|as_crispy_field }}
                         </div>
+                        {% endif %}
                     {% if TipoDocumento.codigo == '11' %}
                         <div class="col-md-2">
                             {{ form.tipoItemExpor|as_crispy_field }}
@@ -123,6 +141,20 @@
                             {{ form.incoterms|as_crispy_field }}
                         </div>
                     {% endif %}
+                    {% if TipoDocumento.codigo == 'contingencias' %}
+                        <div class="col-md-2">
+                            {{ form.fTransmision|as_crispy_field }}
+                        </div>
+                        <div class="col-md-5">
+                            {{ form.tipoContingencia|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.fInicio|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.fFinal|as_crispy_field }}
+                        </div>
+                    {% endif %}
                     </div>
 
                     <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -132,7 +164,6 @@
                            
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             
-                            <!--a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a-->
                             <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
                             {% if not sello %}
                             <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
@@ -223,6 +254,10 @@
                                         <th>Valor compra</th>
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
+                                    {% endif %}
+                                    {% if TipoDocumento.codigo == 'contingencia' %}
+                                        <th>Tipo documento<span style="color: red;" class="required">*</span></th>
+                                        <th>Código de generación <span style="color: red;" class="required">*</span></th>
                                     {% endif %}
                                 </thead>    
                                 <tbody id="item-detalles">  <!-- id="item-inlineformsetname" -->

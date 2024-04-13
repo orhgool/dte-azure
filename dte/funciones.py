@@ -49,7 +49,7 @@ def getUrl(empresa, tipo):
 	return url.url
 
 
-def genJson(codigo, tipo, empresa, codigo_anulacion=None):
+def genJson(codigo, tipo, empresa, codigo_anulacion=None, codigo_contingencia=None):
 	dato_empresa = get_object_or_404(Empresa, codigo=empresa)
 	archivo = {}
 	if tipo == '01':
@@ -66,10 +66,14 @@ def genJson(codigo, tipo, empresa, codigo_anulacion=None):
 		json_data = fse(codigo)
 	elif tipo == 'anulacion':
 		json_data = anulacion(codAnulacion=codigo_anulacion, codigoDte=codigo)
+	elif tipo == 'contingencia':
+		json_data = contingencia(codContingencia=codigo_contingencia, codigoDte=codigo)
 
 	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
 	if tipo == 'anulacion':
 		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo_anulacion}.json')
+	if tipo == 'contingencia':
+		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo_contingencia}.json')
 	else:
 		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
 
@@ -78,6 +82,8 @@ def genJson(codigo, tipo, empresa, codigo_anulacion=None):
 
 	if tipo == 'anulacion':
 		subirArchivo(empresa, f'{codigo_anulacion}.json')
+	if tipo == 'contingencia':
+		subirArchivo(empresa, f'{codigo_contingencia}.json')
 	else:
 		subirArchivo(empresa, f'{codigo}.json')
 

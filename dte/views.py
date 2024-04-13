@@ -145,10 +145,12 @@ def lista_producto(request):
 
 #@login_required(login_url='manager:login')
 class DTEInline():
-	form_class = DTEForm
 	model = DTECliente
+	#model = DTEContingencia
+	form_class = DTEForm
+	#form_class = ContingenciaForm
 	template_name = 'dte/dte_create_or_update.html'
-
+	
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -156,6 +158,8 @@ class DTEInline():
 		#	empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
 		#	tipoContribuyente='002', tipoPersona=1))
 		context['listaDocumentos'] = self.request.session.get('documentos', [])
+		#messages.info(self.request, {'context':context})
+		#messages.info(self.request, self.kwargs.get('tipo'))
 		return context
 
 	def form_valid(self, form):
@@ -178,15 +182,18 @@ class DTEInline():
 				formset.save()
 
 		if not self.object.selloRecepcion:
-			if self.object.numeroControl:
+			if self.object.numeroControl and self.object.tipoDte.codigo != 'contingencia':
 				qr = genQr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
+				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
+				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
+			if self.object.numeroControl and self.object.tipoDte.codigo == 'contingencia':
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 				#messages.info(self.request, pdf)
 		messages.success(self.request, 'Documento guardado')
 		#messages.success(self.request, json)
 		#return redirect('dte:lista_dte', tipo='cliente')
-		return redirect('dte:actualizar', pk=self.object.codigoGeneracion)
+		return redirect('dte:actualizar', tipo=self.object.tipoDte.codigo, pk=self.object.codigoGeneracion)
 
 	def formset_detalles_valid(self, formset):
 		detalles = formset.save(commit=False)
@@ -197,7 +204,11 @@ class DTEInline():
 			detalle.save()
 
 			#
-			dte = DTECliente.objects.get(codigoGeneracion=detalle.dte_id)
+			if self.object.tipoDte.codigo not in {'contingencia',}:
+				dte = DTECliente.objects.get(codigoGeneracion=detalle.dte_id)
+			else:
+				dte = DTEContingencia.objects.get(codigoGeneracion=detalle.dteContingencia_id)
+
 			if dte.tipoDte.codigo=='00': ##################  PARA NO EVALUAR ESTA CONDICION  #################
 				items = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id)
 				for item in items:
@@ -239,17 +250,19 @@ class DTEInline():
 					totalPagar=round((float(total_compra)-(float(total_compra)*0.1)),2))
 			# Fin de cálculos
 
-			instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
-			instancia2 = TributoResumen.objects.get(codigo='20')
-			obj, created = DTEClienteDetalleTributo.objects.get_or_create(
-				codigoDetalle=instancia1,
-				codigo=instancia2,
-				defaults={'descripcion': instancia2.nombre, 'valor': instancia1.ventaGravada * Decimal(0.13)}
-			)
+			if self.object.tipoDte.codigo not in {'contingencia',}:
+				instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
+				instancia2 = TributoResumen.objects.get(codigo='20')
+				obj, created = DTEClienteDetalleTributo.objects.get_or_create(
+					codigoDetalle=instancia1,
+					codigo=instancia2,
+					defaults={'descripcion': instancia2.nombre, 'valor': instancia1.ventaGravada * Decimal(0.13)}
+				)
 
 			# Si el registro ya existía, actualiza el valor
 			if not created:
-				obj.valor = instancia1.ventaGravada * Decimal(0.13)
+				if tipo not in {'contingencia',}:
+					obj.valor = instancia1.ventaGravada * Decimal(0.13)
 				obj.save()
 		messages.success(self.request, 'Detalle guardado')
 
@@ -259,18 +272,24 @@ class DTECreate(DTEInline, CreateView):
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
 		kwargs['empresa'] = self.request.session.get('empresa')
+		kwargs['tipo'] = self.kwargs.get('tipo')
+		#kwargs['request'] = self.request
+		#messages.info(self.request, kwargs['tipo'])
 		return kwargs
 
 	def get_initial(self):
 		initial = super().get_initial()
-		codigo = self.kwargs.get('pk')
+		codigo = self.kwargs.get('tipo')
 		tipo_documento = get_object_or_404(TipoDocumento, codigo=codigo)
+		#messages.info(self.request, {'tipo':tipo_documento})
 		session_key = self.request.session.session_key
 		session_store = SessionStore(session_key=session_key)
 		empresa = self.request.session['empresa']
-		if codigo in {'01','07','07A','08','09','11','14','15'}:
+		if codigo in {'01','07','08','09','11','14','15'}:
 			version = 1
 		elif codigo in {'03','04','05','06'}:
+			version = 3
+		elif codigo == 'contingencia':
 			version = 3
 
 		initial['codigoGeneracion'] = CodGeneracion().upper()
@@ -282,7 +301,8 @@ class DTECreate(DTEInline, CreateView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(DTECreate, self).get_context_data(**kwargs)
-		nombreTipoDoc = TipoDocumento.objects.get(codigo=self.kwargs.get('pk'))
+		nombreTipoDoc = TipoDocumento.objects.get(codigo=self.kwargs.get('tipo'))
+		#messages.info(self.request, {'tipo':nombreTipoDoc.codigo})
 		ctx['TipoDocumento'] = nombreTipoDoc
 		ctx['named_formsets'] = self.get_named_formsets()
 		ctx['codigoDetalle'] = CodGeneracion()
@@ -290,14 +310,16 @@ class DTECreate(DTEInline, CreateView):
 
 	def get_named_formsets(self):
 		formDetalle = None
-		if self.kwargs.get('pk') in {'01','03'}:
+		if self.kwargs.get('tipo') in {'01','03'}:
 			formDetalle = DTEClienteDetalleFormSet
-		elif self.kwargs.get('pk') in {'05','06'}:
+		elif self.kwargs.get('tipo') in {'05','06'}:
 			formDetalle = NCDDetalleFormSet
-		elif self.kwargs.get('pk') == '11':
+		elif self.kwargs.get('tipo') == '11':
 			formDetalle = FEXDetalleFormSet
-		elif self.kwargs.get('pk') == '14':
+		elif self.kwargs.get('tipo') == '14':
 			formDetalle = FSEDetalleFormSet
+		elif self.kwargs.get('tipo') == 'contingencia':
+			formDetalle = ContingenciaDetalleFormSet
 
 		if self.request.method == 'GET':
 			#messages.info(self.request, self.kwargs.get('pk'))
@@ -321,18 +343,27 @@ class DTEUpdate(DTEInline, UpdateView):
 		
 	def get_context_data(self, **kwargs):
 		ctx = super(DTEUpdate, self).get_context_data(**kwargs)
-		Documento = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
-		anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
+		
+		if self.kwargs.get('tipo')=='contingencia':
+			Documento = get_object_or_404(DTEContingencia, codigoGeneracion=self.kwargs.get('pk'))
+		else:
+			Documento = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+
+		#anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
 		ctx['Documento'] = Documento
 		ctx['sello'] = Documento.selloRecepcion
-		ctx['anulado'] = anulado if anulado else None
+		#ctx['anulado'] = anulado if anulado else None
 		ctx['named_formsets'] = self.get_named_formsets()
 		#messages.success(self.request, {'DTEUpdate: ':'update', 'ctx':ctx})
 		return ctx
 
 	def get_named_formsets(self):
 		#messages.success(self.request, {'DTEUpdate: ':self.request})
-		dte = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+		if self.kwargs.get('tipo')=='contingencia':
+			dte = get_object_or_404(DTEContingencia, codigoGeneracion=self.kwargs.get('pk'))
+		else:
+			dte = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+
 		if dte.tipoDte.codigo in {'01','03'}:
 			formDetalle = DTEClienteDetalleFormSet
 		elif dte.tipoDte.codigo in {'05','06'}:
@@ -341,6 +372,8 @@ class DTEUpdate(DTEInline, UpdateView):
 			formDetalle = FEXDetalleFormSet
 		elif dte.tipoDte.codigo == '14':
 			formDetalle = FSEDetalleFormSet
+		elif self.kwargs.get('tipo') == 'contingencia':
+			formDetalle = ContingenciaDetalleFormSet
 		return {
 		'detalles': formDetalle(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
 		}
@@ -462,13 +495,13 @@ class EnviarDTEView(APIView):
 			#messages.success(request, res)
 			messages.success(request, respuesta_servicio)
 			#return redirect(template, codigo=codigo)
-			return redirect('dte:actualizar', pk=codigo)
+			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 		else:
 			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
 			messages.info(request, error_message)
 			#return redirect(template, codigo=codigo)
-			return redirect('dte:actualizar', pk=codigo)
+			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 	
 	def post(self, request, codigo, doc_firmado):
 		# Manejar la lógica para solicitudes GET si es necesario
@@ -650,7 +683,7 @@ class EnviarDTEView_prueba(APIView):
 			#messages.success(request, res)
 			messages.success(request, respuesta_servicio)
 			#return redirect(template, codigo=codigo)
-			return redirect('dte:actualizar', pk=codigo)
+			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 			#return redirect('dte:prueba')
 
 		else:
@@ -671,14 +704,14 @@ def autocompletar_producto(request):
 	return JsonResponse(list(productos), safe=False)
 
 @login_required(login_url='manager:login')
-def eliminar_detalle(request, pk):
+def eliminar_detalle(request, tipo, pk):
 	try:
 		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
 	except DTEClienteDetalle.DoesNotExist:
 		messages.success(
 			request, 'Objeto no existe'
 			)
-		return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
+		return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
 
 	detalle.delete()
 
@@ -686,7 +719,7 @@ def eliminar_detalle(request, pk):
 		request, 'Detalle eliminado con éxito'
 		)
 
-	return redirect('dte:actualizar', pk=detalle.dte.codigoGeneracion)
+	return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
 
 
 
@@ -988,7 +1021,7 @@ def verCorreo(request, tipo, codigo):
 
 def correoACliente(request, tipo, codigo):
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
-	return redirect('dte:actualizar', pk=codigo)
+	return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 def pruebas(request):
 	empresa = get_object_or_404(Empresa, codigo = request.session['empresa'])
