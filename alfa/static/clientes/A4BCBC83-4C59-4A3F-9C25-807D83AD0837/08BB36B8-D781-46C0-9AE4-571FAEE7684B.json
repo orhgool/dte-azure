@@ -111,5 +111,20 @@
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "08BB36B8-D781-46C0-9AE4-571FAEE7684B",
+    "selloRecibido": "2024F9A24A63BD254B4EBF24DB3652F2C1F25KNM",
+    "fhProcesamiento": "14/04/2024 15:26:50",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
 }

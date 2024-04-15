@@ -112,7 +112,9 @@ def loginMH(request):
 @login_required(login_url='manager:login')
 def lista_dte(request, tipo):
 	if tipo == 'cliente':
-		dtes = DTECliente.objects.filter(emisor=request.session['empresa'])
+		vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+
+		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
 	elif tipo == 'proveedor':
 		pass
 	
@@ -186,7 +188,7 @@ class DTEInline():
 				qr = genQr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
-			if self.object.numeroControl and self.object.tipoDte.codigo == 'contingencia':
+			if self.object.tipoDte.codigo == 'contingencia':
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 				#messages.info(self.request, pdf)
@@ -206,6 +208,8 @@ class DTEInline():
 			#
 			if self.object.tipoDte.codigo not in {'contingencia',}:
 				dte = DTECliente.objects.get(codigoGeneracion=detalle.dte_id)
+				receptor = Cliente.objects.get(codigo=dte.receptor_id)
+				#messages.info(self.request, receptor.tipoContribuyente)
 			else:
 				dte = DTEContingencia.objects.get(codigoGeneracion=detalle.dteContingencia_id)
 
@@ -218,7 +222,17 @@ class DTEInline():
 			#
 
 			# Inicio de cálculos
-			total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']			
+			#messages.info(self.request, str(receptor.tipoContribuyente.codigo) + ' - ' + str(receptor.tipoContribuyente))
+			if dte.tipoDte.codigo != 'contingencia':
+				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']			
+				
+				if receptor.tipoContribuyente.codigo == '001':
+					retencion = float(total_gravada) * float(0.01)
+					#messages.info(self.request, 'Grande: ' + str(receptor.tipoContribuyente))
+				else:
+					retencion = 0
+					#messages.info(self.request, 'Otro: ' + str(receptor.tipoContribuyente))
+
 			if dte.tipoDte.codigo=='01':
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
@@ -228,7 +242,16 @@ class DTEInline():
 					montoTotalOperacion = float(total_gravada),
 					totalPagar = float(total_gravada))
 
-			if dte.tipoDte.codigo in {'03','05','06'}:
+			if dte.tipoDte.codigo in {'03'}:
+				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+					totalGravada=total_gravada,
+					subTotalVentas=total_gravada,
+					subTotal=total_gravada,
+					ivaPerci1=0, #float(total_gravada)*float(0.13),
+					ivaRete1 = retencion,
+					montoTotalOperacion= float(total_gravada)*float(1.13),
+					totalPagar = (float(total_gravada)*float(1.13)) - float(retencion))
+			if dte.tipoDte.codigo in {'05','06'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
@@ -250,7 +273,7 @@ class DTEInline():
 					totalPagar=round((float(total_compra)-(float(total_compra)*0.1)),2))
 			# Fin de cálculos
 
-			if self.object.tipoDte.codigo not in {'contingencia',}:
+			if self.object.tipoDte.codigo != 'contingencia':
 				instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
 				instancia2 = TributoResumen.objects.get(codigo='20')
 				obj, created = DTEClienteDetalleTributo.objects.get_or_create(
@@ -260,10 +283,10 @@ class DTEInline():
 				)
 
 			# Si el registro ya existía, actualiza el valor
-			if not created:
-				if tipo not in {'contingencia',}:
+				if not created:
+					#if tipo not in {'contingencia',}:
 					obj.valor = instancia1.ventaGravada * Decimal(0.13)
-				obj.save()
+					obj.save()
 		messages.success(self.request, 'Detalle guardado')
 
 
@@ -374,6 +397,7 @@ class DTEUpdate(DTEInline, UpdateView):
 			formDetalle = FSEDetalleFormSet
 		elif self.kwargs.get('tipo') == 'contingencia':
 			formDetalle = ContingenciaDetalleFormSet
+		#messages.info(self.request, formDetalle)
 		return {
 		'detalles': formDetalle(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
 		}
@@ -399,6 +423,13 @@ class EnviarDTEView(APIView):
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
 			ambiente = emisor.ambiente.codigo
 			version = 2
+			docfirmado = modelo.docfirmado
+		elif tipo == 'contingencia':
+			#messages.info(request, cod_anulacion)
+			modelo = DTEContingencia.objects.get(codigoGeneracion=codigo)
+			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
+			ambiente = emisor.ambiente.codigo
+			version = 3
 			docfirmado = modelo.docfirmado
 			#return redirect('dte:index')
 
@@ -430,7 +461,7 @@ class EnviarDTEView(APIView):
 			url = getUrl(emisor.codigo, 'Anulardte')
 			headers = {
 				'Authorization': emisor.token,
-				'User-Agent': 'alca/1.0',
+				'User-Agent': 'alfa/1.0',
 				'Content-Type': 'application/json'
 			}			
 			data={
@@ -440,14 +471,14 @@ class EnviarDTEView(APIView):
 				'documento': docfirmado
 			}
 		if tipo in {'contingencia'}:
-			url = "https://api.dtes.mh.gob.sv/fesv/contingencia"
+			url = getUrl(emisor.codigo, 'Contingencia')
 			headers = {
 				'Authorization': emisor.token,
-				'User-Agent': 'alca/1.0',
+				'User-Agent': 'alfa/1.0',
 				'Content-Type': 'application/json',
 			}			
 			data={
-				'nitEmisor': '06142407620011',
+				'nitEmisor': emisor.nit,
 				'documento': docfirmado,
 			}
 
@@ -472,7 +503,10 @@ class EnviarDTEView(APIView):
 				gsello = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
 				gsello.save()
-			
+			elif tipo in {'contingencia'}:
+				gsello = DTEContingencia.objects.get(codigoGeneracion=codigo)
+				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				#gsello.save()
 
 			try:
 				with open(archivo, 'r') as json_file:
@@ -485,7 +519,8 @@ class EnviarDTEView(APIView):
 			with open(archivo, 'w') as json_file:
 				json.dump(contenido_actual, json_file, indent=2)
 
-			if not cod_anulacion:
+			#if not cod_anulacion or tipo != 'contingencia':
+			if not tipo in {'anulacion','contingencia'}:
 				genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
 				correo = enviarCorreo(request, codigo=codigo, tipo=tipo)
 				#messages.info(correo)

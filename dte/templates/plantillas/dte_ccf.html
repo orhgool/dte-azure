@@ -345,8 +345,8 @@
 				</tr>
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>
-					<td class="row-line-left" colspan="3"><b>IVA 13%</td>
-					<td align="right">{{dte.IVA|moneda}}</b></td>
+					<td class="row-line-left" colspan="3"><b>SubTotal</td>
+					<td align="right">{{dte.subTotal|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td colspan="5">
@@ -354,18 +354,18 @@
 						{{dte.observaciones}}
 						{% endif %}.
 					</td>
-					<td class="row-line-left" colspan="3"><b>SubTotal</td>
-					<td align="right">{{dte.subTotal|moneda}}</b></td>
-				</tr>
-				<tr>
-					<td colspan="5"></td>
-					<td class="row-line-left" colspan="3"><b>IVA Percibido 1%</b></td>
-					<td align="right">{{dte.ivaRete1|moneda}}</td>
+					<td class="row-line-left" colspan="3"><b>IVA 13%</td>
+					<td align="right">{{dte.IVA|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td colspan="5"></td>
 					<td class="row-line-left" colspan="3"><b>Monto total operación</b></td>
 					<td align="right">{{dte.totalGravadaIVA|moneda}}</td>
+				</tr>
+				<tr>
+					<td colspan="5"></td>
+					<td class="row-line-left" colspan="3"><b>IVA Retenido 1%</b></td>
+					<td align="right">{{dte.ivaRete1|moneda}}</td>
 				</tr>
 				<tr>
 					<td colspan="5"></td>

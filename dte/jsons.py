@@ -297,7 +297,7 @@ def ccf(codigo): # 03 - Crédito fiscal
 		'tributos': tributos_consolidados_lista if tributos_consolidados_lista else None,
 		'subTotal': float(dte.subTotal),
 		'ivaPerci1': float(dte.ivaPerci1),
-		'ivaRete1': 0.0,
+		'ivaRete1': float(dte.ivaRete1),
 		'reteRenta': 0.0,
 	    'montoTotalOperacion': float(dte.montoTotalOperacion),
 	    'totalNoGravado': 0.0,
@@ -1067,8 +1067,8 @@ def anulacion(codAnulacion, codigoDte): # Anulacion
 	return json_data
 
 
-def contingencia(codContingencia, codigoDte): # Contingencia
-	#detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+def contingencia(codigo): # Contingencia
+	detalleDTEContingencia = DTEContingenciaDetalle.objects.filter(dteContingencia_id=codigo)
 	#from .funciones import CodGeneracion
 	json_data = {}
 	datos_emisor = {}
@@ -1078,13 +1078,13 @@ def contingencia(codContingencia, codigoDte): # Contingencia
 	tributos_consolidados = {}
 	tributos_consolidados_lista = []
 
-	dte = get_object_or_404(DTEContingencia, codigoGeneracion=codigoDte)
+	dte = get_object_or_404(DTEContingencia, codigoGeneracion=codigo)
 	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
 	
 	identificacion_data = {
 			'version': 3,
 			'ambiente': dte.ambiente.codigo,
-			'codigoGeneracion': codContingencia,
+			'codigoGeneracion': codigo,
 			'fTransmision': datetime.now().strftime("%Y-%m-%d"),
 			'hTransmision': datetime.now().strftime("%H:%M:%S")
 		}
@@ -1094,7 +1094,7 @@ def contingencia(codContingencia, codigoDte): # Contingencia
 		'nombre': emisor.razonsocial,
 		'nombreResponsable': emisor.nombreComercial,
 		'tipoDocResponsable': '36',
-		'numeroDocResponsalble'
+		'numeroDocResponsable': emisor.nit.replace('-',''),
 		'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
 		'telefono': emisor.telefono,
 		'correo': emisor.correo,
@@ -1102,10 +1102,10 @@ def contingencia(codContingencia, codigoDte): # Contingencia
 		'codEstableMH': None
 	}
 
-	for index, detalle in enumerate(detalleDTECliente):
+	for index, detalle in enumerate(detalleDTEContingencia):
 		datos_detalle.append({
 			'noItem': index + 1,
-			'tipoDoc': int(detalle.tipoDte.codigo),
+			'tipoDoc': detalle.tipoDte.codigo,
 			'codigoGeneracion': detalle.codigoGeneracionDTE
 		})
 
@@ -1116,8 +1116,8 @@ def contingencia(codContingencia, codigoDte): # Contingencia
 	    'fFin': dte.fFinal.strftime("%Y-%m-%d"),
 	    'hInicio': dte.fInicio.strftime("%H:%M:%S"),
 	    'hFin': dte.fFinal.strftime("%H:%M:%S"),
-	    'tipoContingencia': dte.tipoContingencia.codigo,
-	    'motivoContingencia': dte.tipoContingencia
+	    'tipoContingencia': int(dte.tipoContingencia.codigo),
+	    'motivoContingencia': str(dte.tipoContingencia)
   	}
 
 

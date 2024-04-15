@@ -1,0 +1,43 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "codigoGeneracion": "87E0C381-C6F9-4BBA-B1FC-6ADFD7B21BD0",
+    "fTransmision": "2024-04-14",
+    "hTransmision": "12:27:09"
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreResponsable": "A L F A",
+    "tipoDocResponsable": "36",
+    "numeroDocResponsable": "03070711201016",
+    "tipoEstablecimiento": "02",
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codPuntoVenta": null,
+    "codEstableMH": null
+  },
+  "detalleDTE": [
+    {
+      "noItem": 1,
+      "tipoDoc": "03",
+      "codigoGeneracion": "3E90A70F-DB78-4494-9385-E1CF8C7CE9AB"
+    }
+  ],
+  "motivo": {
+    "fInicio": "2024-04-14",
+    "fFin": "2024-04-15",
+    "hInicio": "23:00:01",
+    "hFin": "00:00:01",
+    "tipoContingencia": 1,
+    "motivoContingencia": "No disponibilidad de sistema del MH"
+  },
+  "selloRecepcion": {
+    "estado": "RECIBIDO",
+    "fechaHora": "14/04/2024 12:30:54",
+    "mensaje": "Documento recibido",
+    "selloRecibido": "202451DB493CDC004B9481ABC19D7089B8FCQTA2",
+    "observaciones": []
+  }
+}

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
-from .jsons import fcf, ccf, nc, nd, fex, fse, anulacion
+from .jsons import fcf, ccf, nc, nd, fex, fse, anulacion, contingencia
 from .jsons_pruebas import fcf_p, ccf_p, nc_p, nd_p, fex_p, fse_p
 from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta
@@ -67,13 +67,11 @@ def genJson(codigo, tipo, empresa, codigo_anulacion=None, codigo_contingencia=No
 	elif tipo == 'anulacion':
 		json_data = anulacion(codAnulacion=codigo_anulacion, codigoDte=codigo)
 	elif tipo == 'contingencia':
-		json_data = contingencia(codContingencia=codigo_contingencia, codigoDte=codigo)
+		json_data = contingencia(codigo)
 
 	#qr_folder = os.path.join(settings.STATIC_DIR,'clientes', empresa, dato_empresa.codigo)
 	if tipo == 'anulacion':
 		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo_anulacion}.json')
-	if tipo == 'contingencia':
-		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo_contingencia}.json')
 	else:
 		ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
 
@@ -82,8 +80,6 @@ def genJson(codigo, tipo, empresa, codigo_anulacion=None, codigo_contingencia=No
 
 	if tipo == 'anulacion':
 		subirArchivo(empresa, f'{codigo_anulacion}.json')
-	if tipo == 'contingencia':
-		subirArchivo(empresa, f'{codigo_contingencia}.json')
 	else:
 		subirArchivo(empresa, f'{codigo}.json')
 
@@ -251,6 +247,8 @@ def firmar(codigo, tipo, cod_anulacion=None):
 		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
 	elif tipo == 'anulacion':
 		dte = get_object_or_404(DTEInvalidacion, codigoGeneracion=cod_anulacion)
+	elif tipo == 'contingencia':
+		dte = get_object_or_404(DTEContingencia, codigoGeneracion=codigo)
 	
 	emisor = Empresa.objects.get(codigo=dte.emisor_id)
 	usuariomh = emisor.usuarioMH
@@ -294,6 +292,10 @@ def firmar(codigo, tipo, cod_anulacion=None):
 			pass
 		elif tipo == 'anulacion':
 			guardar_firma = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
+			guardar_firma.docfirmado = body_value
+			guardar_firma.save()
+		elif tipo == 'contingencia':
+			guardar_firma = DTEContingencia.objects.get(codigoGeneracion=codigo)
 			guardar_firma.docfirmado = body_value
 			guardar_firma.save()
 

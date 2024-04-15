@@ -3,12 +3,12 @@
     "version": 3,
     "ambiente": "00",
     "tipoDte": "03",
-    "numeroControl": "DTE-03-00000000-000000000000102",
-    "codigoGeneracion": "EC5A0121-2B39-4396-B691-E1F59AF34D67",
+    "numeroControl": "DTE-03-00000000-000000000000101",
+    "codigoGeneracion": "F74F7812-4F5D-4A1B-84F7-67BC9382BCD4",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-04-11",
-    "horEmi": "11:17:12",
+    "fecEmi": "2024-04-13",
+    "horEmi": "17:12:06",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
     "motivoContin": null
@@ -61,43 +61,35 @@
       "codTributo": null,
       "uniMedida": 59,
       "descripcion": "pantalla",
-      "precioUni": 90.0,
+      "precioUni": 100.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 90.0,
+      "ventaGravada": 100.0,
       "noGravado": 0.0,
-      "tributos": [
-        "20"
-      ],
+      "tributos": [],
       "psv": 0.0
     }
   ],
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 90.0,
-    "subTotalVentas": 90.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
     "porcentajeDescuento": 0.0,
     "totalDescu": 0.0,
-    "tributos": [
-      {
-        "codigo": "20",
-        "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 11.7
-      }
-    ],
-    "subTotal": 90.0,
+    "tributos": null,
+    "subTotal": 100.0,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 101.7,
+    "montoTotalOperacion": 113.0,
     "totalNoGravado": 0.0,
-    "totalPagar": 101.7,
-    "totalLetras": "CIENTO UNO 70/100 USD",
+    "totalPagar": 113.0,
+    "totalLetras": "CIENTO TRECE 00/100 USD",
     "saldoFavor": 0.0,
     "condicionOperacion": 1,
     "pagos": null,
@@ -111,20 +103,5 @@
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "EC5A0121-2B39-4396-B691-E1F59AF34D67",
-    "selloRecibido": "20249BDC3F830A544998B7EF02C89CEA9578WQ5B",
-    "fhProcesamiento": "14/04/2024 15:27:41",
-    "clasificaMsg": "10",
-    "codigoMsg": "002",
-    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
-    "observaciones": [
-      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
-    ]
-  }
+  "apendice": null
 }

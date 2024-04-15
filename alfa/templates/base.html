@@ -22,6 +22,13 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+
+    <!-- Incluye jQuery (Incluido de ChatGPT consulta de calendario)--> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Incluye jQuery UI para el datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
   </head>
   <body>
     <div class="container-scroller">
@@ -265,6 +272,13 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
+
+    <script>
+       $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    </script>
+    <!--script src="{% static 'assets/js/scripts.js' %}"></script-->
     <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->

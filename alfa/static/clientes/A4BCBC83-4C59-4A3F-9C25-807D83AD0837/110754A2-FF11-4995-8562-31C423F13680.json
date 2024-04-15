@@ -1,14 +1,14 @@
 {
   "identificacion": {
     "version": 3,
-    "ambiente": "00",
+    "ambiente": "01",
     "tipoDte": "03",
-    "numeroControl": "DTE-03-00000000-000000000000102",
-    "codigoGeneracion": "EC5A0121-2B39-4396-B691-E1F59AF34D67",
+    "numeroControl": "DTE-03-00000000-000000000000001",
+    "codigoGeneracion": "110754A2-FF11-4995-8562-31C423F13680",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-04-11",
-    "horEmi": "11:17:12",
+    "fecEmi": "2024-04-15",
+    "horEmi": "19:27:24",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
     "motivoContin": null
@@ -54,18 +54,18 @@
   "cuerpoDocumento": [
     {
       "numItem": 1,
-      "tipoItem": 1,
+      "tipoItem": 2,
       "numeroDocumento": null,
       "cantidad": 1.0,
       "codigo": null,
       "codTributo": null,
-      "uniMedida": 59,
-      "descripcion": "pantalla",
-      "precioUni": 90.0,
+      "uniMedida": 99,
+      "descripcion": "Pago 50% finalizacion aplicacion control PLDA",
+      "precioUni": 750.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 90.0,
+      "ventaGravada": 750.0,
       "noGravado": 0.0,
       "tributos": [
         "20"
@@ -76,8 +76,8 @@
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 90.0,
-    "subTotalVentas": 90.0,
+    "totalGravada": 750.0,
+    "subTotalVentas": 750.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
@@ -87,17 +87,17 @@
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 11.7
+        "valor": 97.5
       }
     ],
-    "subTotal": 90.0,
+    "subTotal": 750.0,
     "ivaPerci1": 0.0,
-    "ivaRete1": 0.0,
+    "ivaRete1": 7.5,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 101.7,
+    "montoTotalOperacion": 847.5,
     "totalNoGravado": 0.0,
-    "totalPagar": 101.7,
-    "totalLetras": "CIENTO UNO 70/100 USD",
+    "totalPagar": 840.0,
+    "totalLetras": "OCHOCIENTOS CUARENTA 00/100 USD",
     "saldoFavor": 0.0,
     "condicionOperacion": 1,
     "pagos": null,
@@ -111,20 +111,5 @@
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null,
-  "selloRecepcion": {
-    "version": 2,
-    "ambiente": "00",
-    "versionApp": 2,
-    "estado": "PROCESADO",
-    "codigoGeneracion": "EC5A0121-2B39-4396-B691-E1F59AF34D67",
-    "selloRecibido": "20249BDC3F830A544998B7EF02C89CEA9578WQ5B",
-    "fhProcesamiento": "14/04/2024 15:27:41",
-    "clasificaMsg": "10",
-    "codigoMsg": "002",
-    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
-    "observaciones": [
-      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
-    ]
-  }
+  "apendice": null
 }
