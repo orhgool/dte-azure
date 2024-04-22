@@ -33,7 +33,7 @@ if os.name == 'posix':
 else:
 	wkhtml_to_pdf = os.path.join(settings.BASE_DIR, "wkhtmltopdf.exe")
 
-
+## Para actualizacion ##
 @login_required(login_url='manager:login')
 def index(request):
 	config = Configuracion.objects.all().first()
