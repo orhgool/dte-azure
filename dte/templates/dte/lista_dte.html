@@ -22,22 +22,33 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
+                                <th>Código de generación</th>
                                 <th>Cliente</th>
                                 <th>Tipo</th>
-                                <th>Código de generación</th>
-                                <th>Número correlativo</th>
-                                <th>Acción</th>
+                                <th>Correlativo</th>
+                                <!--th>Acción</th-->
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for dte in page_obj %}
                                 <tr>
                                     <td>{{dte.fecEmi|fechaHora}}</td>
+                                    <td title="{{dte.descripcion_detalle}}">
+                                    <a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">
+                                    {{dte.codigoGeneracion|slice:":8"}}...</a></td>
                                     <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
                                     <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
-                                    <td>{{dte.codigoGeneracion}}</td>
-                                    <td>{{dte.numeroControl}}</td>
-                                    <td><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">Modificar</a></td>
+                                    <td>{{dte.numeroControl|slice:"25:"}}</td>
+                                    <!--td>Modificar</a></td-->
+                                    <td>
+                                        {% if dte.estadoPago %}
+                                            Pagado
+                                        {% else %}
+                                            No pagado
+                                        {% endif %}
+                                    </td>
+
                                 </tr>
                             {% endfor %}
                         </tbody>

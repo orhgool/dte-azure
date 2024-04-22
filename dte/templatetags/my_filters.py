@@ -9,7 +9,7 @@ def moneda(valor):
     valor = round(float(valor), 2)
     valor_entero = int(valor)
     parte_decimal = ("%0.2f" % valor)[-3:]
-    parte_entera_formateada = intcomma(valor_entero)
+    parte_entera_formateada = intcomma(valor_entero, use_l10n=False)
     return "%s%s" % (parte_entera_formateada, parte_decimal)
 
 def decimal(valor):

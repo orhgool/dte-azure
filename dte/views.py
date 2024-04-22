@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.paginator import Paginator
-from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
+from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
@@ -113,8 +113,11 @@ def loginMH(request):
 def lista_dte(request, tipo):
 	if tipo == 'cliente':
 		vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+		
+		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo).annotate(
+			descripcion_detalle=F('detalles__descripcion')
+)
 
-		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
 	elif tipo == 'proveedor':
 		pass
 	
