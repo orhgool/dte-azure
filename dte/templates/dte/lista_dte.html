@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 {% load my_filters %}
+{% block estilo %}
+<style type="text/css">
+    .pagado {
+        color: #01BD3A;
+        font-weight: bolder;
+    }
+
+    .no-pagado {
+        color: #FF5733;
+        font-weight: bolder;
+    }
+</style>
+{% endblock %}
 {% block content %}
 
 {% if messages %}
@@ -41,14 +54,11 @@
                                     <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
                                     <td>{{dte.numeroControl|slice:"25:"}}</td>
                                     <!--td>Modificar</a></td-->
-                                    <td>
-                                        {% if dte.estadoPago %}
-                                            Pagado
-                                        {% else %}
-                                            No pagado
-                                        {% endif %}
-                                    </td>
-
+                                    {% if dte.estadoPago %}
+                                        <td class="pagado">Pagado</td>
+                                    {% else %}
+                                        <td class="no-pagado"> No pagado</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>
