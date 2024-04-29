@@ -37,7 +37,7 @@
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <!--div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"-->
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="{% url 'dte:index' %}"><!--img src="{% static 'alfa.png' %}" alt="logo"/-->Facturación electrónica</a>
+          <a class="navbar-brand brand-logo" href="{% url 'dte:index' %}"><img src="{% static 'logo.png' %}" alt="logo"/></a>
           <!--a class="navbar-brand brand-logo-mini" href="{% url 'dte:index' %}"><img src="{% static 'assets/images/logo-mini.svg' %}" alt="logo" /></a-->
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -78,6 +78,17 @@
                 </a>
                 <a class="dropdown-item" href="{% url 'dte:cliente_list' %}">
                   <i class="mdi mdi-chevron-right"></i> Lista de clientes
+                </a>
+              </div>
+            </li>
+            <li class="nav-item  dropdown d-none d-md-block">
+              <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Proveedores </a>
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
+                <a class="dropdown-item" href="{% url 'dte:proveedor_create' %}">
+                  <i class="mdi mdi-chevron-right"></i> Nuevo
+                </a>
+                <a class="dropdown-item" href="{% url 'dte:proveedor_list' %}">
+                  <i class="mdi mdi-chevron-right"></i> Lista de proveedores
                 </a>
               </div>
             </li>

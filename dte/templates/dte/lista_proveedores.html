@@ -1,18 +1,5 @@
 {% extends 'base.html' %}
 {% load my_filters %}
-{% block estilo %}
-<style type="text/css">
-    .pagado {
-        color: #01BD3A;
-        font-weight: bolder;
-    }
-
-    .no-pagado {
-        color: #FF5733;
-        font-weight: bolder;
-    }
-</style>
-{% endblock %}
 {% block content %}
 
 {% if messages %}
@@ -29,36 +16,28 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Documentos emitidos</h4>
+                <div class="row">
+                    <h4 class="card-title">Lista de proveedores</h4>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Fecha</th>
-                                <th>Código de generación</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>Correlativo</th>
-                                <!--th>Acción</th-->
-                                <th>Estado</th>
+                                <th>Razón social</th>
+                                <th>Nombre comercial</th>
+                                <th>Tipo de documento</th>
+                                <th>Número de documento</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for dte in page_obj %}
+                            {% for proveedor in proveedores %}
                                 <tr>
-                                    <td>{{dte.fecEmi|fecha}}</td>
-                                    <td title="{{dte.descripcion_detalle}}">
-                                    <a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">
-                                    {{dte.codigoGeneracion|slice:":8"}}...</a></td>
-                                    <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
-                                    <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
-                                    <td>{{dte.numeroControl|slice:"25:"}}</td>
-                                    <!--td>Modificar</a></td-->
-                                    {% if dte.estadoPago %}
-                                        <td class="pagado">Pagado</td>
-                                    {% else %}
-                                        <td class="no-pagado"> No pagado</td>
-                                    {% endif %}
+                                    <td>{{ proveedor.razonsocial }}</td>
+                                    <td>{{ proveedor.nombreComercial }}</td>
+                                    <td>{{ proveedor.tipoDocumentoCliente}}</td>
+                                    <td>{{ proveedor.numeroDocumento }}</td>
+                                    <td><a href="{% url 'dte:proveedor_update' proveedor.codigo %}">Ver</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

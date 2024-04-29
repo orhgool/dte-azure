@@ -28,7 +28,7 @@ def enviarCorreo(request, tipo, codigo):
         #correos = proveedor.correo
         #sello = tabla.selloRecepcion
 
-    correo = 'alfaconsultores.sv@gmail.com'
+    #correo = 'alfaconsultores.sv@gmail.com'
 
     tablaTipo = TipoDocumento.objects.get(codigo=tipo)
 

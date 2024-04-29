@@ -184,28 +184,29 @@ class Cliente(models.Model):
 		ordering = ('razonsocial',)
 
 class Proveedor(models.Model):
-    codigo = models.CharField(db_column='Codigo', primary_key=True, null=False, max_length=50, verbose_name='Código')
-    razonsocial = models.CharField(db_column='RazonSocial', max_length=100, blank=True, null=True, verbose_name='Razón social')
-    nombreComercial = models.CharField(db_column='NombreComercial', max_length=50, blank=True, null=True, default='', verbose_name='Nombre comercial')
-    tipoDocumentoCliente = models.ForeignKey(TipoDocumentoIdentificacion, on_delete=models.CASCADE, null=False, default='001', verbose_name='Tipo de documento')
-    numeroDocumento = models.CharField(db_column='numeroDocumento', max_length=50, blank=True, null=True, verbose_name='Número de documento')
-    telefono = models.CharField(db_column='Telefono', max_length=50, blank=True, null=True, verbose_name='Teléfono')
-    correo = models.CharField(db_column='Correo', max_length=200, blank=True, null=True, verbose_name='Correo')
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=False, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
-    actividadEconomica = models.ForeignKey(Actividadeconomica, on_delete=models.CASCADE, null=False, default='001')
-    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=False, default='001')
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, null=False, default='001')
-    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, null=False, default='001')
-    direccionComplemento = models.CharField(db_column='Direccion', max_length=200, blank=True, null=True)
-    tipoContribuyente = models.ForeignKey(TipoContribuyente, on_delete=models.CASCADE, null=False, default='001')
-    tipoPersona = models.ForeignKey(TipoPersona, on_delete=models.CASCADE, null=False, default=1)
-    
+	codigo = models.CharField(db_column='Codigo', primary_key=True, null=False, max_length=50, verbose_name='Código')
+	razonsocial = models.CharField(db_column='RazonSocial', max_length=100, blank=True, null=True, verbose_name='Razón social')
+	nombreComercial = models.CharField(db_column='NombreComercial', max_length=50, blank=True, null=True, default='', verbose_name='Nombre comercial')
+	tipoDocumentoProveedor = models.ForeignKey(TipoDocumentoIdentificacion, on_delete=models.CASCADE, null=False, default='001', verbose_name='Tipo de documento')
+	numeroDocumento = models.CharField(db_column='numeroDocumento', max_length=50, blank=True, null=True, verbose_name='Número de documento')
+	nrc = models.CharField(db_column='NRC', max_length=10, blank=True, null=True, default='', verbose_name='NRC')
+	telefono = models.CharField(db_column='Telefono', max_length=50, blank=True, null=True, verbose_name='Teléfono')
+	correo = models.CharField(db_column='Correo', max_length=200, blank=True, null=True, verbose_name='Correo')
+	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=False, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
+	actividadEconomica = models.ForeignKey(Actividadeconomica, on_delete=models.CASCADE, null=False, default='001')
+	pais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=False, default='001')
+	departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, null=False, default='001')
+	municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, null=False, default='001')
+	direccionComplemento = models.CharField(db_column='Direccion', max_length=200, blank=True, null=True)
+	tipoContribuyente = models.ForeignKey(TipoContribuyente, on_delete=models.CASCADE, null=False, default='001')
+	tipoPersona = models.ForeignKey(TipoPersona, on_delete=models.CASCADE, null=False, default=1)
 
-    def __str__(self):
-    	return "%s" % (self.razonsocial.strip())
 
-    class Meta:
-    	ordering = ('razonsocial',)
+	def __str__(self):
+		return "%s" % (self.razonsocial.strip())
+
+	class Meta:
+		ordering = ('razonsocial',)
 
 
 class UnidadMedida(models.Model):

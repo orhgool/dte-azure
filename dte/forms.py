@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory, ModelForm
-from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Empresa, Producto, TipoDocumento, DTEContingencia, DTEContingenciaDetalle
+from .models import UserProfile, DTECliente, DTEClienteDetalle, Cliente, Proveedor, Empresa, Producto, TipoDocumento, DTEContingencia, DTEContingenciaDetalle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from .funciones import CodGeneracion
@@ -179,6 +179,38 @@ class ClienteForm(forms.ModelForm):
 			'razonsocial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'nombreComercial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'tipoDocumentoCliente': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'numeroDocumento': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'nrc': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'telefono': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'correo': forms.EmailInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'empresa': forms.HiddenInput(),
+			'actividadEconomica': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'pais': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'departamento': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'municipio': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'direccionComplemento': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'tipoContribuyente': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'tipoPersona': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+		}
+
+
+class ProveedorForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		initial_values = kwargs.get('initial', {})
+		initial_values['valor_del_campo'] = 'prueba'
+		kwargs['initial'] = initial_values
+		super().__init__(*args, **kwargs)
+
+	class Meta:
+		model = Proveedor
+		fields = ('codigo','razonsocial','nombreComercial','tipoDocumentoProveedor','numeroDocumento', 'nrc',
+			'telefono', 'correo','actividadEconomica','pais','departamento','municipio','direccionComplemento',
+			'tipoContribuyente','tipoPersona')
+		widgets = {
+			'codigo': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center', 'readonly':'True'}),
+			'razonsocial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'nombreComercial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'tipoDocumentoProveedor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'numeroDocumento': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'nrc': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'telefono': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),

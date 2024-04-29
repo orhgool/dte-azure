@@ -337,16 +337,16 @@ def datosInicio(pk):
 	primer_dia_mes = fecha_actual.replace(day=1)
 
 	# Contar el número de registros con la fecha 'fecEmi' igual a la fecha actual
-	num_registros_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual).count()
+	num_registros_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual, ambiente=empresa.ambiente).count()
 
 	# Sumar el campo 'subTotalVentas' de los registros que coincidan con la fecha actual
-	subtotal_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
+	subtotal_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual, ambiente=empresa.ambiente).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
 
 	# Contar el número de registros con la fecha 'fecEmi' en el mes en curso
-	num_registros_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__month=fecha_actual.month, fecEmi__year=fecha_actual.year).count()
+	num_registros_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__month=fecha_actual.month, fecEmi__year=fecha_actual.year, ambiente=empresa.ambiente).count()
 
 	# Sumar el campo 'subTotalVentas' de los registros con la fecha 'fecEmi' en el mes en curso
-	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
+	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes, ambiente=empresa.ambiente).aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
 
 	num_registros_hoy = num_registros_hoy or 0
 	subtotal_hoy = subtotal_hoy or 0

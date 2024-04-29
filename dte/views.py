@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.paginator import Paginator
-from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef
+from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef, Min
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
@@ -39,6 +39,8 @@ def index(request):
 	config = Configuracion.objects.all().first()
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	request.session['logo'] = config.blobUrl + 'empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
+	#request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '_logo.png')
+	#messages.success(request, request.session['logo'])
 	
 	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
@@ -113,10 +115,17 @@ def loginMH(request):
 def lista_dte(request, tipo):
 	if tipo == 'cliente':
 		vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
-		
-		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo).annotate(
-			descripcion_detalle=F('detalles__descripcion')
-)
+		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo) #.annotate(descripcion_detalle=F('detalles__descripcion'))
+		"""dtes = DTECliente.objects.filter(
+								    emisor=vEmisor, 
+								    ambiente=vEmisor.ambiente.codigo
+								).annotate(
+								    min_detalle_id=Min('detalles__id')
+								).annotate(
+								    descripcion_detalle=F('detalles__descripcion')
+								).filter(
+								    detalles__id=F('min_detalle_id')
+								)"""
 
 	elif tipo == 'proveedor':
 		pass
@@ -136,7 +145,17 @@ def lista_cliente(request):
 	page_obj = paginator.get_page(page_number)
 	return render(request, 'dte/lista_clientes.html', {'clientes': page_obj, 'listaDocumentos':request.session['documentos']})
 	
+
+
+@login_required(login_url='manager:login')
+def lista_proveedor(request):
+	proveedores = Proveedor.objects.filter(empresa_id=request.session['empresa'])
+	paginator = Paginator(proveedores, 10)
+	page_number = request.GET.get("page")
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'dte/lista_proveedores.html', {'proveedores': page_obj, 'listaDocumentos':request.session['documentos']})
 	
+
 
 @login_required(login_url='manager:login')
 def lista_producto(request):
@@ -310,7 +329,8 @@ class DTECreate(DTEInline, CreateView):
 		#messages.info(self.request, {'tipo':tipo_documento})
 		session_key = self.request.session.session_key
 		session_store = SessionStore(session_key=session_key)
-		empresa = self.request.session['empresa']
+		empresa = get_object_or_404(Empresa, codigo=self.request.session['empresa'])
+		#empresa = self.request.session['empresa']
 		if codigo in {'01','07','08','09','11','14','15'}:
 			version = 1
 		elif codigo in {'03','04','05','06'}:
@@ -322,6 +342,8 @@ class DTECreate(DTEInline, CreateView):
 		initial['emisor'] = self.request.session['empresa']
 		initial['tipoDte'] = tipo_documento
 		initial['version'] = version
+		initial['ambiente'] = empresa.ambiente.codigo
+		#messages.info(self.request, empresa.ambiente.codigo)
 
 		return initial
 
@@ -405,6 +427,23 @@ class DTEUpdate(DTEInline, UpdateView):
 		'detalles': formDetalle(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='detalles')
 		}
 
+
+def eliminar_detalle(request, tipo, pk):
+	try:
+		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
+	except DTEClienteDetalle.DoesNotExist:
+		messages.success(
+			request, 'Objeto no existe'
+			)
+		return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
+
+	detalle.delete()
+
+	messages.success(
+		request, 'Detalle eliminado con éxito'
+		)
+
+	return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
 
 
 class EnviarDTEView(APIView):
@@ -741,25 +780,6 @@ def autocompletar_producto(request):
 	productos = Producto.objects.filter(nombre__icontains=term).values_list('nombre', flat=True)
 	return JsonResponse(list(productos), safe=False)
 
-@login_required(login_url='manager:login')
-def eliminar_detalle(request, tipo, pk):
-	try:
-		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
-	except DTEClienteDetalle.DoesNotExist:
-		messages.success(
-			request, 'Objeto no existe'
-			)
-		return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
-
-	detalle.delete()
-
-	messages.success(
-		request, 'Detalle eliminado con éxito'
-		)
-
-	return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
-
-
 
 @login_required(login_url='manager:login') ########### Borrar #############
 def cliente_detail(request, pk):
@@ -781,6 +801,28 @@ def cliente_create(request):
 	else:		
 		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
 	return render(request, 'dte/cliente_detalle.html', {'form': form,'listaDocumentos':request.session['documentos']})
+
+
+@login_required(login_url='manager:login') ########### Borrar #############
+def proveedor_detail(request, pk):
+	proveedor = get_object_or_404(Proveedor, pk=pk)
+	return render(request, 'dte/proveedor_detalle.html', {'proveedor': proveedor, 'listaDocumentos':request.session['documentos']})
+
+
+@login_required(login_url='manager:login')
+def proveedor_create(request):
+	codigo = CodGeneracion().upper()
+	if request.method == 'POST':
+		form = ProveedorForm(request.POST)
+		empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
+		form.instance.empresa = empresa
+		if form.is_valid():
+			proveedor = form.save()
+			messages.success(request, 'Proveedor guardado')
+			return redirect('dte:proveedor_update', pk=proveedor.pk)
+	else:		
+		form = ProveedorForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
+	return render(request, 'dte/proveedor_detalle.html', {'form': form,'listaDocumentos':request.session['documentos']})
 
 
 @login_required(login_url='manager:login')
@@ -838,6 +880,22 @@ def cliente_update(request, pk):
 
 
 @login_required(login_url='manager:login')
+def proveedor_update(request, pk):
+	proveedor = get_object_or_404(Proveedor, codigo=pk)
+	if request.method == 'POST':
+		form = ProveedorForm(request.POST, instance=proveedor)
+		if form.is_valid():
+			proveedor = form.save()
+			messages.success(request, 'Proveedor guardado')
+			return redirect('dte:proveedor_update', pk=pk)
+	else:
+		form = ProveedorForm(instance=proveedor)
+	return render(request, 'dte/proveedor_detalle.html', {'form': form, 'listaDocumentos':request.session['documentos']})
+
+
+
+
+@login_required(login_url='manager:login')
 def perfil_empresa(request):
 	empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
 	if request.method == 'POST':
@@ -858,6 +916,15 @@ def cliente_delete(request, pk):
 		cliente.delete()
 		return redirect('dte:cliente_list')
 	return render(request, 'dte/cliente_confirm_delete.html', {'cliente': cliente, 'listaDocumentos':request.session['documentos']})
+
+
+@login_required(login_url='manager:login')
+def proveedor_delete(request, pk):
+	proveedor = get_object_or_404(Proveedor, pk=pk)
+	if request.method == 'POST':
+		proveedor.delete()
+		return redirect('dte:proveedor_list')
+	return render(request, 'dte/proveedor_confirm_delete.html', {'proveedor': proveedor, 'listaDocumentos':request.session['documentos']})
 
 
 class VistaPreviaHTML(TemplateView):
@@ -1059,6 +1126,7 @@ def verCorreo(request, tipo, codigo):
 
 def correoACliente(request, tipo, codigo):
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
+	messages.success(request, 'Correo enviado')
 	return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 def pruebas(request):
