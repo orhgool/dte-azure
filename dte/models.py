@@ -639,7 +639,7 @@ class DTECliente(models.Model):
 	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, default='001')
 	selloRecepcion = models.CharField(db_column = 'SelloRecepcion', max_length = 100, default = '',null=True, blank=True, verbose_name='Sello de recepción')
 	version = models.IntegerField(db_column = 'Version', verbose_name='Versión JSON', default=3)
-	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='01', verbose_name='Ambiente de trabajo')
+	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='00', verbose_name='Ambiente de trabajo')
 	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE,default='', verbose_name='Tipo DTE')
 	numeroControl = models.CharField(max_length=31, default='', null=True, blank=True, verbose_name='Número de control')
 	codigoGeneracion = models.CharField(primary_key=True, default='', max_length=36, verbose_name='Código de generación')
