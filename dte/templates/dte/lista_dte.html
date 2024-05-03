@@ -35,11 +35,11 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
-                                <th>Código de generación</th>
-                                <th>Cliente</th>
                                 <th>Tipo</th>
                                 <th>Correlativo</th>
-                                <!--th>Acción</th-->
+                                <th>Código de generación</th>
+                                <th>Cliente</th>
+                                <th>Observaciones</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -47,13 +47,15 @@
                             {% for dte in page_obj %}
                                 <tr>
                                     <td>{{dte.fecEmi|fecha}}</td>
-                                    <td title="{{dte.descripcion_detalle}}">
-                                    <a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">
-                                    {{dte.codigoGeneracion|slice:":8"}}...</a></td>
-                                    <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
                                     <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
                                     <td>{{dte.numeroControl|slice:"25:"}}</td>
-                                    <!--td>Modificar</a></td-->
+                                    <td><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
+                                    <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
+                                    <td>
+                                        {% if dte.observaciones %}
+                                            {{dte.observaciones|slice:":40"}}
+                                        {% endif %}
+                                    </td>
                                     {% if dte.estadoPago %}
                                         <td class="pagado">Pagado</td>
                                     {% else %}
