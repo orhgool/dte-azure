@@ -26,17 +26,21 @@ class UserForm(forms.ModelForm):
 class DTEForm(forms.ModelForm):
 	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
 		super(DTEForm, self).__init__(*args, **kwargs)
+
+		#self.initial['ambiente']='00'
+
 		if empresa:
 			self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTECliente
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl', 'receptor', 'tipoDte', 'version', 'fecEmi',
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'version', 'fecEmi',
 			'observaciones','condicionOperacion', 'estadoPago', 'tipoItemExpor','recintoFiscal','regimen','incoterms')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'codigoGeneracion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'numeroControl': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
+			'ambiente': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'receptor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'tipoDte': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'condicionOperacion': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),

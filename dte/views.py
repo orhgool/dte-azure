@@ -193,7 +193,15 @@ class DTEInline():
 		if not all((x.is_valid() for x in named_formsets.values())):
 			messages.warning(self.request, 'No se pudo guardar el DTE, por favor revise los datos')
 			return self.render_to_response(self.get_context_data(form=form))
+		
+		#empresa = get_object_or_404(Empresa, codigo=form.ambiente) #Actualizar antes de guardar
+		#form.instance.empresa = empresa
+		empresa = get_object_or_404(Empresa, codigo=self.request.session['empresa'])
+		#messages.info(self.request, empresa.ambiente.codigo)
 		self.object = form.save()
+		DTECliente.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(
+					ambiente=empresa.ambiente.codigo)
+
 
 		# for every formset, attempt to find a specific formset save function
         # otherwise, just save.
