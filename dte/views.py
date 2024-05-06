@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.paginator import Paginator
-from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef, Min
+from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef, Min, DateTimeField
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
@@ -48,7 +48,11 @@ def index(request):
 
 	numDia, valorDia, numMes, valorMes = datosInicio(request.session['empresa'])
 	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
-	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False)
+
+	fecha_actual = datetime.now()
+	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
+		dias = ExpressionWrapper(fecha_actual - F('fecEmi'), output_field=DateTimeField()))
+	cxc = cxc.annotate(dias_transcurridos=F('dias').days)
 	
 	context = {'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
