@@ -42,6 +42,8 @@ urlpatterns = [
     path('pruebas/', pruebas, name='prueba'),
     path('enviar_prueba/<str:tipo>', enviarPrueba, name='enviar_prueba'),
     path('invalidar_dte/<str:tipo>/<str:codigo>', invalidarDte, name='invalidarDte'),
+    path('registro_de_cliente/<str:cod_empresa>', cliente_auto_registro, name='cliente_auto_registro'),
+    path('<str:cod_empresa>/gracias', registro_de_cliente_gracias, name='registro_de_cliente_gracias')
 ]
 
 if settings.DEBUG:

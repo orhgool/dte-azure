@@ -52,7 +52,7 @@ def index(request):
 	fecha_actual = datetime.now()
 	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
 		dias = ExpressionWrapper(fecha_actual - F('fecEmi'), output_field=DateTimeField()))
-	cxc = cxc.annotate(dias_transcurridos=F('dias').days)
+	#cxc = cxc.annotate(dias_transcurridos=F('dias').days)
 	
 	context = {'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
@@ -1181,3 +1181,25 @@ def invalidarDte(request, tipo, codigo):
 	#return redirect('dte:actualizar', pk=codigo)
 	#messages.info(request, cod_anulacion)
 	return redirect('dte:enviar_mh_anulacion', tipo='anulacion', cod_anulacion=cod_anulacion)
+
+
+def cliente_auto_registro(request, cod_empresa):
+	config = Configuracion.objects.all().first()
+	codigo = CodGeneracion().upper()
+	logo = config.blobUrl + 'empresas/logos/' + cod_empresa + '_logo.png'
+	empresa = get_object_or_404(Empresa, codigo=cod_empresa)
+	if request.method == 'POST':
+		form = ClienteForm(request.POST)
+		form.instance.empresa = empresa
+		if form.is_valid():
+			cliente = form.save()
+			return redirect('dte:registro_de_cliente_gracias', cod_empresa=cod_empresa)
+	else:		
+		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
+	return render(request, 'dte/registro_de_cliente.html', {'form': form, 'logo':logo, 'empresa':empresa})
+
+
+def registro_de_cliente_gracias(request, cod_empresa):
+	config = Configuracion.objects.all().first()
+	logo = config.blobUrl + 'empresas/logos/' + cod_empresa + '_logo.png'
+	return render(request, 'dte/registro_de_cliente_gracias.html', {'logo':logo})

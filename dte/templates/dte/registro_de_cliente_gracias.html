@@ -1,0 +1,99 @@
+{% load static %}
+{% load my_filters %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ALFA</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+
+    <!-- Incluye jQuery (Incluido de ChatGPT consulta de calendario)--> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Incluye jQuery UI para el datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style type="text/css">
+       .logo{
+            position: relative;
+            width: 100%;
+            top: 30px;
+            text-align: center;
+            max-height: 80px;
+        }
+
+        .imagen{
+            position: relative;
+            top: 0px;
+            max-height: 80px;
+        }
+
+        .gracias{
+            position: relative;
+            top: 10px;
+            max-height: 150px;
+        }
+
+        .parrafo{
+            color:#000;
+        }
+
+        .centrado{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <div class="gracias">
+                                    <h1 class="parrafo centrado">GRACIAS!</h1>
+                                    <p class="parrafo centrado">Los datos han sido registrados correctamente.</p>
+                                </div>
+                                <div class="logo">
+                                    <img class="imagen" src="{{logo}}">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
