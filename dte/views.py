@@ -69,7 +69,7 @@ def perfil_usuario(request):
 			user_form.save()
 			password_form.save()
 			update_session_auth_hash(request, request.user)  # Importante para mantener la sesión iniciada después de cambiar la contraseña
-			return redirect('dte:perfil_usuario')  # Reemplaza 'profile' con el nombre de la URL de la página de perfil del usuario
+			return redirect('dte:perfil_usuario')
 	else:
 		user_form = UserForm(instance=request.user)
 		password_form = PasswordChangeForm(request.user)
@@ -811,7 +811,7 @@ def cliente_create(request):
 			messages.success(request, 'Cliente guardado')
 			return redirect('dte:cliente_update', pk=cliente.pk)
 	else:		
-		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
+		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'003'})
 	return render(request, 'dte/cliente_detalle.html', {'form': form,'listaDocumentos':request.session['documentos']})
 
 
@@ -833,7 +833,7 @@ def proveedor_create(request):
 			messages.success(request, 'Proveedor guardado')
 			return redirect('dte:proveedor_update', pk=proveedor.pk)
 	else:		
-		form = ProveedorForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
+		form = ProveedorForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'003'})
 	return render(request, 'dte/proveedor_detalle.html', {'form': form,'listaDocumentos':request.session['documentos']})
 
 
@@ -1195,7 +1195,7 @@ def cliente_auto_registro(request, cod_empresa):
 			cliente = form.save()
 			return redirect('dte:registro_de_cliente_gracias', cod_empresa=cod_empresa)
 	else:		
-		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'002'})
+		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'003'})
 	return render(request, 'dte/registro_de_cliente.html', {'form': form, 'logo':logo, 'empresa':empresa})
 
 

@@ -144,6 +144,14 @@ class Empresa(models.Model):
 	passwordPri = models.CharField(db_column='PasswordPri', null=False, default='', max_length=50, verbose_name='Clave privada')
 	token = models.TextField(db_column='Token', null=False, default='', max_length=500, verbose_name='Token')
 	logo = models.ImageField(upload_to='logos/', null=True, blank=True)
+	#correoPrivado = models.BooleanField(null=False, blank=True, default=False, verbose_name='Usar correo privado')
+	#correoUsuario = models.EmailField(null=False, default='usuario@empresa.com', max_length=50, verbose_name='Usuario de correo')
+	#correoClave = models.CharField(null=False, default='', max_length=50, verbose_name='Clave de correo')
+	#correoServidorSmtp = models.CharField(null=False, default='', max_length=50, verbose_name='Servidor SMTP')
+	#correoPuertoSmtp = models.IntegerField(null=False, default=587, verbose_name='Puerto SMTP')
+	#correoEnableSsl = models.BooleanField(null=False, default=True, verbose_name='Utiliza SSL')
+	
+
 
 	def __str__(self):
 		return "%s" % (self.razonsocial.strip())
@@ -677,10 +685,10 @@ class DTECliente(models.Model):
 	estadoPago = models.BooleanField(null=False, blank=True, default=True, verbose_name='Pagado')
 	docfirmado = models.TextField(null=True, blank=True, verbose_name='Documento firmado')
 	fechaPago = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de pago')
-	tipoItemExpor = models.ForeignKey(TipoItem, on_delete=models.CASCADE, null=True, blank=True, default=1, verbose_name='Tipo ítem de exportación')
+	tipoItemExpor = models.ForeignKey(TipoItem, on_delete=models.CASCADE, null=True, blank=True, default=2, verbose_name='Tipo ítem de exportación')
 	recintoFiscal = models.ForeignKey(RecintoFiscal, on_delete=models.CASCADE, null=True, blank=True, default='02', verbose_name='Recinto fiscal')
-	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default='EX-1.1000.000', verbose_name='Regimen')
-	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default='01', verbose_name='Incoterms')
+	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Regimen')
+	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Incoterms')
 		
 	def __str__(self):
 		return "%s" % (self.numeroControl)
@@ -895,6 +903,10 @@ class DTEContingenciaDetalle(models.Model):
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='001')
+	tipoEstablecimiento = models.ForeignKey(TipoEstablecimiento, on_delete=models.CASCADE, null=False, default='02', verbose_name='Tipo de establecimiento')
+	codigoEstablecimiento = models.CharField(db_column='codigoEstablecimiento', max_length=4, blank=True, null=True, default='0000', verbose_name='Código de establecimiento')
+	codigoPuntoVenta = models.CharField(db_column='codigoPuntoVenta', max_length=4, blank=True, null=True, default='0000', verbose_name='Código de punto de venta')
+	
 
 	def __str__(self):
 		return self.user.username

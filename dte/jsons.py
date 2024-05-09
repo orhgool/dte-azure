@@ -796,7 +796,7 @@ def fex(codigo): # 11 - Factura de exportación
 	    'pagos': None,
 	    'numPagoElectronico': None,
 	    'codIncoterms': dte.incoterms_id,
-	    'descIncoterms': str(dte.incoterms),
+	    'descIncoterms': dte.incoterms.nombre if dte.incoterms else None,
 	    'observaciones': dte.observaciones
 	}
 

@@ -128,7 +128,7 @@
                             {{ form.estadoPago|as_crispy_field }}
                         </div>
                         {% endif %}
-                    {% if TipoDocumento.codigo == '11' %}
+                    {% if Documento.tipoDte.codigo == '11' or TipoDocumento.codigo == '11' %}
                         <div class="col-md-2">
                             {{ form.tipoItemExpor|as_crispy_field }}
                         </div>
@@ -205,7 +205,7 @@
                             <table class="table card-header">
                                 <thead class="text-secondary">
 
-                                    {% if TipoDocumento.codigo == '01' or TipoDocumento.codigo == '03' %}
+                                    {% if TipoDocumento.codigo == '01' or TipoDocumento.codigo == '03' or Documento.tipoDte.codigo == '01' or Documento.tipoDte.codigo == '03'%}
                                         <th>Tipo <span style="color: red;" class="required">*</span></th>
                                         <th>Cantidad <span style="color: red;" class="required">*</span></th>
                                         <th>U. Medida <span style="color: red;" class="required">*</span></th>
@@ -218,7 +218,7 @@
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
                                     {% endif %}
-                                    {% if TipoDocumento.codigo == '05' or TipoDocumento.codigo == '06' %}
+                                    {% if TipoDocumento.codigo == '05' or TipoDocumento.codigo == '06' or Documento.tipoDte.codigo == '05' or Documento.tipoDte.codigo == '06'%}
                                         <th>Tipo <span style="color: red;" class="required">*</span></th>
                                         <th>Tipo doc.<span style="color: red;" class="required">*</span></th>
                                         <th>Tipo generac.<span style="color: red;" class="required">*</span></th>
@@ -235,7 +235,7 @@
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
                                     {% endif %}
-                                    {% if TipoDocumento.codigo == '11' %}
+                                    {% if TipoDocumento.codigo == '11' or Documento.tipoDte.codigo == '11'%}
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
@@ -246,7 +246,7 @@
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
                                     {% endif %}
-                                    {% if TipoDocumento.codigo == '14' %}
+                                    {% if TipoDocumento.codigo == '14' or Documento.tipoDte.codigo == '14' %}
                                         <th>Tipo <span style="color: red;" class="required">*</span></th>
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
