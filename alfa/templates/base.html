@@ -110,6 +110,7 @@
                 </div>
                 <div class="nav-profile-text">
                   <p class="mb-1 text-black">{{empresa_value}}</p>
+                  <p class="mb-1 text-black">{{username_value}}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="profileDropdown" data-x-placement="bottom-end">
@@ -305,5 +306,7 @@
     <!-- Custom js for this page -->
     <script src="{% static 'assets/js/dashboard.js' %}"></script>
     <!-- End custom js for this page -->
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>

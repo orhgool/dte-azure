@@ -196,7 +196,7 @@
                                 {% endfor %}
                             
                                 {% for fields in formset.empty_form.visible_fields %}
-                                    <td>{{ fields }}</td>
+                                    <td>{{fields}}</td>
                                 {% endfor %}
                             </tr>
                         </script>
@@ -242,8 +242,8 @@
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
                                         <th>Precio <span style="color: red;" class="required">*</span></th>
                                         <th>Descuento</th>
-                                        <th>No Gravada</th>
                                         <th>Vta gravada</th>
+                                        <th>No Gravada</th>
                                         <th>ID <span style="color: red;" class="required">*</span></th>
                                         <th>Eliminar?</th>
                                     {% endif %}
@@ -275,7 +275,7 @@
                                             {% for field in formss.visible_fields %}
                                                 {% if not field.name == 'codigoDetalles' %}
                                                     <td>
-                                                        {{field}} {{field.name}}
+                                                        {{field}}
                                                         {% for error in field.errors %}
                                                             <span style="color: red">{{ error }}</span>
                                                         {% endfor %}
@@ -401,6 +401,20 @@
       });
     });
 
+    function calcularSubtotal() {
+        // Itera sobre cada fila del detalle
+        $('#item-detalles tr').each(function() {
+            // Encuentra las casillas de cantidad y precioUni dentro de esta fila
+            var cantidad = $(this).find('.field-cantidad input').val();
+            var precioUni = $(this).find('.field-precioUni input').val();
+            // Si ambos valores son numéricos, calcula el subtotal y actualiza la casilla 'ventaGravada'
+            if (!isNaN(cantidad) && !isNaN(precioUni)) {
+                var subtotal = cantidad * precioUni;
+                $(this).find('.field-ventaGravada input').val(subtotal.toFixed(2)); // Ajusta la precisión según tus necesidades
+            }
+        });
+    }
+
 
     // Llama a la función para calcular el subtotal y actualizar la casilla 'ventaGravada'
     $('#item-detalles').on('input', '.field-cantidad input, .field-precioUni input', function() {
@@ -408,22 +422,40 @@
     });
 
   });
-
-    function anularDocumento(tipo, codigo) {
-        // Redirigir a la URL de anulación con los parámetros
-        window.location.href = "/invalidar_dte/"+ tipo + "/" + codigo;
-  }
-
-
-    function calcularTotal(element) {
-        var fila = element.parentNode.parentNode;
-        var cantidad = fila.querySelector('.cantidad').value;
-        var precio = fila.querySelector('.precioUni').value;
-        var total = cantidad * precio;
-        fila.querySelector('.ventaGravada').value = total;
-    }
-
 </script>
 
+<script type="text/javascript">
+    function anularDocumento(tipo, codigo) {
+    // Redirigir a la URL de anulación con los parámetros
+    window.location.href = "/invalidar_dte/"+ tipo + "/" + codigo;
+  }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Función para actualizar el campo 'ventaGravada' basado en 'cantidad' y 'precioUni'
+        function updateVentaGravada() {
+            // Obtener el índice del control
+            var index = this.id.split('-')[1] || '__prefix__';
+            // Obtener los valores de cantidad y precioUni
+            var cantidad = parseFloat(document.getElementById('id_detalles-' + index + '-cantidad').value) || 0;
+            var precioUni = parseFloat(document.getElementById('id_detalles-' + index + '-precioUni').value) || 0;
+            var ventaGravada = cantidad * precioUni;
+            // Actualizar el valor del campo 'ventaGravada'
+            document.getElementById('id_detalles-' + index + '-ventaGravada').value = ventaGravada.toFixed(2);
+        }
+
+        // Obtener todos los campos 'cantidad' y 'precioUni' y agregar event listeners
+        var cantidadInputs = document.querySelectorAll('[id^="id_detalles-"][id$="-cantidad"]');
+        var precioUniInputs = document.querySelectorAll('[id^="id_detalles-"][id$="-precioUni"]');
+        
+        cantidadInputs.forEach(function(input) {
+            input.addEventListener('input', updateVentaGravada);
+        });
+
+        precioUniInputs.forEach(function(input) {
+            input.addEventListener('input', updateVentaGravada);
+        });
+    });
+</script>
 
 {% endblock %}

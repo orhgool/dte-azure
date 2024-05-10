@@ -33,7 +33,7 @@
     "codPuntoVentaMH": null,
     "codPuntoVenta": null,
     "tipoItemExpor": 1,
-    "recintoFiscal": "02",
+    "recintoFiscal": null,
     "regimen": null
   },
   "receptor": {
@@ -51,7 +51,22 @@
   },
   "otrosDocumentos": null,
   "ventaTercero": null,
-  "cuerpoDocumento": [],
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Flete",
+      "precioUni": 0.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
   "resumen": {
     "totalGravada": 0.0,
     "descuento": 0.0,

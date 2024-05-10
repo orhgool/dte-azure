@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabla de Cantidad, Precio y Total</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<table id="tabla">
+  <thead>
+    <tr>
+      <th>Cantidad</th>
+      <th>Precio</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="number" class="cantidad" oninput="calcularTotal(this)"></td>
+      <td><input type="number" class="precio" oninput="calcularTotal(this)"></td>
+      <td><input type="number" class="total" readonly></td>
+    </tr>
+  </tbody>
+</table>
+
+<button onclick="agregarFila()">Agregar fila</button>
+
+<script>
+  function calcularTotal(element) {
+    var fila = element.parentNode.parentNode;
+    var cantidad = fila.querySelector('.cantidad').value;
+    var precio = fila.querySelector('.precio').value;
+    var total = cantidad * precio;
+    fila.querySelector('.total').value = total;
+  }
+
+  function agregarFila() {
+    var tabla = document.getElementById('tabla');
+    var fila = tabla.insertRow(-1);
+    var celdaCantidad = fila.insertCell(0);
+    var celdaPrecio = fila.insertCell(1);
+    var celdaTotal = fila.insertCell(2);
+
+    celdaCantidad.innerHTML = '<input type="number" class="cantidad" oninput="calcularTotal(this)">';
+    celdaPrecio.innerHTML = '<input type="number" class="precio" oninput="calcularTotal(this)">';
+    celdaTotal.innerHTML = '<input type="number" class="total" readonly>';
+  }
+</script>
+
+</body>
+</html>

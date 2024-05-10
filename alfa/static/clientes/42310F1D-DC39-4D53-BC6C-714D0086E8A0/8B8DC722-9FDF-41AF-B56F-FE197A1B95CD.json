@@ -1,0 +1,168 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000003",
+    "codigoGeneracion": "8B8DC722-9FDF-41AF-B56F-FE197A1B95CD",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-10",
+    "horEmi": "06:00:00",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "24525534",
+    "correo": "atencionalcliente@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06142205171054",
+    "nrc": "2610503",
+    "nombre": "BL FREIGHT INTERNATIONAL S.A DE C.V",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "BL FREIGHT INTERNATIONAL S.A DE C.V",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "77 AV NORTE, COL. ESCALON, #420 , SAN SALVADOR"
+    },
+    "telefono": "2528-6326",
+    "correo": "cliente@cliente.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 5.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "REVISION",
+      "precioUni": 20.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 10.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE ACAJUTLA HASTA SAN SALVADOR/ SHIPMENR  S200056985",
+      "precioUni": 250.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 2500.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 3,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 5.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "REVISION DE D.A.N / SE BAJO TODA LA CARGA Y SE CONTABILIZO",
+      "precioUni": 20.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 2700.0,
+    "subTotalVentas": 2700.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 351.0
+      }
+    ],
+    "subTotal": 2700.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 3051.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 3051.0,
+    "totalLetras": "TRES MIL CINCUENTA Y UNO 00/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "docuEntrega": "03150709171014",
+    "nombRecibe": "BL FREIGHT INTERNATIONAL S.A DE C.V",
+    "docuRecibe": "06142205171054",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "8B8DC722-9FDF-41AF-B56F-FE197A1B95CD",
+    "selloRecibido": "20248EBEC85431F142A0B8A006A245E06956QCEK",
+    "fhProcesamiento": "10/05/2024 12:27:30",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

@@ -686,7 +686,7 @@ class DTECliente(models.Model):
 	docfirmado = models.TextField(null=True, blank=True, verbose_name='Documento firmado')
 	fechaPago = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de pago')
 	tipoItemExpor = models.ForeignKey(TipoItem, on_delete=models.CASCADE, null=True, blank=True, default=2, verbose_name='Tipo ítem de exportación')
-	recintoFiscal = models.ForeignKey(RecintoFiscal, on_delete=models.CASCADE, null=True, blank=True, default='02', verbose_name='Recinto fiscal')
+	recintoFiscal = models.ForeignKey(RecintoFiscal, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Recinto fiscal')
 	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Regimen')
 	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Incoterms')
 		
@@ -926,4 +926,4 @@ class DtesEmpresa(models.Model):
 	class Meta:
 		verbose_name = 'Dte autorizado por empresa'
 		verbose_name_plural = "Dte's autorizados por empresa"
-		ordering = ('dte',)
+		ordering = ('empresa',)
