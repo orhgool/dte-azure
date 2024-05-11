@@ -1,10 +1,13 @@
 from django.urls import path
 from django.conf import settings
+from django.conf.urls import handler404
 from django.conf.urls.static import static
 
 from .views import *
 
 app_name = 'dte'
+
+handler404 = 'dte.views.custom_page_not_found'
 
 urlpatterns = [
 	path('', index, name='index'),

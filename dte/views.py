@@ -1204,3 +1204,7 @@ def registro_de_cliente_gracias(request, cod_empresa):
 	config = Configuracion.objects.all().first()
 	logo = config.blobUrl + 'empresas/logos/' + cod_empresa + '_logo.png'
 	return render(request, 'dte/registro_de_cliente_gracias.html', {'logo':logo})
+
+
+def custom_page_not_found(request, exception):
+    return render(request, '404.html', status=404)	

@@ -165,9 +165,14 @@
                            
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             
+                            {% if form.numeroControl.value %}
                             <a href="{% url 'dte:vista_previa' form.tipoDte.value form.codigoGeneracion.value %}" target="_blank" class="btn btn-primary">Vista previa</a>
+                            {% endif %}
+
                             {% if not sello %}
-                            <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
+                                {% if form.numeroControl.value %}
+                                    <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
+                                {% endif %}
                             {% endif %}
                             {% if sello %}
                             <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Re-enviar correo al cliente</a>
@@ -275,7 +280,7 @@
                                             {% for field in formss.visible_fields %}
                                                 {% if not field.name == 'codigoDetalles' %}
                                                     <td>
-                                                        {{field}} {{field.name}}
+                                                        {{field}}
                                                         {% for error in field.errors %}
                                                             <span style="color: red">{{ error }}</span>
                                                         {% endfor %}
