@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
+receptor = get_object_or_404(Cliente, codigo='C2289891-AE01-4A72-ADBE-2F48CF1A8597')
+
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):
 		return obj.replace(find, replace)
@@ -62,18 +64,18 @@ def fcf_p(empresa, codigo): # 01 - Factura
 					}
 
 	receptor_data = {'tipoDocumento': '36',
-				    'numDocumento': '03010205021015',
-				    'nrc': None,
-				    'nombre': 'Cliente 002 DECO',
-				    'codActividad': '10005',
-				    'descActividad': 'Otros',
+				    'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+				    'codActividad': receptor.actividadEconomica_id,
+				    'descActividad': receptor.actividadEconomica.descripcion,
 				    'direccion': {
-				      'departamento': '01',
-				      'municipio': '03',
-				      'complemento': 'Ferreteria La Industrial'
+				      'departamento': receptor.departamento_id,
+				      'municipio': receptor.municipio.codigo,
+				      'complemento': receptor.direccionComplemento
 				    },
-				    'telefono': '00000000',
-				    'correo': 'cliente@cliente.com'
+				    'telefono': receptor.telefono,
+				    'correo': receptor.correo
 					}
 
 	otrosDocumentos_data = None
@@ -126,12 +128,12 @@ def fcf_p(empresa, codigo): # 01 - Factura
 	}
 
 	extension_data = {
-		'nombEntrega': 'ALFA CONSULTORES, S.A. DE C.V.',
-	    'docuEntrega': '03070711201016',
-	    'nombRecibe': 'Cliente 002 DECO',
-	    'docuRecibe': '03010205021015',
-	    'placaVehiculo': None,
-	    'observaciones': None
+		'nombEntrega': emisor.razonsocial,
+		'docuEntrega': emisor.nit.replace('-',''),
+		'nombRecibe': receptor.razonsocial,
+		'docuRecibe': receptor.numeroDocumento.replace('-',''),
+		'placaVehiculo': None,
+		'observaciones': None
 	}
 
 	apendice_data = None
@@ -211,19 +213,17 @@ def ccf_p(empresa, codigo): # 03 - CCF
 					'codPuntoVenta': None
 					}
 
-	receptor_data = {"nit": "06142407620011",
-				    "nrc": "4340",
-				    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-				    "codActividad": "52102",
-				    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
-				    "nombreComercial": "ALCASA",
-				    "direccion": {
-				      "departamento": "05",
-				      "municipio": "11",
-				      "complemento": "KM 9 y medio complejo corporativo SISCO"
-				    },
-				    "telefono": "22121270",
-				    "correo": "alcasa@alcasa.com.sv"
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'nombreComercial': receptor.nombreComercial,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
 					}
 
 	otrosDocumentos_data = None
@@ -238,12 +238,12 @@ def ccf_p(empresa, codigo): # 03 - CCF
       "codigo": None,
       "codTributo": None,
       "uniMedida": 59,
-      "descripcion": "Pago 50% aplicacion control PLDA",
-      "precioUni": 750.0,
+      "descripcion": "Pago por servicios",
+      "precioUni": 100.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 750.0,
+      "ventaGravada": 100.0,
       "noGravado": 0.0,
       "tributos": [
         "20"
@@ -254,8 +254,8 @@ def ccf_p(empresa, codigo): # 03 - CCF
 	resumen_data = {
 		"totalNoSuj": 0.0,
 	    "totalExenta": 0.0,
-	    "totalGravada": 750.0,
-	    "subTotalVentas": 750.0,
+	    "totalGravada": 100.0,
+	    "subTotalVentas": 100.0,
 	    "descuNoSuj": 0.0,
 	    "descuExenta": 0.0,
 	    "descuGravada": 0.0,
@@ -265,17 +265,17 @@ def ccf_p(empresa, codigo): # 03 - CCF
 	      {
 	        "codigo": "20",
 	        "descripcion": "Impuesto al Valor Agregado 13%",
-	        "valor": 97.5
+	        "valor": 13.0
 	      }
 	    ],
-	    "subTotal": 750.0,
+	    "subTotal": 100.0,
 	    "ivaPerci1": 0.0,
 	    "ivaRete1": 0.0,
 	    "reteRenta": 0.0,
-	    "montoTotalOperacion": 847.5,
+	    "montoTotalOperacion": 113.0,
 	    "totalNoGravado": 0.0,
-	    "totalPagar": 847.5,
-	    "totalLetras": "OCHOCIENTOS CUARENTA Y SIETE 50/100 USD",
+	    "totalPagar": 113.0,
+	    "totalLetras": "CIENTO TRECE 00/100 USD",
 	    "saldoFavor": 0.0,
 	    "condicionOperacion": 1,
 	    "pagos": None,
@@ -351,8 +351,8 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "9239",
-      "fechaEmision": "2024-04-04"
+      "numeroDocumento": "1234",
+      "fechaEmision": "2024-05-07"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -369,19 +369,17 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 					'correo': emisor.correo
 					}
 
-	receptor_data = {"nit": "06142407620011",
-				    "nrc": "4340",
-				    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-				    "nombreComercial": "ALCASA",
-				    "codActividad": "52102",
-				    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
-				    "direccion": {
-				      "departamento": "05",
-				      "municipio": "11",
-				      "complemento": "KM 9 y medio complejo corporativo SISCO"
-				    },
-				    "telefono": "22121270",
-				    "correo": "alcasa@alcasa.com.sv"
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'nombreComercial': None,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
 					}
 
 	otrosDocumentos_data = None
@@ -391,17 +389,17 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	cuerpoDocumento_data = {
 		"numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "9239",
+	      "numeroDocumento": "1234",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
 	      "uniMedida": 59,
 	      "descripcion": "Correccion",
-	      "precioUni": 20.0,
+	      "precioUni": 10.0,
 	      "montoDescu": 0.0,
 	      "ventaNoSuj": 0.0,
 	      "ventaExenta": 0.0,
-	      "ventaGravada": 20.0,
+	      "ventaGravada": 10.0,
 	      "tributos": [
 	        "20"
 	      ]
@@ -410,8 +408,8 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	resumen_data = {
 		"totalNoSuj": 0.0,
 	    "totalExenta": 0.0,
-	    "totalGravada": 20.0,
-	    "subTotalVentas": 20.0,
+	    "totalGravada": 10.0,
+	    "subTotalVentas": 10.0,
 	    "descuNoSuj": 0.0,
 	    "descuExenta": 0.0,
 	    "descuGravada": 0.0,
@@ -420,15 +418,15 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	      {
 	        "codigo": "20",
 	        "descripcion": "Impuesto al Valor Agregado 13%",
-	        "valor": 2.6
+	        "valor": 1.3
 	      }
 	    ],
-	    "subTotal": 20.0,
+	    "subTotal": 10.0,
 	    "ivaPerci1": 0.0,
 	    "ivaRete1": 0.0,
 	    "reteRenta": 0.0,
-	    "montoTotalOperacion": 22.6,
-	    "totalLetras": "VEINTIDOS 60/100 USD",
+	    "montoTotalOperacion": 11.3,
+	    "totalLetras": "ONCE 30/100 USD",
 	    "condicionOperacion": 1
 	}
 
@@ -499,8 +497,8 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "5623",
-      "fechaEmision": "2024-04-01"
+      "numeroDocumento": "5678",
+      "fechaEmision": "2024-05-07"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -517,19 +515,17 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 					'correo': emisor.correo
 					}
 
-	receptor_data = {"nit": "06142407620011",
-				    "nrc": "4340",
-				    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
-				    "nombreComercial": "ALCASA",
-				    "codActividad": "52102",
-				    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
-				    "direccion": {
-				      "departamento": "05",
-				      "municipio": "11",
-				      "complemento": "KM 9 y medio complejo corporativo SISCO"
-				    },
-				    "telefono": "22121270",
-				    "correo": "alcasa@alcasa.com.sv"
+	receptor_data = {'nit': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'nombreComercial': None,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo
 					}
 
 	otrosDocumentos_data = None
@@ -539,17 +535,17 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	cuerpoDocumento_data = {
 	      "numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "5623",
+	      "numeroDocumento": "5678",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
 	      "uniMedida": 59,
 	      "descripcion": 'Debito',
-	      "precioUni": 20.0,
+	      "precioUni": 10.0,
 	      "montoDescu": 0.0,
 	      "ventaNoSuj": 0.0,
 	      "ventaExenta": 0.0,
-	      "ventaGravada": 20.0,
+	      "ventaGravada": 10.0,
 	      "tributos": [
 	        "20"
 	      ]
@@ -558,8 +554,8 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	resumen_data = {
 		"totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 20.0,
-    "subTotalVentas": 20.0,
+    "totalGravada": 10.0,
+    "subTotalVentas": 10.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
@@ -568,15 +564,15 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 2.6
+        "valor": 1.3
       }
     ],
-    "subTotal": 20.0,
+    "subTotal": 10.0,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 22.6,
-    "totalLetras": "VEINTIDOS 60/100 USD",
+    "montoTotalOperacion": 11.3,
+    "totalLetras": "ONCE 30/100 USD",
     "condicionOperacion": 1,
     "numPagoElectronico": None
 	}

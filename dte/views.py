@@ -42,7 +42,7 @@ def index(request):
 	#request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '_logo.png')
 	#messages.success(request, request.session['logo'])
 	
-	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa'])
+	list_docs = DtesEmpresa.objects.filter(empresa=request.session['empresa']).order_by('dte')
 	documentos = list_docs.select_related('dte').values('id', 'empresa_id', 'dte_id', nombre_documento=F('dte__nombre'))
 	request.session['documentos'] = list(documentos)
 
@@ -773,8 +773,8 @@ class EnviarDTEView_prueba(APIView):
 			#messages.success(request, res)
 			messages.success(request, respuesta_servicio)
 			#return redirect(template, codigo=codigo)
-			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
-			#return redirect('dte:prueba')
+			#return redirect('dte:actualizar', tipo=tipo, pk=codigo)
+			return redirect('dte:prueba')
 
 		else:
 			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"

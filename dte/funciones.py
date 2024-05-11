@@ -103,6 +103,7 @@ def gen_prueba(request, tipo, empresa):
 		json_data = fse_p(empresa, codigo)
 
 	ruta_archivo = os.path.join(settings.STATIC_DIR,'clientes', empresa, f'{codigo}.json')
+	#messages(request, ruta_archivo)
 	with open(ruta_archivo, 'w') as json_file:
 		json.dump(json_data, json_file, indent=2, ensure_ascii=False)
 
