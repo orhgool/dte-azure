@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load my_filters %}
+{% block estilo %}
+    <style type="text/css">
+        .centrado {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
 {% block content %}
 
 {% if messages %}
@@ -20,11 +27,13 @@
                     <h4 class="card-title">Inicio de sesión en Ministerio de Hacienda</h4>
                 </div>
                 <div class="card-body">
-                  <p>Estimado usuario, haciendo "clic" en el siguiente botón iniciará sesión en el portal del Ministerio de Hacienda para poder enviar los documentos electrónicos</p>
+                  <p class="centrado">Estimado usuario, haciendo "clic" en el siguiente botón iniciará sesión en el portal del Ministerio de Hacienda para poder enviar los documentos electrónicos</p>
                 </div>
                 <form method="POST" action="{% url 'dte:loginMH' %}">
                   {% csrf_token %}
-                  <input class="btn btn-primary" type="submit" value="Iniciar sesión">
+                  <div class="centrado">
+                    <input class="btn btn-primary" type="submit" value="Iniciar sesión">
+                </div>
                 </form>
             </div>
         </div>

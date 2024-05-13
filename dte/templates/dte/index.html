@@ -86,7 +86,7 @@
                 <td><a href="{% url 'dte:actualizar' doc.tipoDte.codigo doc.codigoGeneracion %}">{{doc.tipoDte.nombre_corto}} {{doc.numeroControl|slice:"25:"}}</a></td>
                 <td>{{doc.receptor.nombreComercial}}</td>
                 <td align="right">$ {{doc.totalPagar}}</td>
-                <td align="center">0</td>              
+                <td align="center">{{doc.dias_transcurridos}}</td>              
                 </tr>
               {% endfor %}
             </tbody>

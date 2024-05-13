@@ -291,7 +291,10 @@
 							<td valign="top" width="5%" align="right">{{dte_detalles.cantidad|decimal3}}</td>
 							<td valign="top" width="5%">{{dte_detalles.uniMedida}}</td>
 							<td valign="top" width="5%">{{dte_detalles.tipoItem}}</td>
-							<td valign="top" width="35%">{{dte_detalles.descripcion}}</td>								
+							<td valign="top" width="35%">{{dte_detalles.descripcion}}
+								{% if dte_detalles.complemento1 %}<br>{{dte_detalles.complemento1}}{% endif %}
+								{% if dte_detalles.complemento2 %}<br>{{dte_detalles.complemento2}}{% endif %}
+							</td>								
 							<td valign="top" width="5%" align="right">{{dte_detalles.precioUni|moneda}}</td>
 							<td valign="top" width="5%" align="right">{{dte_detalles.ventaExenta|moneda}}</td>
 							<td valign="top" width="5%" align="right">{{dte_detalles.ventaGravada|moneda}}</td>

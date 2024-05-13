@@ -3,6 +3,15 @@
 {% load my_filters %}
 {% load crispy_forms_tags %}
 {% crispy example_form example_form.helper %}
+
+{% block estilo %}
+    <style type="text/css">
+        .centrado {
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
 {% block content %}
 
 {% if messages %}
@@ -124,7 +133,7 @@
                         </div>
                         {% endif %}
                         {% if form.estadoPago %}
-                        <div class="col-md-2">
+                        <div class="col-md-2 centrado">
                             {{ form.estadoPago|as_crispy_field }}
                         </div>
                         {% endif %}
@@ -216,6 +225,7 @@
                                         <th>Cantidad <span style="color: red;" class="required">*</span></th>
                                         <th>U. Medida <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Complemento descripción </th>
                                         <th>Precio <span style="color: red;" class="required">*</span></th>
                                         <th>Descuento</th>
                                         <th>Vta no sujeta</th>
@@ -233,6 +243,7 @@
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Complemento descripción </th>
                                         <th>Precio <span style="color: red;" class="required">*</span></th>
                                         <th>Descuento</th>
                                         <th>Vta no sujeta</th>
@@ -245,6 +256,7 @@
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Complemento descripción </th>
                                         <th>Precio <span style="color: red;" class="required">*</span></th>
                                         <th>Descuento</th>
                                         <th>No Gravada</th>
@@ -257,6 +269,7 @@
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
+                                        <th>Complemento descripción </th>
                                         <th>Precio <span style="color: red;" class="required">*</span></th>
                                         <th>Descuento</th>
                                         <th>Valor compra</th>
@@ -320,7 +333,9 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+
                         </div>
+                        <span style="color: red;" class="required">*</span> Campos obligatorios
                         
                     {% endwith %}
 
@@ -329,7 +344,7 @@
                     </div-->
                             <div align="right">
                                 {% if not sello %}
-                                <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Añadir otro</a> <!-- 
+                                <a href="#" id="add-detalle-button" class="btn btn-primary add-detalles">Agregar ítem</a> <!-- 
                                 id="add-inlineformsetname-button" -->
                                 {% endif %}
                             </div>

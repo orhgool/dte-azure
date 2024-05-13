@@ -8,6 +8,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.paginator import Paginator
 from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef, Min, DateTimeField
+from django.db.models.functions import ExtractDay
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
@@ -15,7 +16,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
@@ -49,10 +50,15 @@ def index(request):
 	numDia, valorDia, numMes, valorMes = datosInicio(request.session['empresa'])
 	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
 
-	fecha_actual = datetime.now()
-	cxc = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
+	tz = timezone(timedelta(hours=-6))
+	fecha_actual = datetime.now(tz=tz)
+	cxc_queryset = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
 		dias = ExpressionWrapper(fecha_actual - F('fecEmi'), output_field=DateTimeField()))
-	#cxc = cxc.annotate(dias_transcurridos=F('dias').days)
+	cxc=[]
+	for obj in cxc_queryset:
+		fecha_actual_tz = fecha_actual.astimezone(tz)  # Convertir fecha_actual a la misma zona horaria que obj.fecEmi
+		obj.dias_transcurridos = (fecha_actual_tz - obj.fecEmi).days
+		cxc.append(obj)
 	
 	context = {'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
@@ -102,9 +108,11 @@ def loginMH(request):
 			}
 
 			datos.token = token_val
-			datos.save()
-
-			messages.success(request, 'Respuesta del Ministerio: ' + respuesta_json['status'])
+			if datos.token:
+				datos.save()
+				messages.success(request, 'Respuesta del Ministerio: ' + respuesta_json['status'])
+			else:
+				messages.info(request, 'Error en la autenticación con el Ministerio de Hacienda')
 
 			return redirect('dte:index')
 		else:

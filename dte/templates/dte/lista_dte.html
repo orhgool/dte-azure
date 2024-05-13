@@ -39,7 +39,6 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
-                                <th>Tipo</th>
                                 <th>Correlativo</th>
                                 <th>Código de generación</th>
                                 <th>Cliente</th>
@@ -52,14 +51,13 @@
                             {% for dte in page_obj %}
                                 <tr>
                                     <td>{{dte.fecEmi|fecha}}</td>
-                                    <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}}</td>
-                                    <td>{{dte.numeroControl|slice:"25:"}}</td>
-                                    <td><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
+                                    <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}} {{dte.numeroControl|slice:"27:"}}</td>
+                                    <td title="{{dte.codigoGeneracion}}"><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
                                     <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
                                     <td class="derecha">{{dte.totalPagar|moneda}}</td>
-                                    <td>
+                                    <td title="{{dte.observaciones}}">
                                         {% if dte.observaciones %}
-                                            {{dte.observaciones|slice:":40"}}
+                                            {{dte.observaciones|slice:":40"}}...
                                         {% endif %}
                                     </td>
                                     {% if dte.estadoPago %}

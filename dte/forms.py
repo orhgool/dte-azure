@@ -59,7 +59,7 @@ class DTEDetalleForm(forms.ModelForm):
 	
 	class Meta:
 		model = DTEClienteDetalle
-		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'ventaNoSuj', 
+		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'ventaNoSuj', 
 			'ventaExenta', 'ventaGravada')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
@@ -67,6 +67,7 @@ class DTEDetalleForm(forms.ModelForm):
 			'cantidad': forms.NumberInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -83,7 +84,7 @@ class NCDDetalleForm(forms.ModelForm):
 	class Meta:
 		model = DTEClienteDetalle
 		fields = ('codigoDetalle', 'tipoItem', 'tipoDoc', 'tipoGeneracion', 'numeroDocumento', 
-		'fechaEmision', 'cantidad', 'uniMedida', 'descripcion',	'precioUni', 'montoDescu', 
+		'fechaEmision', 'cantidad', 'uniMedida', 'descripcion', 'complemento1',	'precioUni', 'montoDescu', 
 		'ventaNoSuj', 'ventaExenta', 'ventaGravada')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
@@ -95,6 +96,7 @@ class NCDDetalleForm(forms.ModelForm):
 			'cantidad': forms.NumberInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -107,12 +109,13 @@ class FEXDetalleForm(forms.ModelForm):
 	
 	class Meta:
 		model = DTEClienteDetalle
-		fields = ('cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada')
+		fields = ('cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
 			'cantidad': forms.NumberInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'noGravado': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -125,13 +128,14 @@ class FSEDetalleForm(forms.ModelForm):
 	
 	class Meta:
 		model = DTEClienteDetalle
-		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'compra')
+		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'compra')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
 			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'cantidad': forms.NumberInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','step':'1', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'compra': forms.TextInput(attrs={'class': 'form-control ventaGravada','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -140,7 +144,7 @@ class FSEDetalleForm(forms.ModelForm):
 
 DTEClienteDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=DTEDetalleForm,
-	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'ventaNoSuj', 
+	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'ventaNoSuj', 
 			'ventaExenta', 'ventaGravada'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
@@ -148,20 +152,20 @@ DTEClienteDetalleFormSet = inlineformset_factory(
 NCDDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=NCDDetalleForm,
 	fields=('tipoItem', 'tipoDoc', 'tipoGeneracion', 'numeroDocumento', 'fechaEmision', 'cantidad', 
-		'uniMedida', 'descripcion',	'precioUni', 'montoDescu', 'ventaNoSuj', 'ventaExenta', 'ventaGravada'
+		'uniMedida', 'descripcion', 'complemento1',	'precioUni', 'montoDescu', 'ventaNoSuj', 'ventaExenta', 'ventaGravada'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
 
 FEXDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=FEXDetalleForm,
-	fields=('cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada'
+	fields=('cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
 
 
 FSEDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=FSEDetalleForm,
-	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'precioUni', 'montoDescu', 'compra'
+	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'compra'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
 

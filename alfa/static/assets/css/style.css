@@ -1787,7 +1787,8 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #a7afb7;
+  /*color: #a7afb7;*/
+  color: #585858;
   text-align: left;
   background-color: #fff; }
 
