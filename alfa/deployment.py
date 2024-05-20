@@ -7,7 +7,7 @@ SECRET_KEY = os.environ['SECRET']
 ALLOWED_HOSTS = ['alfadte.azurewebsites.net']
 #CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://alfadte.azurewebsites.net']
-DEBUG = False
+DEBUG = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
