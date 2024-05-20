@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
-receptor = get_object_or_404(Cliente, codigo='C2289891-AE01-4A72-ADBE-2F48CF1A8597')
+receptor = get_object_or_404(Cliente, codigo='64DE991A-D71F-4D4A-BDC3-A67AC4872C10')
 
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):
@@ -90,7 +90,7 @@ def fcf_p(empresa, codigo): # 01 - Factura
 	      'codigo': None,
 	      'codTributo': None,
 	      'uniMedida': 59,
-	      'descripcion': 'Ventas varias para pruebaas',
+	      'descripcion': 'Ventas varias para pruebas',
 	      'precioUni': 128.82,
 	      'montoDescu': 0.0,
 	      'ventaNoSuj': 0.0,
@@ -352,7 +352,7 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
       "numeroDocumento": "1234",
-      "fechaEmision": "2024-05-07"
+      "fechaEmision": "2024-05-15"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -804,7 +804,7 @@ def fse_p(empresa, codigo): # 14 - Factura de sujeto excluido
 				    'direccion': {
 				      'departamento': '01',
 				      'municipio': '03',
-				      'complemento': 'Ferreteria La Industrial'
+				      'complemento': 'Urbanización Lomas de San Antonio'
 				    },
 				    'telefono': '00000000',
 				    'correo': 'cliente@cliente.com'

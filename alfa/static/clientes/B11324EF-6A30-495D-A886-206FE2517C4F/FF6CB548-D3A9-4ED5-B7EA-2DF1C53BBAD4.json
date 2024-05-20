@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000004",
+    "codigoGeneracion": "FF6CB548-D3A9-4ED5-B7EA-2DF1C53BBAD4",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-18",
+    "horEmi": "07:46:49",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "emisor": {
+    "nit": "03151111841038",
+    "nrc": "3023094",
+    "nombre": "Aida Esmeralda Amaya de Acevedo",
+    "codActividad": "47739",
+    "descActividad": "Venta al por menor de otros productos n.c.p.",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Local 2 Lot Inclan, lote 50 ctgo a Ferreteria la Industrial"
+    },
+    "telefono": "77571459",
+    "correo": "esmeralda_2121@hotmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "016312457",
+    "nombre": "Proveedor de servicios",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Urbanizacion Lomas de San Antonio"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 99,
+      "descripcion": "servicios",
+      "precioUni": 1000.0,
+      "montoDescu": 0.0,
+      "compra": 1000.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 100.0,
+    "totalPagar": 900.0,
+    "totalLetras": "NOVECIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "FF6CB548-D3A9-4ED5-B7EA-2DF1C53BBAD4",
+    "selloRecibido": "2024E7A5A5F83C36427A804138F128C2BA9FCMPE",
+    "fhProcesamiento": "18/05/2024 07:47:02",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

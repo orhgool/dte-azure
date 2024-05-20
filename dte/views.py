@@ -1204,7 +1204,13 @@ def cliente_auto_registro(request, cod_empresa):
 			cliente = form.save()
 			return redirect('dte:registro_de_cliente_gracias', cod_empresa=cod_empresa)
 	else:		
-		form = ClienteForm(initial = {'codigo':codigo, 'pais':'9300','tipoDocumentoCliente':'13' , 'actividadEconomica':'10005', 'tipoContribuyente':'003'})
+		form = ClienteForm(initial = {
+			'codigo':codigo,
+			'pais':'9300',
+			'tipoDocumentoCliente':'36',
+			'actividadEconomica':'10005',
+			'tipoContribuyente':'003'}
+		)
 	return render(request, 'dte/registro_de_cliente.html', {'form': form, 'logo':logo, 'empresa':empresa})
 
 

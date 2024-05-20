@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000027",
+    "codigoGeneracion": "8F0A33BB-0156-4D39-ADA7-D342ABEBE087",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-18",
+    "horEmi": "07:01:29",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03151111841038",
+    "nrc": "3023094",
+    "nombre": "Aida Esmeralda Amaya de Acevedo",
+    "codActividad": "47739",
+    "descActividad": "Venta al por menor de otros productos n.c.p.",
+    "nombreComercial": "DECOACABADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Local 2 Lot Inclan, lote 50 ctgo a Ferreteria la Industrial"
+    },
+    "telefono": "77571459",
+    "correo": "esmeralda_2121@hotmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "05020410731010",
+    "nrc": "1019236",
+    "nombre": "Abel Ernesto Rivera Cruz",
+    "codActividad": "46639",
+    "descActividad": "Venta al por mayor de materiales para la construccion n.c.p.",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Frente a la Salud"
+    },
+    "telefono": "7534-8990",
+    "correo": "cliente@cliente.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "Aida Esmeralda Amaya de Acevedo",
+    "docuEntrega": "03151111841038",
+    "nombRecibe": "Abel Ernesto Rivera Cruz",
+    "docuRecibe": "05020410731010",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "8F0A33BB-0156-4D39-ADA7-D342ABEBE087",
+    "selloRecibido": "202466C52317D6024833A76DB7A1ED188C5EVDJZ",
+    "fhProcesamiento": "18/05/2024 07:01:44",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000020",
+    "codigoGeneracion": "3460EAA3-B93B-4233-9B8E-51091D3D54F4",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-18",
+    "horEmi": "07:07:45",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03151111841038",
+    "nrc": "3023094",
+    "nombre": "Aida Esmeralda Amaya de Acevedo",
+    "codActividad": "47739",
+    "descActividad": "Venta al por menor de otros productos n.c.p.",
+    "nombreComercial": "DECOACABADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Local 2 Lot Inclan, lote 50 ctgo a Ferreteria la Industrial"
+    },
+    "telefono": "77571459",
+    "correo": "esmeralda_2121@hotmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "05020410731010",
+    "nrc": "1019236",
+    "nombre": "Abel Ernesto Rivera Cruz",
+    "codActividad": "46639",
+    "descActividad": "Venta al por mayor de materiales para la construccion n.c.p.",
+    "nombreComercial": "Los Laureles",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Frente a la Salud"
+    },
+    "telefono": "7534-8990",
+    "correo": "cliente@cliente.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Pago por servicios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 13.0
+      }
+    ],
+    "subTotal": 100.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 113.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 113.0,
+    "totalLetras": "CIENTO TRECE 00/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "3460EAA3-B93B-4233-9B8E-51091D3D54F4",
+    "selloRecibido": "2024B12A7DEFD46543CE9BA4BFA73ADCC99EYOXF",
+    "fhProcesamiento": "18/05/2024 07:08:03",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}
