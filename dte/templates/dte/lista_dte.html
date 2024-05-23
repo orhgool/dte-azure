@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load my_filters %}
+
+{% block titulo %}
+    Documentos emitidos a clientes
+{% endblock %}
+
 {% block estilo %}
 <style type="text/css">
     .pagado {
@@ -14,6 +19,10 @@
 
     .derecha {
         text-align: right;
+    }
+
+    .cursiva {
+        font-style: italic;
     }
 </style>
 {% endblock %}
@@ -44,7 +53,8 @@
                                 <th>Cliente</th>
                                 <th>Monto(USD)</th>
                                 <th>Observaciones</th>
-                                <th>Estado</th>
+                                <th>E.P.</th>
+                                <th>M.H.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,10 +75,17 @@
                                     {% else %}
                                         <td class="no-pagado"> No pagado</td>
                                     {% endif %}
+                                    {% if dte.selloRecepcion %}
+                                        <td title="Enviado al Ministerio de Hacienda" class="pagado">Enviado</td>
+                                    {% else %}
+                                        <td title="No enviado al Ministerio de Hacienda" class="no-pagado">No enviado</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    <p class="cursiva">E.P.: Indica el estado del pago por parte del cliente.<br>
+                    M.H.: Indica si el documento ya se envió al Ministerio de Hacienda.</p>
                 </div>
             </div>
             <div class="card-body">

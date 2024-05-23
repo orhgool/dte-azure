@@ -39,6 +39,8 @@ else:
 def index(request):
 	config = Configuracion.objects.all().first()
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
+	datos_empresa = get_object_or_404(Empresa, codigo=request.user.userprofile.empresa.codigo)
+	request.session['empresa_nombre'] = request.user.userprofile.empresa.nombreComercial
 	request.session['logo'] = config.blobUrl + 'empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
 	#request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '_logo.png')
 	#messages.success(request, request.session['logo'])
@@ -60,7 +62,7 @@ def index(request):
 		obj.dias_transcurridos = (fecha_actual_tz - obj.fecEmi).days
 		cxc.append(obj)
 	
-	context = {'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
+	context = {'empresa': datos_empresa, 'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
 	#messages.success(request, request.session['empresa'])
 	#messages.success(request, request.session['logo'])
 	return render(request, 'dte/index.html', context)
@@ -417,10 +419,10 @@ class DTEUpdate(DTEInline, UpdateView):
 		else:
 			Documento = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
 
-		#anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
+		anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
 		ctx['Documento'] = Documento
 		ctx['sello'] = Documento.selloRecepcion
-		#ctx['anulado'] = anulado if anulado else None
+		ctx['anulado'] = anulado if anulado else None
 		ctx['named_formsets'] = self.get_named_formsets()
 		#messages.success(self.request, {'DTEUpdate: ':'update', 'ctx':ctx})
 		return ctx

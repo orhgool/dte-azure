@@ -1,6 +1,7 @@
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.defaultfilters import date
+from django.utils import timezone
 from datetime import datetime
 
 register = template.Library()
@@ -24,7 +25,8 @@ def fecha(fecha, formato='d/m/Y'):
     return date(fecha, formato)
 
 def fechaHora(fecha, formato='%d/%m/%Y %H:%M'):
-    return fecha.strftime(formato)
+    local_fecha = timezone.localtime(fecha)
+    return local_fecha.strftime(formato)
 
 register.filter('moneda', moneda)
 register.filter('decimal', decimal)
