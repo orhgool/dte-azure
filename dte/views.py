@@ -110,6 +110,7 @@ def loginMH(request):
 			}
 
 			datos.token = token_val
+			datos.fechaToken = datetime.now()
 			if datos.token:
 				datos.save()
 				messages.success(request, 'Respuesta del Ministerio: ' + respuesta_json['status'])
