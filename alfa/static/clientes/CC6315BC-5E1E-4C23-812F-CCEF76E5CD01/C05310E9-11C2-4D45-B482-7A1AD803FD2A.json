@@ -1,0 +1,108 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000003",
+    "codigoGeneracion": "C05310E9-11C2-4D45-B482-7A1AD803FD2A",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-24",
+    "horEmi": "11:47:50",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "00000000000000",
+    "nrc": "000000",
+    "nombre": "Lighthouse, S.A. de C.V.",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "nombreComercial": "Lighthouse",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "1ra Cl Pte, direccion de ejemplo #01"
+    },
+    "telefono": "00000000",
+    "correo": "info@lighthouse.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "13",
+    "numDocumento": "0101010101010101",
+    "nrc": "0001",
+    "nombre": "CORTUR, SA de CV",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "Av Franklin Roosvelt 9023"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "impresor",
+      "precioUni": 30.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 30.0,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 3.45
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 30.0,
+    "subTotalVentas": 30.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 30.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 30.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 30.0,
+    "totalLetras": "TREINTA 00/100 USD",
+    "totalIva": 3.45,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "Lighthouse, S.A. de C.V.",
+    "docuEntrega": "00000000000000",
+    "nombRecibe": "CORTUR, SA de CV",
+    "docuRecibe": "0101010101010101",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

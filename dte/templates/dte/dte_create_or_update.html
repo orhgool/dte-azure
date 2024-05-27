@@ -441,9 +441,9 @@
 
     function calcularTotal(element) {
         var fila = element.parentNode.parentNode;
-        var cantidad = fila.querySelector('.cantidad').value;
-        var precio = fila.querySelector('.precioUni').value;
-        var total = cantidad * precio;
+        var cantidad = parseFloat(fila.querySelector('.cantidad').value);
+        var precio = parseFloat(fila.querySelector('.precioUni').value);
+        var total = parseFloat((cantidad * precio).toFixed(2));
         fila.querySelector('.ventaGravada').value = total;
     }
 

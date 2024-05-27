@@ -1,0 +1,77 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "06",
+    "numeroControl": "DTE-06-00000000-000000000000001",
+    "codigoGeneracion": "53C18A34-CAB2-43B9-8E33-043DFCCD727C",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2024-05-24",
+    "horEmi": "10:13:12",
+    "tipoMoneda": "USD"
+  },
+  "documentoRelacionado": [],
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "00000000000000",
+    "nrc": "000000",
+    "nombre": "Lighthouse, S.A. de C.V.",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "nombreComercial": "Lighthouse",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "1ra Cl Pte, direccion de ejemplo #01"
+    },
+    "telefono": "00000000",
+    "correo": "info@lighthouse.com"
+  },
+  "receptor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreComercial": null,
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19"
+    },
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "cuerpoDocumento": [],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 0.0,
+    "subTotalVentas": 0.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [],
+    "subTotal": 0.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 0.0,
+    "totalLetras": "CERO 00/100 USD",
+    "condicionOperacion": 1,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "Lighthouse, S.A. de C.V.",
+    "docuEntrega": "00000000000000",
+    "nombRecibe": "ALFA CONSULTORES, S.A. DE C.V.",
+    "docuRecibe": "03070711201016",
+    "observaciones": null
+  },
+  "apendice": null
+}
