@@ -1,0 +1,36 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "codigoGeneracion": "E9A22987-2EE4-4D24-86E4-27434B617A7F",
+    "fTransmision": "2024-05-28",
+    "hTransmision": "16:33:20"
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreResponsable": "A L F A",
+    "tipoDocResponsable": "36",
+    "numeroDocResponsable": "03070711201016",
+    "tipoEstablecimiento": "02",
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codPuntoVenta": null,
+    "codEstableMH": null
+  },
+  "detalleDTE": [
+    {
+      "noItem": 1,
+      "tipoDoc": "03",
+      "codigoGeneracion": "AC7BE56B-1262-4F5B-86A4-0563F5ECC5E0"
+    }
+  ],
+  "motivo": {
+    "fInicio": "2024-05-28",
+    "fFin": "2024-05-28",
+    "hInicio": "16:32:03",
+    "hFin": "17:32:03",
+    "tipoContingencia": 3,
+    "motivoContingencia": "Falla en el suministro de servicio de Internet del Emisor"
+  }
+}

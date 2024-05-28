@@ -786,8 +786,8 @@ class DTEClienteDetalleTributo(models.Model):
 		return "%s - %s" % (self.codigoDetalle, self.codigo)
 
 	class Meta:
-		verbose_name = 'DTE Detalle tributo'
-		verbose_name_plural = "DTE Detalle tributos"
+		verbose_name = 'DTE Cliente Detalle tributo'
+		verbose_name_plural = "DTE Cliente Detalle tributos"
 
 
 class DTEProveedor(models.Model):
@@ -861,9 +861,28 @@ class DTEProveedorDetalle(models.Model):
 	def __str__(self):
 		return "%s" % (self.codigoDetalle)
 
+	def save(self, *args, **kwargs):
+		if not self.codigoDetalle:
+			self.codigoDetalle = str(uuid.uuid4())
+		super().save(*args, **kwargs)
+
 	class Meta:
 		verbose_name = 'DTE proveedor detalle'
 		verbose_name_plural = "DTE's proveedor detalles"
+
+
+class DTEProveedorDetalleTributo(models.Model):
+	codigoDetalle = models.ForeignKey(DTEProveedorDetalle, on_delete=models.CASCADE)
+	codigo = models.ForeignKey(TributoResumen, on_delete=models.CASCADE)
+	descripcion = models.CharField(max_length=100, blank=True, default='', verbose_name='Descripción del tributo')
+	valor = models.DecimalField(max_digits=11, decimal_places=2, default=0)
+
+	def __str__(self):
+		return "%s - %s" % (self.codigoDetalle, self.codigo)
+
+	class Meta:
+		verbose_name = 'DTE Proveedor Detalle tributo'
+		verbose_name_plural = "DTE Proveedor Detalle tributos"		
 
 
 class DTEInvalidacion(models.Model):
@@ -905,8 +924,8 @@ class DTEContingencia(models.Model):
 		return self.codigoGeneracion
 
 	class Meta:
-		verbose_name = 'Contingencia DTE'
-		verbose_name_plural = "Contingencia de DTE's"
+		verbose_name = 'DTE de contingencia'
+		verbose_name_plural = "DTE's de contingencia"
 
 class DTEContingenciaDetalle(models.Model):
 	dteContingencia = models.ForeignKey(DTEContingencia, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Dte')

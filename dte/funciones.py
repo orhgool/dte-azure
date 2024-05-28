@@ -45,6 +45,7 @@ def getUrl(empresa, tipo):
 	emp = Empresa.objects.get(codigo=empresa)
 	ambiente = emp.ambiente
 	url = UrlSistema.objects.get(tipo=tipo, ambiente=ambiente)
+	#messages.info(request, {'emp':emp, 'ambiente':ambiente, 'tipo':tipo})
 
 	return url.url
 
@@ -155,8 +156,8 @@ def genPdf(codigo, tipo, empresa):
 	emisor = Empresa.objects.get(codigo=empresa)
 	codigo = codigo
 
-	dte = DTECliente.objects.get(codigoGeneracion = codigo)	
-	receptor = Cliente.objects.get(codigo = dte.receptor_id)
+	#dte = DTECliente.objects.get(codigoGeneracion = codigo)	
+	#receptor = Cliente.objects.get(codigo = dte.receptor_id)
 	
 	if tipo == '01':
 		template_name = 'plantillas/dte_fcf.html'
@@ -199,9 +200,9 @@ def genPdf(codigo, tipo, empresa):
 
 	if tipo == '14':
 		template_name = 'plantillas/dte_fse.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
-		receptor = Cliente.objects.get(codigo=dte.receptor_id)
-		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+		dte = DTEProveedor.objects.get(codigoGeneracion=codigo)
+		receptor = Proveedor.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEProveedorDetalle.objects.filter(dte=dte)
 
 		
 	letras = CantLetras(dte.totalPagar)
@@ -244,8 +245,10 @@ def genPdf(codigo, tipo, empresa):
 
 
 def firmar(codigo, tipo, cod_anulacion=None):
-	if tipo in {'01','03','05','06','11','14'}:
+	if tipo in {'01','03','05','06','11'}:
 		dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	elif tipo in {'07','14'}:
+		dte = get_object_or_404(DTEProveedor, codigoGeneracion=codigo)
 	elif tipo == 'anulacion':
 		dte = get_object_or_404(DTEInvalidacion, codigoGeneracion=cod_anulacion)
 	elif tipo == 'contingencia':
@@ -285,12 +288,14 @@ def firmar(codigo, tipo, cod_anulacion=None):
 		status_value = response_data.get("status", None)
 		body_value = response_data.get("body", None)
 
-		if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
+		if tipo in {'01','03','04','05','06','08','09','11','15'}:
 			guardar_firma = DTECliente.objects.get(codigoGeneracion=codigo)
 			guardar_firma.docfirmado = body_value
 			guardar_firma.save()
-		elif tipo in {'07'}:
-			pass
+		elif tipo in {'07','14'}:
+			guardar_firma = DTEProveedor.objects.get(codigoGeneracion=codigo)
+			guardar_firma.docfirmado = body_value
+			guardar_firma.save()
 		elif tipo == 'anulacion':
 			guardar_firma = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
 			guardar_firma.docfirmado = body_value

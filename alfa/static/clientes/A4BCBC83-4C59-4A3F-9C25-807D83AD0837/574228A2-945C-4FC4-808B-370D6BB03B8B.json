@@ -1,0 +1,36 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "codigoGeneracion": "574228A2-945C-4FC4-808B-370D6BB03B8B",
+    "fTransmision": "2024-05-28",
+    "hTransmision": "15:53:02"
+  },
+  "emisor": {
+    "nit": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreResponsable": "A L F A",
+    "tipoDocResponsable": "36",
+    "numeroDocResponsable": "03070711201016",
+    "tipoEstablecimiento": "02",
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com",
+    "codPuntoVenta": null,
+    "codEstableMH": null
+  },
+  "detalleDTE": [
+    {
+      "noItem": 1,
+      "tipoDoc": "03",
+      "codigoGeneracion": "AC7BE56B-1262-4F5B-86A4-0563F5ECC5E0"
+    }
+  ],
+  "motivo": {
+    "fInicio": "2024-05-28",
+    "fFin": "2024-05-28",
+    "hInicio": "16:47:02",
+    "hFin": "17:00:02",
+    "tipoContingencia": 2,
+    "motivoContingencia": "No disponibilidad de sistema del emisor"
+  }
+}

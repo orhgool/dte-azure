@@ -842,7 +842,7 @@ def fex(codigo): # 11 - Factura de exportación
 
 
 def fse(codigo): # 14 - Factura de sujeto excluido
-	detalleDTECliente = DTEClienteDetalle.objects.filter(dte=codigo)
+	detalleDTEProveedor = DTEProveedorDetalle.objects.filter(dte=codigo)
 	from .funciones import CantLetras, CodGeneracion, Correlativo
 	json_data = {}
 	datos_emisor = {}
@@ -852,9 +852,9 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 	tributos_consolidados = {}
 	tributos_consolidados_lista = []
 
-	dte = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	dte = get_object_or_404(DTEProveedor, codigoGeneracion=codigo)
 	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
-	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
+	receptor = get_object_or_404(Proveedor, codigo=dte.receptor_id)
 	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
 	
 
@@ -891,7 +891,7 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 					'codPuntoVenta': None
 					}
 
-	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoProveedor_id,
 						'numDocumento': receptor.numeroDocumento.replace('-',''),
 						'nombre': receptor.razonsocial,
 						'codActividad': receptor.actividadEconomica_id,
@@ -906,7 +906,7 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 	otrosDocumentos_data = None
 	ventaTercero_data = None
 
-	for index, detalle in enumerate(detalleDTECliente):
+	for index, detalle in enumerate(detalleDTEProveedor):
 		datos_detalle.append({
 			'numItem': index + 1,
 			'tipoItem': int(detalle.tipoItem.codigo),

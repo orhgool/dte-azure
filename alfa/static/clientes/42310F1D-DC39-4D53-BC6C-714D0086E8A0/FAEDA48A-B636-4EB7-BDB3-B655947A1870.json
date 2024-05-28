@@ -1,0 +1,117 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000002",
+    "codigoGeneracion": "FAEDA48A-B636-4EB7-BDB3-B655947A1870",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-28",
+    "horEmi": "21:06:56",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 2,
+    "recintoFiscal": null,
+    "regimen": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06140402021045",
+    "nombre": "CARIBEX WORLDWIDE EL SALVADOR, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Alquiler de bodegas para almacenamiento y deposito n.c.p.",
+    "complemento": "Zona Franca American Park Block M1, km 36.5 Carretera Panamericana",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "23257100",
+    "correo": "proveedoressal@cbxglobal.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE ACAJUTLA HASTA Z..F INTERNACIONAL",
+      "precioUni": 300.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 300.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "MOVIMIENTO INTERNO EN PUERTO A ZONA DE D.A.N",
+      "precioUni": 50.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 50.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 3,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "TRAMITE DE DUCA-T",
+      "precioUni": 20.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 20.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 370.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 370.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 370.0,
+    "totalLetras": "TRESCIENTOS SETENTA 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": null,
+    "descIncoterms": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

@@ -7,7 +7,9 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.paginator import Paginator
-from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField, Subquery, OuterRef, Min, DateTimeField
+from django.core.exceptions import ImproperlyConfigured
+from django.db.models import (F, Q, Sum, ExpressionWrapper, DecimalField, Subquery,
+	OuterRef, Min, DateTimeField)
 from django.db.models.functions import ExtractDay
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -20,8 +22,11 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
-from .funciones import CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf, CantLetras, firmar, datosInicio, gen_prueba
-from .models import Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo, DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, TipoInvalidacion, DTEInvalidacion
+from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf,
+	CantLetras, firmar, datosInicio, gen_prueba)
+from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
+	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
+	TipoInvalidacion,DTEInvalidacion)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -40,7 +45,7 @@ def index(request):
 	config = Configuracion.objects.all().first()
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	datos_empresa = get_object_or_404(Empresa, codigo=request.user.userprofile.empresa.codigo)
-	request.session['empresa_nombre'] = request.user.userprofile.empresa.nombreComercial
+	#request.session['empresa_nombre'] = request.user.userprofile.empresa.nombreComercial
 	request.session['logo'] = config.blobUrl + 'empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
 	#request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '_logo.png')
 	#messages.success(request, request.session['logo'])
@@ -184,14 +189,26 @@ def lista_producto(request):
 
 #@login_required(login_url='manager:login')
 class DTEInline():
-	model = DTECliente
-	#model = DTEContingencia
-	form_class = DTEClienteForm
-	#form_class = ContingenciaForm
+	model = None
+	form_class = None
 	template_name = 'dte/dte_create_or_update.html'
+
+
+	def set_dynamic_attributes(self, tipo):
+		if tipo in {'01','03','04','05','06','11'}:
+			self.model = DTECliente
+			self.form_class = DTEClienteForm
+		elif tipo in {'07','14'}:
+			self.model = DTEProveedor
+			self.form_class = DTEProveedorForm
+		elif tipo in {'contingencia'}:
+			self.model = DTEContingencia
+			self.form_class = DTEContingenciaForm
+			#messages.info(self.request, self.model)
 	
 
 	def get_context_data(self, **kwargs):
+		self.set_dynamic_attributes(kwargs.get('tipo'))
 		context = super().get_context_data(**kwargs)
 		#cliente_frm = ClienteForm(initial=dict(codigo=CodGeneracion(), tipoDocumentoCliente= '13', 
 		#	empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
@@ -213,23 +230,34 @@ class DTEInline():
 		#form.instance.empresa = empresa
 		empresa = get_object_or_404(Empresa, codigo=self.request.session['empresa'])
 		#messages.info(self.request, empresa.ambiente.codigo)
+		#messages.info(self.request, form)
 		self.object = form.save()
-		DTECliente.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(
-					ambiente=empresa.ambiente.codigo)
+		if self.kwargs.get('tipo') in {'01','03','04','05','06','11'}:
+			DTECliente.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(ambiente=empresa.ambiente.codigo)
+		elif self.kwargs.get('tipo') in {'07','14'}:
+			DTEProveedor.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(ambiente=empresa.ambiente.codigo)
+		elif self.kwargs.get('tipo') in {'contingencia'}:
+			DTEContingencia.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(ambiente=empresa.ambiente.codigo)
 
 
 		# for every formset, attempt to find a specific formset save function
         # otherwise, just save.
 		for name, formset in named_formsets.items():
+			#messages.info(self.request, formset)
 			formset_save_func = getattr(self, 'formset_{0}_valid'.format(name), None)
-			#messages.success(self.request, {'formset_save_func': formset_save_func})
+			#messages.info(self.request, 'formset_{0}_valid'.format(name))
+			#formset_save_func = getattr(self, f'formset_{name}_valid', None)
+			#messages.info(self.request, {'formset_save_func': formset_save_func})
 			if formset_save_func is not None:
 				formset_save_func(formset)
 			else:
 				formset.save()
 
+		#messages.info(self.request, self.object.name)
+
 		if not self.object.selloRecepcion:
-			if self.object.numeroControl and self.object.tipoDte.codigo != 'contingencia':
+			if self.object.numeroControl and self.object.tipoDte.codigo in ('01','03','04','05','06','07','11','14'):
+				#messages.info(self.request, self.object)
 				qr = genQr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
@@ -247,29 +275,34 @@ class DTEInline():
 		#for obj in formset.deleted_objects:
 		#	obj.delete()
 		for detalle in detalles:
+			#messages.info(self.request, detalle)
 			detalle.dte = self.object
 			detalle.save()
 
 			#
-			if self.object.tipoDte.codigo not in {'contingencia',}:
+			
+			if self.kwargs.get('tipo') in {'01','03','04','05','06','11'}:
 				dte = DTECliente.objects.get(codigoGeneracion=detalle.dte_id)
 				receptor = Cliente.objects.get(codigo=dte.receptor_id)
-				#messages.info(self.request, receptor.tipoContribuyente)
-			else:
+			if self.kwargs.get('tipo') in {'07','14'}:
+				dte = DTEProveedor.objects.get(codigoGeneracion=detalle.dte_id)
+				receptor = Proveedor.objects.get(codigo=dte.receptor_id)
+			#messages.info(self.request, receptor.tipoContribuyente)
+			if self.kwargs.get('tipo') in {'contingencia'}:
 				dte = DTEContingencia.objects.get(codigoGeneracion=detalle.dteContingencia_id)
 
-			if dte.tipoDte.codigo=='00': ##################  PARA NO EVALUAR ESTA CONDICION  #################
-				items = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id)
-				for item in items:
-					item.precioUni /= Decimal(1.13)
-					item.ventaGravada /= Decimal(1.13)
-					item.save(update_fields=['precioUni', 'ventaGravada'])
+			#if dte.tipoDte.codigo=='00': ##################  PARA NO EVALUAR ESTA CONDICION  #################
+			#	items = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id)
+			#	for item in items:
+			#		item.precioUni /= Decimal(1.13)
+			#		item.ventaGravada /= Decimal(1.13)
+			#		item.save(update_fields=['precioUni', 'ventaGravada'])
 			#
 
 			# Inicio de cálculos
 			#messages.info(self.request, str(receptor.tipoContribuyente.codigo) + ' - ' + str(receptor.tipoContribuyente))
-			if dte.tipoDte.codigo != 'contingencia':
-				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']			
+			if dte.tipoDte.codigo in {'01','03','04','05','06','11'}:
+				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
 				
 				if receptor.tipoContribuyente.codigo == '001':
 					retencion = float(total_gravada) * float(0.01)
@@ -278,7 +311,7 @@ class DTEInline():
 					retencion = 0
 					#messages.info(self.request, 'Otro: ' + str(receptor.tipoContribuyente))
 
-			if dte.tipoDte.codigo=='01':
+			if dte.tipoDte.codigo in {'01'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
 					subTotalVentas = total_gravada,
@@ -310,18 +343,35 @@ class DTEInline():
 					montoTotalOperacion=total_gravada,
 					totalPagar=total_gravada)
 			if dte.tipoDte.codigo in {'14'}:
-				total_compra = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_compra=Sum(F('compra')))['total_compra']
-				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
+				total_compra = DTEProveedorDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_compra=Sum(F('compra')))['total_compra']
+				DTEProveedor.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalCompra=total_compra,
 					reteRenta=round((float(total_compra)*float(0.1)),2),
 					subTotal=total_compra,
 					totalPagar=round((float(total_compra)-(float(total_compra)*0.1)),2))
+
 			# Fin de cálculos
 
-			if self.object.tipoDte.codigo != 'contingencia':
+			if self.object.tipoDte.codigo in {'01','03','04','05','06','11'}:
 				instancia1 = DTEClienteDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
 				instancia2 = TributoResumen.objects.get(codigo='20')
 				obj, created = DTEClienteDetalleTributo.objects.get_or_create(
+					codigoDetalle=instancia1,
+					codigo=instancia2,
+					defaults={'descripcion': instancia2.nombre, 'valor': instancia1.ventaGravada * Decimal(0.13)}
+				)
+
+			# Si el registro ya existía, actualiza el valor
+				if not created:
+					#if tipo not in {'contingencia',}:
+					obj.valor = instancia1.ventaGravada * Decimal(0.13)
+					obj.save()
+
+
+			if self.object.tipoDte.codigo in {'dte proveedor'}:
+				instancia1 = DTEProveedorDetalle.objects.get(codigoDetalle = detalle.codigoDetalle)
+				instancia2 = TributoResumen.objects.get(codigo='20')
+				obj, created = DTEProveedorDetalleTributo.objects.get_or_create(
 					codigoDetalle=instancia1,
 					codigo=instancia2,
 					defaults={'descripcion': instancia2.nombre, 'valor': instancia1.ventaGravada * Decimal(0.13)}
@@ -340,10 +390,34 @@ class DTECreate(DTEInline, CreateView):
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
 		kwargs['empresa'] = self.request.session.get('empresa')
-		kwargs['tipo'] = self.kwargs.get('tipo')
+		tipo = self.kwargs.get('tipo')
+		self.set_dynamic_attributes(tipo)
+		kwargs['tipo'] = tipo
 		#kwargs['request'] = self.request
 		#messages.info(self.request, kwargs['tipo'])
+		#messages.info(self.request, tipo)
 		return kwargs
+
+
+	def get_form_class(self):
+		tipo = self.kwargs.get('tipo')
+		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo y el formulario estén configurados
+		if self.form_class is None:
+			raise ImproperlyConfigured("No se ha definido form_class.")
+		#messages.info(self.request, self.form_class)
+		return self.form_class
+
+
+	def get_queryset(self):
+		tipo = self.kwargs.get('tipo')
+		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo esté configurado
+		if self.model:
+			#messages.info(self.request, self.model)
+			return self.model.objects.all()
+		else:
+			raise ImproperlyConfigured("El modelo no está definido correctamente")
+
+
 
 	def get_initial(self):
 		initial = super().get_initial()
@@ -410,15 +484,40 @@ class DTEUpdate(DTEInline, UpdateView):
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
 		kwargs['empresa'] = self.request.session.get('empresa')
+		tipo = self.kwargs.get('tipo')
+		#self.set_dynamic_attributes(tipo)
+		kwargs['tipo'] = tipo
+		#kwargs['request'] = self.request
+		#messages.info(self.request, kwargs['tipo'])
 		return kwargs
+
+
+	def get_form_class(self):
+		tipo = self.kwargs.get('tipo')
+		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo y el formulario estén configurados
+		if self.form_class is None:
+			raise ImproperlyConfigured("No se ha definido form_class.")
+		return self.form_class
+
+
+	def get_queryset(self):
+		tipo = self.kwargs.get('tipo')
+		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo esté configurado
+		if self.model:
+			return self.model.objects.all()
+		else:
+			raise ImproperlyConfigured("El modelo no está definido correctamente")
+
 		
 	def get_context_data(self, **kwargs):
 		ctx = super(DTEUpdate, self).get_context_data(**kwargs)
-		
+		#messages.info(self.request, self.kwargs.get('tipo'))
 		if self.kwargs.get('tipo')=='contingencia':
 			Documento = get_object_or_404(DTEContingencia, codigoGeneracion=self.kwargs.get('pk'))
-		else:
+		elif self.kwargs.get('tipo') in {'01','03','04','05','06','11'}:
 			Documento = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+		elif self.kwargs.get('tipo') in {'07','14'}:
+			Documento = get_object_or_404(DTEProveedor, codigoGeneracion=self.kwargs.get('pk'))
 
 		anulado = DTEInvalidacion.objects.filter(codigoDte=self.kwargs.get('pk')).first()
 		ctx['Documento'] = Documento
@@ -429,11 +528,14 @@ class DTEUpdate(DTEInline, UpdateView):
 		return ctx
 
 	def get_named_formsets(self):
-		#messages.success(self.request, {'DTEUpdate: ':self.request})
-		if self.kwargs.get('tipo')=='contingencia':
+		#messages.info(self.request, {'DTEUpdate: ':self.request})
+		#messages.info(self.request, self.kwargs.get('tipo'))
+		if str(self.kwargs.get('tipo'))=='contingencia':
 			dte = get_object_or_404(DTEContingencia, codigoGeneracion=self.kwargs.get('pk'))
-		else:
+		elif str(self.kwargs.get('tipo')) in {'01','03','04','05','06','11'}:
 			dte = get_object_or_404(DTECliente, codigoGeneracion=self.kwargs.get('pk'))
+		elif str(self.kwargs.get('tipo')) in {'07','14'}:
+			dte = get_object_or_404(DTEProveedor, codigoGeneracion=self.kwargs.get('pk'))
 
 		if dte.tipoDte.codigo in {'01','03'}:
 			formDetalle = FCCFDetalleFormSet
@@ -475,8 +577,14 @@ class EnviarDTEView(APIView):
 	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
 		
 		tConfiguracion = None #Configuracion.objects.filter(empresa='001').first()
-		if tipo in {'01','03','04','05','06','11','14'}:
+		if tipo in {'01','03','04','05','06','11'}:
 			modelo = DTECliente.objects.get(codigoGeneracion=codigo)
+			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
+			ambiente = modelo.ambiente.codigo
+			version = modelo.version
+			docfirmado = modelo.docfirmado
+		elif tipo in {'07','14'}:
+			modelo = DTEProveedor.objects.get(codigoGeneracion=codigo)
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
 			ambiente = modelo.ambiente.codigo
 			version = modelo.version
@@ -556,11 +664,11 @@ class EnviarDTEView(APIView):
 		if response.status_code == 200:
 			respuesta_servicio = response.json()
 
-			if tipo in {'01','03','04','05','06','08','09','11','14','15'}:
+			if tipo in {'01','03','04','05','06','08','09','11','15'}:
 				gsello = DTECliente.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
 				gsello.save()
-			elif tipo in {'07'}:
+			elif tipo in {'07','14'}:
 				gsello = DTEProveedor.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
 				gsello.save()
@@ -599,8 +707,9 @@ class EnviarDTEView(APIView):
 			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 		else:
-			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
-			messages.info(request, error_message)
+			#error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+			error_message = response
+			messages.info(request, {'resp':error_message})
 			#return redirect(template, codigo=codigo)
 			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 	
@@ -1022,9 +1131,7 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 	template_path = ''
 	emisor = Empresa.objects.get(codigo=request.session['empresa'])
 	codigo = codigo
-
-	dte = DTECliente.objects.get(codigoGeneracion = codigo)	
-	receptor = Cliente.objects.get(codigo = dte.receptor_id)
+	
 	
 	if tipo == '01':
 		template_name = 'plantillas/dte_fcf.html'
@@ -1067,9 +1174,9 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 
 	if tipo == '14':
 		template_name = 'plantillas/dte_fse.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
-		receptor = Cliente.objects.get(codigo=dte.receptor_id)
-		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
+		dte = DTEProveedor.objects.get(codigoGeneracion=codigo)
+		receptor = Proveedor.objects.get(codigo=dte.receptor_id)
+		dte_detalle = DTEProveedorDetalle.objects.filter(dte=dte)
 
 	letras = CantLetras(dte.totalPagar)
 	fecha = dte.fecEmi.strftime("%d/%m/%Y")

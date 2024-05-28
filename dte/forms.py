@@ -137,9 +137,10 @@ class FEXDetalleForm(forms.ModelForm):
 	
 	class Meta:
 		model = DTEClienteDetalle
-		fields = ('cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada')
+		fields = ('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'cantidad': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'any', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
@@ -186,7 +187,7 @@ NCDDetalleFormSet = inlineformset_factory(
 
 FEXDetalleFormSet = inlineformset_factory(
 	DTECliente,	DTEClienteDetalle, form=FEXDetalleForm,
-	fields=('cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada'
+	fields=('tipoItem', 'cantidad', 'uniMedida', 'descripcion', 'complemento1', 'precioUni', 'montoDescu', 'noGravado', 'ventaGravada'
 			), extra=0, can_delete=False, can_delete_extra=True
 )
 
@@ -311,16 +312,16 @@ class EmpresaPerfilForm(forms.ModelForm):
 		}
 
 
-class ContingenciaForm(forms.ModelForm):
+class DTEContingenciaForm(forms.ModelForm):
 	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
-		super(ContingenciaForm, self).__init__(*args, **kwargs)
+		super(DTEContingenciaForm, self).__init__(*args, **kwargs)
 		if empresa:
 			pass
 			#self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTEContingencia
-		fields = ('codigoGeneracion', 'tipoDte', 'version', 'fTransmision', 'tipoContingencia',
+		fields = ('emisor', 'codigoGeneracion', 'tipoDte', 'version', 'fTransmision', 'tipoContingencia',
 			'fInicio','fFinal')
 		widgets = {
 			#'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
@@ -338,7 +339,7 @@ class ContingenciaDetalleForm(forms.ModelForm):
 		model = DTEContingenciaDetalle
 		fields = ('tipoDte', 'codigoGeneracionDTE')
 		widgets = {
-			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'tipoDte': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
 			'codigoGeneracionDTE': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 		}
 

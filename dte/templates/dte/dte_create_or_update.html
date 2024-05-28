@@ -186,6 +186,10 @@
                                 {% if form.numeroControl.value %}
                                     <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
                                 {% endif %}
+
+                                 {% if TipoDocumento.codigo == 'contingencia' or Documento.tipoDte.codigo == 'contingencia' %}
+                                    <a href="{% url 'dte:enviar_mh' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Generar documento electrónico</a>
+                                {% endif %}
                             {% endif %}
                             {% if sello %}
                             <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Re-enviar correo al cliente</a>
@@ -257,6 +261,7 @@
                                         <th>Eliminar?</th>
                                     {% endif %}
                                     {% if TipoDocumento.codigo == '11' or Documento.tipoDte.codigo == '11'%}
+                                        <th>Tipo <span style="color: red;" class="required">*</span></th>
                                         <th>Cant. <span style="color: red;" class="required">*</span></th>
                                         <th>UdM. <span style="color: red;" class="required">*</span></th>
                                         <th>Descripción <span style="color: red;" class="required">*</span></th>
