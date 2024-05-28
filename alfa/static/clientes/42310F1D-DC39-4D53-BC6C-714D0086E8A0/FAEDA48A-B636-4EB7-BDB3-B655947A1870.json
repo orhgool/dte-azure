@@ -113,5 +113,18 @@
     "descIncoterms": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "FAEDA48A-B636-4EB7-BDB3-B655947A1870",
+    "selloRecibido": "2024FC8ACF04295A4281BE96585335A0C7B0RM2C",
+    "fhProcesamiento": "28/05/2024 17:23:57",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
 }

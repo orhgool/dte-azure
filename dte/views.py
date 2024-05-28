@@ -32,6 +32,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from wkhtmltopdf.views import PDFTemplateView
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from itertools import chain
 
 
 if os.name == 'posix':
@@ -135,22 +136,16 @@ def loginMH(request):
 def lista_dte(request, tipo):
 	if tipo == 'cliente':
 		vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
-		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo) #.annotate(descripcion_detalle=F('detalles__descripcion'))
-		"""dtes = DTECliente.objects.filter(
-								    emisor=vEmisor, 
-								    ambiente=vEmisor.ambiente.codigo
-								).annotate(
-								    min_detalle_id=Min('detalles__id')
-								).annotate(
-								    descripcion_detalle=F('detalles__descripcion')
-								).filter(
-								    detalles__id=F('min_detalle_id')
-								)"""
+		dtes_cliente = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
+		dtes_proveedor = DTEProveedor.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
+		dtes = list(chain(dtes_cliente, dtes_proveedor))
+		lista = sorted(dtes, key=lambda x: x.fecEmi, reverse = True)
+		#dtes = DTEProveedor.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
 
 	elif tipo == 'proveedor':
 		pass
 	
-	paginator = Paginator(dtes, 10)
+	paginator = Paginator(lista, 10)
 	page_number = request.GET.get("page")
 	page_obj = paginator.get_page(page_number)
 

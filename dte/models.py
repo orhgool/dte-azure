@@ -714,7 +714,7 @@ class DTEClienteDetalle(models.Model):
 	#from .funciones import CodGeneracion
 	codigoDetalle = models.CharField(db_column='CodigoDetalle', primary_key=True, blank=True, max_length=36)
 	dte = models.ForeignKey(DTECliente, on_delete=models.CASCADE, blank=True, default='', related_name='detalles')
-	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=1, verbose_name='Tipo de ítem')
+	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=2, verbose_name='Tipo de ítem')
 	tipoDoc = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, default='01', verbose_name='Tipo de documento')
 	tipoGeneracion = models.ForeignKey(TipoGeneracionDocumento, on_delete=models.CASCADE, default=2, verbose_name='Tipo de generación')
 	numeroDocumento = models.CharField(db_column='numeroDocumento', max_length=36, blank=True, null=True, default='', verbose_name='Número de documento')
