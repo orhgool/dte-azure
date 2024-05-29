@@ -705,9 +705,9 @@ class EnviarDTEView(APIView):
 				return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 		else:
-			#error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
-			error_message = response
-			#messages.info(request, {'resp':error_message})
+			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+			#error_message = response
+			messages.info(request, error_message)
 			#return redirect(template, codigo=codigo)
 			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 	

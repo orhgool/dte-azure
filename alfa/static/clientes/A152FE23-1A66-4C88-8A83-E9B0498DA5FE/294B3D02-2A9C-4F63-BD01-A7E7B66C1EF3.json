@@ -1,0 +1,102 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000080",
+    "codigoGeneracion": "294B3D02-2A9C-4F63-BD01-A7E7B66C1EF3",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-28",
+    "horEmi": "19:23:27",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03012208171010",
+    "nrc": "2630556",
+    "nombre": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES INTEGRADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Carretera hacia Acajutla Km 75"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 1,
+    "recintoFiscal": "02",
+    "regimen": "EX-1.1040.000"
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142407620011",
+    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
+    "complemento": "KM 9 y medio complejo corporativo SISCO",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "22121270",
+    "correo": "alcasa@alcasa.com.sv"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "producto",
+      "precioUni": 300.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 300.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 300.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 300.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 300.0,
+    "totalLetras": "TRESCIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": "04",
+    "descIncoterms": "CIP-Transporte y seguro pagado hasta",
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "294B3D02-2A9C-4F63-BD01-A7E7B66C1EF3",
+    "selloRecibido": "2024ADB50EF5ABDA4C9FB88E204B7C6D8150CBCA",
+    "fhProcesamiento": "28/05/2024 19:23:36",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

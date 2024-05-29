@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "0F09B491-6467-462D-B26E-BB41BC45BC22",
+    "fecAnula": "2024-05-28",
+    "horAnula": "19:11:09"
+  },
+  "emisor": {
+    "nit": "03012208171010",
+    "nombre": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "nomEstablecimiento": "TRANSPORTES INTEGRADOS",
+    "tipoEstablecimiento": "02",
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "01",
+    "codigoGeneracion": "D9E219D7-BCC6-42A6-991E-2285C2747308",
+    "selloRecibido": "2024895C5FD975C147449A9B48A7721BE7B8XHPK",
+    "numeroControl": "DTE-01-00000000-000000000000101",
+    "fecEmi": "2024-05-29",
+    "montoIva": 5.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "023947425",
+    "nombre": "MARIA VICENTA ORTEGA LOPEZ",
+    "telefono": "77423011",
+    "correo": "nelson@tcintegrados.com"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03012208171010",
+    "nombreSolicita": "MARIA VICENTA ORTEGA LOPEZ",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "023947425"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "0F09B491-6467-462D-B26E-BB41BC45BC22",
+    "selloRecibido": "20244CA486DB3CC24966B09D6057BEC4DCBED8T7",
+    "fhProcesamiento": "28/05/2024 19:11:19",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

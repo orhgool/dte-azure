@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "4C215C25-9494-4402-81C5-82420CA007CB",
+    "fecAnula": "2024-05-28",
+    "horAnula": "19:14:18"
+  },
+  "emisor": {
+    "nit": "03012208171010",
+    "nombre": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "nomEstablecimiento": "TRANSPORTES INTEGRADOS",
+    "tipoEstablecimiento": "02",
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "11",
+    "codigoGeneracion": "5E63B3B4-0C4E-4C5B-BDFD-9D3129D852BF",
+    "selloRecibido": "20247A0BC1FD56F64FE787977C8EC682530C9V2F",
+    "numeroControl": "DTE-11-00000000-000000000000002",
+    "fecEmi": "2024-05-29",
+    "montoIva": 100.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "06142911161029",
+    "nombre": "FAST CARGO, S.A. DE C.V.",
+    "telefono": "76442465",
+    "correo": "pagosproveedores@fastcargo.com.sv"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03012208171010",
+    "nombreSolicita": "FAST CARGO, S.A. DE C.V.",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "06142911161029"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "4C215C25-9494-4402-81C5-82420CA007CB",
+    "selloRecibido": "202483673F38A899409393848185EFB79ED3NB1S",
+    "fhProcesamiento": "28/05/2024 19:14:27",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

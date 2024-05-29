@@ -1,0 +1,104 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000001",
+    "codigoGeneracion": "73D4B771-0291-458E-A045-7DE3463C1A5E",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-29",
+    "horEmi": "00:47:02",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "03012208171010",
+    "nrc": "2630556",
+    "nombre": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES INTEGRADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Carretera hacia Acajutla Km 75"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 2,
+    "recintoFiscal": null,
+    "regimen": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "023947425",
+    "nombre": "MARIA VICENTA ORTEGA LOPEZ",
+    "nombreComercial": null,
+    "descActividad": "Transporte nacional de carga",
+    "complemento": "AV. MANUEL JOSE ARCE POL 3, POLIG 9 , RES. SANTA EUGENIA",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 1,
+    "telefono": "77423011",
+    "correo": "nelson@tcintegrados.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicios varios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 100.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 100.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 100.0,
+    "totalLetras": "CIEN 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": null,
+    "descIncoterms": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "73D4B771-0291-458E-A045-7DE3463C1A5E",
+    "selloRecibido": "202494D7A7FAD69B437C97E98721DC54982FR8YI",
+    "fhProcesamiento": "28/05/2024 18:52:13",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
+}

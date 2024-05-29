@@ -1,0 +1,104 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000002",
+    "codigoGeneracion": "5E63B3B4-0C4E-4C5B-BDFD-9D3129D852BF",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-29",
+    "horEmi": "01:11:58",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "03012208171010",
+    "nrc": "2630556",
+    "nombre": "TRANSPORTES DE CARGA INTEGRADOS INTERNACIONALES, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES INTEGRADOS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Carretera hacia Acajutla Km 75"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 1,
+    "recintoFiscal": "02",
+    "regimen": "EX-1.1400.000"
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142911161029",
+    "nombre": "FAST CARGO, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Transporte nacional de carga",
+    "complemento": "CALLE CERRO VERDE, URB SANTA ELENA",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "76442465",
+    "correo": "pagosproveedores@fastcargo.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "producto",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 100.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 100.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 100.0,
+    "totalLetras": "CIEN 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": "09",
+    "descIncoterms": "FOB-Libre a bordo",
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "5E63B3B4-0C4E-4C5B-BDFD-9D3129D852BF",
+    "selloRecibido": "20247A0BC1FD56F64FE787977C8EC682530C9V2F",
+    "fhProcesamiento": "28/05/2024 19:13:59",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
+}
