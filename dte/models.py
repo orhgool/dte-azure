@@ -924,6 +924,7 @@ class DTEContingencia(models.Model):
 		return self.codigoGeneracion
 
 	class Meta:
+		ordering = ('-fTransmision',)
 		verbose_name = 'DTE de contingencia'
 		verbose_name_plural = "DTE's de contingencia"
 

@@ -44,6 +44,13 @@ class DteProveedorAdmin(admin.ModelAdmin):
 	def emisor_razonsocial(self, obj):
 		return obj.emisor.razonsocial
 
+class DteContingenciaAdmin(admin.ModelAdmin):
+	search_fields = ['codigoGeneracion',]
+	list_display = ('codigoGeneracion', 'fTransmision', 'emisor_razonsocial')
+
+	def emisor_razonsocial(self, obj):
+		return obj.emisor.razonsocial
+
 class TributoResumenAdmin(admin.ModelAdmin):
 	list_display = ('codigo', 'nombre')
 
@@ -71,7 +78,7 @@ admin.site.register(Configuracion)
 admin.site.register(ControlDocumento, ControlDocumentoAdmin)
 admin.site.register(Departamento)
 admin.site.register(DTECliente, DteClienteAdmin)
-admin.site.register(DTEContingencia)
+admin.site.register(DTEContingencia, DteContingenciaAdmin)
 admin.site.register(DTEProveedor, DteProveedorAdmin)
 admin.site.register(DomicilioFiscal)
 admin.site.register(DtesEmpresa, DtesEmpresaAdmin)

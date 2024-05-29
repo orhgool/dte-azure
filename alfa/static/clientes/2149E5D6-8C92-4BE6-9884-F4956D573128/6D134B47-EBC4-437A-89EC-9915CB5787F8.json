@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000014",
+    "codigoGeneracion": "6D134B47-EBC4-437A-89EC-9915CB5787F8",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-28",
+    "horEmi": "18:17:13",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "emisor": {
+    "nit": "03011009161018",
+    "nrc": "2547611",
+    "nombre": "TRANSPORTES ORTEGA Y ASOCIADOS, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Canton San Julian, Lote 78 y 79. Parcelacion Buenos Aires"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "016312457",
+    "nombre": "Proveedor de servicios",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Urbanizacion Lomas de San Antonio"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 99,
+      "descripcion": "servicios",
+      "precioUni": 1000.0,
+      "montoDescu": 0.0,
+      "compra": 1000.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 100.0,
+    "totalPagar": 900.0,
+    "totalLetras": "NOVECIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "6D134B47-EBC4-437A-89EC-9915CB5787F8",
+    "selloRecibido": "202465E0FA139B1B4E82AB7A78CF5DF96C62DGDQ",
+    "fhProcesamiento": "28/05/2024 18:17:29",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000088",
+    "codigoGeneracion": "74576AD7-7E1A-4060-A449-34CB8D870B1E",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-05-28",
+    "horEmi": "18:06:54",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03011009161018",
+    "nrc": "2547611",
+    "nombre": "TRANSPORTES ORTEGA Y ASOCIADOS, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES ORTEGA",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Canton San Julian, Lote 78 y 79. Parcelacion Buenos Aires"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "023947425",
+    "nrc": "3316246",
+    "nombre": "MARIA VICENTA ORTEGA LOPEZ",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "16",
+      "complemento": "AV. MANUEL JOSE ARCE POL 3, POLIG 9 , RES. SANTA EUGENIA"
+    },
+    "telefono": "77423011",
+    "correo": "nelson@tcintegrados.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "TRANSPORTES ORTEGA Y ASOCIADOS, S.A. DE C.V.",
+    "docuEntrega": "03011009161018",
+    "nombRecibe": "MARIA VICENTA ORTEGA LOPEZ",
+    "docuRecibe": "023947425",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "74576AD7-7E1A-4060-A449-34CB8D870B1E",
+    "selloRecibido": "202422A04D1581D14BC3A1F691F3151486929LUL",
+    "fhProcesamiento": "28/05/2024 18:07:24",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}
