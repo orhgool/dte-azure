@@ -51,27 +51,27 @@
             </div>
             <div class="card-body">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    {% if page_obj.has_previous %}
+                    {% if clientes.has_previous %}
                     <button type="button" class="btn btn-outline-primary btn-fw">
                         <a href="?page=1">&laquo; Primera</a>
                     </button>
                     <button type="button" class="btn btn-outline-primary">
-                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                        <a href="?page={{ clientes.previous_page_number }}">anterior</a>
                     </button>
                     {% endif %}
 
                     <span>
                         <button type="button" class="btn btn-outline-primary">
-                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            Página {{ clientes.number }} de {{ clientes.paginator.num_pages }}
                         </button>
                     </span>
 
-                    {% if page_obj.has_next %}
+                    {% if clientes.has_next %}
                     <button type="button" class="btn btn-outline-primary">
-                        <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        <a href="?page={{ clientes.next_page_number }}">siguiente</a>
                     </button>
                     <button type="button" class="btn btn-outline-primary btn-fw">
-                        <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                        <a href="?page={{ clientes.paginator.num_pages }}">última &raquo;</a>
                     </button>
                     {% endif %}
                 </div>
