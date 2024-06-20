@@ -209,8 +209,8 @@ class ClienteForm(forms.ModelForm):
 	class Meta:
 		model = Cliente
 		fields = ('codigo','razonsocial','nombreComercial','tipoDocumentoCliente','numeroDocumento', 'nrc',
-			'telefono', 'correo','actividadEconomica','pais','departamento','municipio','direccionComplemento',
-			'tipoContribuyente','tipoPersona')
+			'telefono', 'correo', 'actividadEconomica','pais','departamento','municipio','direccionComplemento',
+			'tipoContribuyente','tipoPersona', 'agenteRetencion')
 		widgets = {
 			'codigo': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center', 'readonly':'True'}),
 			'razonsocial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
@@ -220,6 +220,8 @@ class ClienteForm(forms.ModelForm):
 			'nrc': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'telefono': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'correo': forms.EmailInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'correo2': forms.EmailInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
+			'correo3': forms.EmailInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
 			'empresa': forms.HiddenInput(),
 			'actividadEconomica': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'pais': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
@@ -228,6 +230,7 @@ class ClienteForm(forms.ModelForm):
 			'direccionComplemento': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'tipoContribuyente': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'tipoPersona': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
+			'agenteRetencion': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
 		}
 
 

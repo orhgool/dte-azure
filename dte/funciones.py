@@ -349,10 +349,10 @@ def datosInicio(pk):
 	subtotal_hoy = DTECliente.objects.filter(emisor=empresa, fecEmi__date=fecha_actual, ambiente=empresa.ambiente).exclude(selloRecepcion='').aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
 
 	# Contar el número de registros con la fecha 'fecEmi' en el mes en curso
-	num_registros_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__month=fecha_actual.month, fecEmi__year=fecha_actual.year, ambiente=empresa.ambiente_id).exclude(selloRecepcion='').count()
+	num_registros_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__month=fecha_actual.month, fecEmi__year=fecha_actual.year, ambiente=empresa.ambiente).exclude(selloRecepcion='').count()
 
 	# Sumar el campo 'subTotalVentas' de los registros con la fecha 'fecEmi' en el mes en curso
-	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes, ambiente=empresa.ambiente).exclude(selloRecepcion='').aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
+	subtotal_mes = DTECliente.objects.filter(emisor=empresa, fecEmi__gte=primer_dia_mes, ambiente=empresa.ambiente_id).exclude(selloRecepcion='').aggregate(total_subtotal=models.Sum('subTotalVentas'))['total_subtotal']
 
 	num_registros_hoy = num_registros_hoy or 0
 	subtotal_hoy = subtotal_hoy or 0

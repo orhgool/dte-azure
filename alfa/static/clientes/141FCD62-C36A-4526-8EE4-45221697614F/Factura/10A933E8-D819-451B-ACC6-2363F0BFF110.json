@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000088",
+    "codigoGeneracion": "10A933E8-D819-451B-ACC6-2363F0BFF110",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-06-19",
+    "horEmi": "08:51:38",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03012410921013",
+    "nrc": "2392050",
+    "nombre": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "codActividad": "49233",
+    "descActividad": "Transporte de carga internacional",
+    "nombreComercial": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "CTON. SAN JULIAN CRIO LA NUEVA"
+    },
+    "telefono": "2450 2700",
+    "correo": "contabilidad@transporteortegalopez.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03112001921014",
+    "nrc": "2906848",
+    "nombre": "MARIA FERNANDA MARROQUIN DE ORTEGA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "POLIGONO 1, LOTIFICACION SAN FRANCISCO III, LOTE 18, ACAJUTLA, SONSONATE."
+    },
+    "telefono": "24502700",
+    "correo": "contabilidad@transporteortegalopez.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "docuEntrega": "03012410921013",
+    "nombRecibe": "MARIA FERNANDA MARROQUIN DE ORTEGA",
+    "docuRecibe": "03112001921014",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "10A933E8-D819-451B-ACC6-2363F0BFF110",
+    "selloRecibido": "2024F9A255A1BD8D4911A7B4D3ECDFE96102U4UR",
+    "fhProcesamiento": "19/06/2024 08:51:49",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

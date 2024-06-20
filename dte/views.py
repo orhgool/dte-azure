@@ -300,20 +300,22 @@ class DTEInline():
 				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
 				
 				if receptor.tipoContribuyente.codigo == '001':
-					retencion = float(total_gravada) * float(0.01)
-					#messages.info(self.request, 'Grande: ' + str(receptor.tipoContribuyente))
+					if dte.tipoDte.codigo == '01':
+						retencion = round(((float(total_gravada) / float(1.13)) * float(0.01)),2)
+					else:
+						retencion = round((float(total_gravada) * float(0.01)),2)
 				else:
 					retencion = 0
-					#messages.info(self.request, 'Otro: ' + str(receptor.tipoContribuyente))
 
 			if dte.tipoDte.codigo in {'01'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
-					totalGravada=total_gravada,
+					totalGravada = total_gravada,
 					subTotalVentas = total_gravada,
 					subTotal = total_gravada,
 					ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
+					ivaRete1 = retencion,
 					montoTotalOperacion = float(total_gravada),
-					totalPagar = float(total_gravada))
+					totalPagar = float(total_gravada) - float(retencion))
 
 			if dte.tipoDte.codigo in {'03'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
@@ -322,8 +324,8 @@ class DTEInline():
 					subTotal=total_gravada,
 					ivaPerci1=0, #float(total_gravada)*float(0.13),
 					ivaRete1 = retencion,
-					montoTotalOperacion= float(total_gravada)*float(1.13),
-					totalPagar = (float(total_gravada)*float(1.13)) - float(retencion))
+					montoTotalOperacion= round((float(total_gravada)*float(1.13)),2),
+					totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
 			if dte.tipoDte.codigo in {'05','06'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,

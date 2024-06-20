@@ -145,12 +145,12 @@ class Empresa(models.Model):
 	token = models.TextField(db_column='Token', null=False, default='', max_length=500, verbose_name='Token')
 	fechaToken = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha y hora del token')
 	logo = models.ImageField(upload_to='logos/', null=True, blank=True)
-	#correoPrivado = models.BooleanField(null=False, blank=True, default=False, verbose_name='Usar correo privado')
-	#correoUsuario = models.EmailField(null=False, default='usuario@empresa.com', max_length=50, verbose_name='Usuario de correo')
-	#correoClave = models.CharField(null=False, default='', max_length=50, verbose_name='Clave de correo')
-	#correoServidorSmtp = models.CharField(null=False, default='', max_length=50, verbose_name='Servidor SMTP')
-	#correoPuertoSmtp = models.IntegerField(null=False, default=587, verbose_name='Puerto SMTP')
-	#correoEnableSsl = models.BooleanField(null=False, default=True, verbose_name='Utiliza SSL')
+	correoPrivado = models.BooleanField(null=False, blank=True, default=False, verbose_name='Usar correo privado')
+	correoUsuario = models.EmailField(null=True, blank=True, default='', max_length=50, verbose_name='Usuario de correo')
+	correoClave = models.CharField(null=True, blank=True, default='', max_length=50, verbose_name='Clave de correo')
+	correoServidorSmtp = models.CharField(null=True, blank=True, default='', max_length=50, verbose_name='Servidor SMTP')
+	correoPuertoSmtp = models.IntegerField(null=True, blank=True, default=587, verbose_name='Puerto SMTP')
+	correoEnableSsl = models.BooleanField(null=True, blank=True, default=True, verbose_name='Utiliza SSL')
 	
 
 
@@ -176,7 +176,9 @@ class Cliente(models.Model):
 	numeroDocumento = models.CharField(db_column='numeroDocumento', max_length=50, blank=False, null=False, default='', verbose_name='Número de documento')
 	nrc = models.CharField(db_column='NRC', max_length=10, blank=True, null=True, default='', verbose_name='NRC')
 	telefono = models.CharField(db_column='Telefono', max_length=50, blank=False, null=False, default='', verbose_name='Teléfono') #, hint='Número de teléfono sin guines')
-	correo = models.CharField(db_column='Correo', max_length=200, blank=False, null=False, default='cliente@cliente.com', verbose_name='Correo')
+	correo = models.CharField(db_column='Correo', max_length=200, blank=False, null=False, default='', verbose_name='Correo 1')
+	#correo2 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 2')
+	#correo3 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 3')
 	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=False, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
 	actividadEconomica = models.ForeignKey(Actividadeconomica, on_delete=models.CASCADE, null=False, default='001', verbose_name='Actividad económica')
 	pais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=False, default='001', verbose_name='País')
@@ -185,6 +187,7 @@ class Cliente(models.Model):
 	direccionComplemento = models.CharField(db_column='Direccion', max_length=200, blank=True, default='', null=True, verbose_name='Dirección')
 	tipoContribuyente = models.ForeignKey(TipoContribuyente, on_delete=models.CASCADE, null=False, default='001', verbose_name='Tipo de contribuyente')
 	tipoPersona = models.ForeignKey(TipoPersona, on_delete=models.CASCADE, null=False, default=1, verbose_name='Tipo de persona')
+	agenteRetencion = models.BooleanField(null=True, blank=True, default=False, verbose_name='Cliente es agente de retención')
 	
 	def __str__(self):
 		return "%s" % (self.razonsocial.strip())
@@ -669,7 +672,7 @@ class DTECliente(models.Model):
 	totalDescu = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total descuento')
 	subTotal = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Sub total')
 	totalCompra = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total compra')
-	ivaPerci1 = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='IVA rercibido')
+	ivaPerci1 = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='IVA percibido')
 	ivaRete1 = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='IVA retenido')
 	reteRenta = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Retención de renta')
 	montoTotalOperacion = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Monto total de operación')

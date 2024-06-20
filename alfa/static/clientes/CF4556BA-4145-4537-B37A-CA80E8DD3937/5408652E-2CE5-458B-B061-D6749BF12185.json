@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000008",
+    "codigoGeneracion": "5408652E-2CE5-458B-B061-D6749BF12185",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-06-10",
+    "horEmi": "10:12:32",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "emisor": {
+    "nit": "03151708121010",
+    "nrc": "2190892",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "2da calle Col. RASA 2 No. 65"
+    },
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "016312457",
+    "nombre": "Proveedor de servicios",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Urbanizacion Lomas de San Antonio"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 99,
+      "descripcion": "servicios",
+      "precioUni": 1000.0,
+      "montoDescu": 0.0,
+      "compra": 1000.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 100.0,
+    "totalPagar": 900.0,
+    "totalLetras": "NOVECIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "5408652E-2CE5-458B-B061-D6749BF12185",
+    "selloRecibido": "20249D20C65488D8478089AB7813FC2DBEA8FBCN",
+    "fhProcesamiento": "10/06/2024 10:12:42",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

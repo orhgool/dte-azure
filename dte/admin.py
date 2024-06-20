@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
+from datetime import datetime
 from .models import *
 from .forms import CustomUserChangeForm
 
+
+class ActividadeconomicaAdmin(admin.ModelAdmin):
+	search_fields = ['descripcion',]
 
 class DtesEmpresaInline(admin.TabularInline):
 	model = DtesEmpresa
@@ -32,10 +36,13 @@ class DtesEmpresaAdmin(admin.ModelAdmin):
 
 class DteClienteAdmin(admin.ModelAdmin):
 	search_fields = ['codigoGeneracion',]
-	list_display = ('codigoGeneracion', 'numeroControl', 'emisor_razonsocial')
+	list_display = ('codigoGeneracion', 'numeroControl', 'emisor_razonsocial', 'formatted_fecEmi')
 
 	def emisor_razonsocial(self, obj):
 		return obj.emisor.razonsocial
+
+	def formatted_fecEmi(self, obj):
+		return obj.fecEmi.strftime('%d/%m/%Y')
 
 class DteProveedorAdmin(admin.ModelAdmin):
 	search_fields = ['codigoGeneracion',]
@@ -71,6 +78,7 @@ class ClienteAdmin(admin.ModelAdmin):
 admin.site.unregister(get_user_model())
 admin.site.register(get_user_model(), CustomUserAdmin)
 
+admin.site.register(Actividadeconomica, ActividadeconomicaAdmin)
 admin.site.register(AmbienteDestino)
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(CondicionOperacion)

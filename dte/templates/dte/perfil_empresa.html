@@ -43,4 +43,26 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xl-12 col-lg-6 col-sm-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body text-center">
+          <h4 class="mb-4 text-dark font-weight-bold">Enlace para registro del cliente</h4>
+          <p><a href="https://alfadte.azurewebsites.net/registro_de_cliente/{{request.session.empresa}}" target="_blank">
+            https://alfadte.azurewebsites.net/registro_de_cliente/{{request.session.empresa}}</a>
+          </p>
+          <!--i class="mdi mdi-file-document icon-md absolute-center text-dark"></i-->
+        </div>
+      </div>
+    </div>
+
+    <!--div class="col-xl-6 col-lg-6 col-sm-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body text-center">
+          <h4 class="mb-4 text-dark font-weight-bold">Código QR para imprimir</h4>
+        </div>
+      </div>
+    </div-->
+</div>
 {% endblock %}

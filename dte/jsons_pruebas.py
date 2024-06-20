@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
-receptor = get_object_or_404(Cliente, codigo='C2289891-AE01-4A72-ADBE-2F48CF1A8597')
+receptor = get_object_or_404(Cliente, codigo='A3CA25E8-6FE2-4823-A38D-CDDC4382A410')
 
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):
@@ -351,8 +351,8 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "1234",
-      "fechaEmision": "2024-05-15"
+      "numeroDocumento": "1034",
+      "fechaEmision": "2024-06-14"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -389,7 +389,7 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	cuerpoDocumento_data = {
 		"numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "1234",
+	      "numeroDocumento": "1034",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
@@ -497,8 +497,8 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "5678",
-      "fechaEmision": "2024-05-07"
+      "numeroDocumento": "3748",
+      "fechaEmision": "2024-06-07"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -535,7 +535,7 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	cuerpoDocumento_data = {
 	      "numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "5678",
+	      "numeroDocumento": "3748",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
