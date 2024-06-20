@@ -1,0 +1,108 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000002",
+    "codigoGeneracion": "3F7821C5-988F-4E1E-A6C3-0318A42C484E",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-06-20",
+    "horEmi": "05:24:54",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03010212841011",
+    "nrc": "2699784",
+    "nombre": "Maria Luisa Nunez de Cunza",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Block A Lotificacion El Caracol #6."
+    },
+    "telefono": "6062 9990",
+    "correo": "marialuisa.tramitesacajutla@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicios varios",
+      "precioUni": 134.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 134.0,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 15.42
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 134.0,
+    "subTotalVentas": 134.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 134.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 134.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 134.0,
+    "totalLetras": "CIENTO TREINTA Y CUATRO 00/100 USD",
+    "totalIva": 15.42,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "docuEntrega": "03150709171014",
+    "nombRecibe": "Maria Luisa Nunez de Cunza",
+    "docuRecibe": "03010212841011",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

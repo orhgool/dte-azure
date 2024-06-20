@@ -23,10 +23,10 @@ from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
 from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf,
-	CantLetras, firmar, datosInicio, gen_prueba)
+	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo)
 from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
 	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
-	TipoInvalidacion,DTEInvalidacion)
+	TipoInvalidacion, DTEInvalidacion, EstadoDTE)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -133,7 +133,7 @@ def loginMH(request):
 
 
 @login_required(login_url='manager:login')
-def lista_dte(request, tipo):
+def lista_dte_todos(request, tipo):
 	if tipo == 'cliente':
 		vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
 		dtes_cliente = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo)
@@ -150,6 +150,23 @@ def lista_dte(request, tipo):
 	page_obj = paginator.get_page(page_number)
 
 	return render(request, 'dte/lista_dte.html', {'dtes':dtes, 'listaDocumentos':request.session['documentos'], 'page_obj': page_obj})
+
+
+def lista_dte(request, tipo):
+	vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+	tipoDocumento = get_object_or_404(TipoDocumento, codigo=tipo)
+	nombreDoc = tipoDocumento.nombre
+	if tipo in {'07', '14'}:
+		dtes = DTEProveedor.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo, tipoDte=tipo)
+	else:
+		dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo, tipoDte=tipo)
+	
+		
+	paginator = Paginator(dtes, 10)
+	page_number = request.GET.get("page")
+	page_obj = paginator.get_page(page_number)
+
+	return render(request, 'dte/lista_dte.html', {'dtes':dtes, 'listaDocumentos':request.session['documentos'], 'page_obj': page_obj, 'nombreDoc':nombreDoc})
 
 
 @login_required(login_url='manager:login')
@@ -660,14 +677,17 @@ class EnviarDTEView(APIView):
 
 		if response.status_code == 200:
 			respuesta_servicio = response.json()
+			estado = get_object_or_404(EstadoDTE, codigo='002')
 
 			if tipo in {'01','03','04','05','06','08','09','11','15'}:
 				gsello = DTECliente.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				gsello.estadoDte = estado
 				gsello.save()
 			elif tipo in {'07','14'}:
 				gsello = DTEProveedor.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
+				gsello.estadoDte = estado
 				gsello.save()
 			elif tipo in {'anulacion'}:
 				gsello = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
@@ -676,7 +696,7 @@ class EnviarDTEView(APIView):
 			elif tipo in {'contingencia'}:
 				gsello = DTEContingencia.objects.get(codigoGeneracion=codigo)
 				gsello.selloRecepcion = respuesta_servicio['selloRecibido']
-				#gsello.save()
+				gsello.save()
 
 			try:
 				with open(archivo, 'r') as json_file:
@@ -688,6 +708,8 @@ class EnviarDTEView(APIView):
 
 			with open(archivo, 'w') as json_file:
 				json.dump(contenido_actual, json_file, indent=2)
+
+			subirArchivo(modelo.emisor.codigo, f'{codigo}.json')
 
 			#if not cod_anulacion or tipo != 'contingencia':
 			if not tipo in {'anulacion','contingencia'}:
@@ -1282,6 +1304,7 @@ def invalidarDte(request, tipo, codigo):
 	receptor_instance = get_object_or_404(Cliente, codigo=dte.receptor_id)
 	tipoDocumento_instance = get_object_or_404(TipoDocumento, codigo=dte.tipoDte_id)
 	tipoInvalidacion_instance = get_object_or_404(TipoInvalidacion, codigo=2)
+	estado = get_object_or_404(EstadoDTE, codigo='003')
 	invalidado = DTEInvalidacion(codigoGeneracion = cod_anulacion,
 		emisor = emisor_instance,
 		receptor = receptor_instance,
@@ -1292,6 +1315,8 @@ def invalidarDte(request, tipo, codigo):
 		docfirmado='',
 		selloRecepcion='')
 	invalidado.save()
+	dte.estadoDte = estado
+	dte.save()
 	json = genJson(codigo=codigo, tipo='anulacion', empresa=request.session['empresa'], codigo_anulacion=cod_anulacion)
 	firma = firmar(codigo=codigo, cod_anulacion=cod_anulacion, tipo='anulacion')
 

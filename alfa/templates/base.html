@@ -75,13 +75,24 @@
               <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Nuevo </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
                 {% for doc in listaDocumentos %}
-                <a class="dropdown-item" href="{% url 'dte:nuevo' doc.dte_id %}">
-                  <i class="mdi mdi-chevron-right"></i>{{doc.nombre_documento}}</a>
+                  <a class="dropdown-item" href="{% url 'dte:nuevo' doc.dte_id %}">
+                    <i class="mdi mdi-chevron-right"></i>{{doc.nombre_documento}}</a>
                 {% endfor %}
               </div>
             </li>
-            <li class="nav-item">
+            <!--li class="nav-item">
               <a class="nav-link" href="{% url 'dte:lista_dte' 'cliente' %}">Lista de documentos emitidos</a>
+            </li-->
+            <li class="nav-item  dropdown d-none d-md-block list-arrow">
+              <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Documentos emitidos </a>
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
+                {% for doc in listaDocumentos %}
+                  {% if doc.dte_id != 'contingencia' %}
+                    <a class="dropdown-item" href="{% url 'dte:lista_dte' doc.dte_id %}">
+                      <i class="mdi mdi-chevron-right"></i>{{doc.nombre_documento}}</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
             </li>
             <li class="nav-item  dropdown d-none d-md-block">
               <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> Clientes </a>

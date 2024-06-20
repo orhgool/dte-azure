@@ -17,6 +17,21 @@
         font-weight: bolder;
     }
 
+    .Generado {
+        color: #FFC300;
+        font-weight: bolder;
+    }
+
+    .Enviado {
+        color: #01BD3A;
+        font-weight: bolder;
+    }
+
+    .Anulado {
+        color: #FF5733;
+        font-weight: bolder;
+    }
+
     .derecha {
         text-align: right;
     }
@@ -42,7 +57,8 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Documentos emitidos</h4>
+                <!--h4 class="card-title">Documentos emitidos</h4-->
+                <h4 class="card-title">{{nombreDoc}}</h4>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -75,11 +91,7 @@
                                     {% else %}
                                         <td class="no-pagado"> No pagado</td>
                                     {% endif %}
-                                    {% if dte.selloRecepcion %}
-                                        <td title="Enviado al Ministerio de Hacienda" class="pagado">Enviado</td>
-                                    {% else %}
-                                        <td title="No enviado al Ministerio de Hacienda" class="no-pagado">No enviado</td>
-                                    {% endif %}
+                                    <td class="{{dte.estadoDte}}">{{dte.estadoDte}}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
