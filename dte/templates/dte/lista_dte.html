@@ -76,7 +76,7 @@
                         <tbody>
                             {% for dte in page_obj %}
                                 <tr>
-                                    <td>{{dte.fecEmi|fechaHora}}</td>
+                                    <td>{{dte.fecEmi|fecha}}</td>
                                     <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}} {{dte.numeroControl|slice:"27:"}}</td>
                                     <td title="{{dte.codigoGeneracion}}"><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
                                     <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
