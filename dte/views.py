@@ -700,7 +700,7 @@ class EnviarDTEView(APIView):
 				genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
 				BitacoraDTE(request=request, usuario=request.user, dte=codigo, tipo=tipo, accion=3)
 				if emisor.ambiente.codigo=='01':
-					correo = enviarCorreo(request, codigo=codigo, tipo=tipo, reenvio='n')
+					correo = enviarCorreo(request, codigo=codigo, tipo=tipo)
 				#messages.info(correo)
 			#res = gen_pdf(codigo, tipo, version, ambiente)
 			#estado = EstadoDTE.objects.get(codigo='005')
