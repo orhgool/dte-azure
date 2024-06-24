@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "B405F481-69F8-47D8-A765-994DB9896030",
+    "fecAnula": "2024-06-21",
+    "horAnula": "19:29:36"
+  },
+  "emisor": {
+    "nit": "03151708121010",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "nomEstablecimiento": "CARMOGA",
+    "tipoEstablecimiento": "02",
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "01",
+    "codigoGeneracion": "BECAA97E-4C1A-4080-8FD9-762646D129A0",
+    "selloRecibido": "20243044937955C34E31804CA5671A82F49CYC3D",
+    "numeroControl": "DTE-01-00000000-000000000000017",
+    "fecEmi": "2024-06-22",
+    "montoIva": 20.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "06142611051019",
+    "nombre": "ACOGRUMASAL DE R.L.",
+    "telefono": "7627-0171",
+    "correo": "administracion@carmoga.com.sv"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "CARMOGA, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03151708121010",
+    "nombreSolicita": "ACOGRUMASAL DE R.L.",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "06142611051019"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "B405F481-69F8-47D8-A765-994DB9896030",
+    "selloRecibido": "2024AF7A57C233464BCEAE170A9FE0F41AC2CQPP",
+    "fhProcesamiento": "21/06/2024 19:29:45",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

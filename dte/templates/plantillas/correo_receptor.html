@@ -20,7 +20,7 @@
     		left: 45%;
     		top: 0px;
     		max-height: 95px;
-    		content:url('{{logo}}');
+    		/*content:url('{{logo}}');*/
     	}
 
     	.regla-horizontal {
@@ -51,7 +51,10 @@
 	</style>
 </head>
 <body>
-	<div class="logo">{{logo}}</div>
+	<div class="logo">
+		<!--img src="{% static 'clientes/logos/A4BCBC83-4C59-4A3F-9C25-807D83AD0837_logo.png' %}"-->
+		<img src="{{logo}}" style="max-height: 95px;">
+	</div>
 	<hr class="regla-horizontal">
 	<div class=""></div>
 	<p>Estimado cliente,</p>

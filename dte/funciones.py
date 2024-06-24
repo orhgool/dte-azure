@@ -9,7 +9,7 @@ from .models import *
 from .jsons import fcf, ccf, nc, nd, fex, fse, anulacion, contingencia
 from .jsons_pruebas import fcf_p, ccf_p, nc_p, nd_p, fex_p, fse_p
 from .guardarBlob import subirArchivo
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from num2words import num2words
 
 if os.name == 'posix':
@@ -362,3 +362,22 @@ def datosInicio(pk):
 	return num_registros_hoy, subtotal_hoy, num_registros_mes, subtotal_mes
 
 
+def BitacoraDTE(request, usuario, dte, tipo, accion):
+	tz = timezone(timedelta(hours=-6))
+	fecha_actual = datetime.now(tz=tz)
+	empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
+	tipoDte = get_object_or_404(TipoDocumento, codigo=tipo)
+	accionBitacora = get_object_or_404(TipoAccionUsuario, id=accion)
+	
+	bitacora = BitacoraAccionDte(
+		empresa = empresa,
+		usuario = usuario,
+		dte = dte,
+		tipoDte = tipoDte,
+		fecha = datetime.now(),
+		accion = accionBitacora
+	)
+
+	bitacora.save()
+
+	return 'Guardado'

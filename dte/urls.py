@@ -15,6 +15,7 @@ urlpatterns = [
 	path('autenticar/', autenticar, name='autenticar'),
 	path('loginMH/', loginMH, name='loginMH'),
 	path('vista_previa/<str:tipo>/<str:codigo>/', vista_previa_pdf_dte, name='vista_previa'),
+	path('vista_previa_correo/<str:tipo>/<str:codigo>/', vista_previa_correo, name='vista_previa_correo'),
 	path('firmardte/<str:tipo>/<str:codigo>', firmarDte, name='firmardte'),
 	path('enviar_mh/<str:tipo>/<str:codigo>', EnviarDTEView.as_view(), name='enviar_mh'),
 	path('enviar_mh_anulacion/<str:tipo>/<str:cod_anulacion>', EnviarDTEView.as_view(), name='enviar_mh_anulacion'),
@@ -41,12 +42,13 @@ urlpatterns = [
     path('direcciones/', direcciones, name='direcciones'),
     path('cdn/', cdn, name='cdn'),
     path('ver_correo/<str:tipo>/<str:codigo>', verCorreo, name='verCorreo'),
-    path('correo/<str:tipo>/<str:codigo>', correoACliente, name='correo'),
+    path('correo/<str:tipo>/<str:codigo>/<str:reenvio>', correoACliente, name='correo'),
     path('pruebas/', pruebas, name='prueba'),
     path('enviar_prueba/<str:tipo>', enviarPrueba, name='enviar_prueba'),
     path('invalidar_dte/<str:tipo>/<str:codigo>', invalidarDte, name='invalidarDte'),
     path('registro_de_cliente/<str:cod_empresa>', cliente_auto_registro, name='cliente_auto_registro'),
-    path('<str:cod_empresa>/gracias', registro_de_cliente_gracias, name='registro_de_cliente_gracias')
+    path('<str:cod_empresa>/gracias', registro_de_cliente_gracias, name='registro_de_cliente_gracias'),
+    path('bitacoraDte/<str:codigo>', bitacoraDte, name='bitacoraDte'),
 ]
 
 if settings.DEBUG:

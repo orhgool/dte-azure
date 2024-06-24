@@ -177,8 +177,8 @@ class Cliente(models.Model):
 	nrc = models.CharField(db_column='NRC', max_length=10, blank=True, null=True, default='', verbose_name='NRC')
 	telefono = models.CharField(db_column='Telefono', max_length=50, blank=False, null=False, default='', verbose_name='Teléfono') #, hint='Número de teléfono sin guines')
 	correo = models.CharField(db_column='Correo', max_length=200, blank=False, null=False, default='', verbose_name='Correo 1')
-	correo2 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 2')
-	correo3 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 3')
+	#correo2 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 2')
+	#correo3 = models.CharField(max_length=200, blank=False, null=False, default='', verbose_name='Correo 3')
 	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=False, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
 	actividadEconomica = models.ForeignKey(Actividadeconomica, on_delete=models.CASCADE, null=False, default='001', verbose_name='Actividad económica')
 	pais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=False, default='001', verbose_name='País')
@@ -188,7 +188,6 @@ class Cliente(models.Model):
 	tipoContribuyente = models.ForeignKey(TipoContribuyente, on_delete=models.CASCADE, null=False, default='001', verbose_name='Tipo de contribuyente')
 	tipoPersona = models.ForeignKey(TipoPersona, on_delete=models.CASCADE, null=False, default=1, verbose_name='Tipo de persona')
 	agenteRetencion = models.BooleanField(null=True, blank=True, default=False, verbose_name='Cliente es agente de retención')
-	diasCredito = models.IntegerField(null=True, blank=True, default=30, verbose_name='Días crédito')
 	
 	def __str__(self):
 		return "%s" % (self.razonsocial.strip())
@@ -694,7 +693,6 @@ class DTECliente(models.Model):
 	recintoFiscal = models.ForeignKey(RecintoFiscal, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Recinto fiscal')
 	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Regimen')
 	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Incoterms')
-	diasCredito = models.IntegerField(null=True, blank=True, default=30, verbose_name='Días crédito')
 		
 	def __str__(self):
 		return "%s" % (self.numeroControl)
@@ -894,8 +892,7 @@ class DTEInvalidacion(models.Model):
 	codigoGeneracion = models.CharField(primary_key=True, default='', max_length=36, verbose_name='Código de generación')
 	numeroDocumento = models.CharField(max_length=50, blank=True, null=True, default=None, verbose_name='Número de documento')
 	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
-	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-	receptor_tmp = models.CharField(max_length=36, blank=True, null=True, default='')
+	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, default='001')
 	codigoDte = models.CharField(default='', max_length=36, verbose_name='Código DTE a anular')
 	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, db_column = 'TipoDTE', default='', verbose_name='Tipo DTE')
 	fechaEmision = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de emisión')

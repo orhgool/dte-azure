@@ -28,14 +28,14 @@ class DTEClienteForm(forms.ModelForm):
 	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
 		super(DTEClienteForm, self).__init__(*args, **kwargs)
 
-		#self.initial['ambiente']='00'
+		self.fields['estadoPago'].label = '. Pagado'
 
 		if empresa:
 			self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTECliente
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'version', 'fecEmi',
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'fecEmi', 'version',
 			'observaciones','condicionOperacion', 'estadoPago', 'tipoItemExpor','recintoFiscal','regimen','incoterms')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
@@ -47,7 +47,7 @@ class DTEClienteForm(forms.ModelForm):
 			'condicionOperacion': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'version': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
-			'observaciones': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+			'observaciones': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;', 'rows':'3'}),
 			'estadoPago': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
 			'tipoItemExpor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'recintoFiscal': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
@@ -60,14 +60,14 @@ class DTEProveedorForm(forms.ModelForm):
 	def __init__(self, *args, request=None, empresa=None, tipo=None, **kwargs):
 		super(DTEProveedorForm, self).__init__(*args, **kwargs)
 
-		#self.initial['ambiente']='00'
+		self.fields['estadoPago'].label = '.  Pagado'
 
 		if empresa:
 			self.fields['receptor'].queryset = Proveedor.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTEProveedor
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'version', 'fecEmi',
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'version', 'fecEmi', 'version',
 			'observaciones','condicionOperacion', 'estadoPago')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
@@ -79,7 +79,7 @@ class DTEProveedorForm(forms.ModelForm):
 			'condicionOperacion': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'version': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
-			'observaciones': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
+			'observaciones': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;', 'rows':'3'}),
 			'estadoPago': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
 		}
 
@@ -91,11 +91,11 @@ class FCCFDetalleForm(forms.ModelForm):
 			'ventaExenta', 'ventaGravada')
 		widgets = {
 			'codigoDetalle': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center; width: 50px; padding: 3px;', 'readonly':'True'}),
-			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
+			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 100px; padding: 3px;'}),
 			'cantidad': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'any', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
-			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
-			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'descripcion': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
+			'complemento1': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -123,8 +123,8 @@ class NCDDetalleForm(forms.ModelForm):
 			'fechaEmision': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
 			'cantidad': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'any', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
-			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
-			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'descripcion': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
+			'complemento1': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'ventaNoSuj': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -143,8 +143,8 @@ class FEXDetalleForm(forms.ModelForm):
 			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'cantidad': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'any', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
-			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
-			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'descripcion': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
+			'complemento1': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'noGravado': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -163,8 +163,8 @@ class FSEDetalleForm(forms.ModelForm):
 			'tipoItem': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
 			'cantidad': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'any', 'oninput':'calcularTotal(this)'}),
 			'uniMedida': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; width: 150px; padding: 3px;'}),
-			'descripcion': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
-			'complemento1': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;'}),
+			'descripcion': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
+			'complemento1': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; width: 250px; padding: 3px;', 'rows':'3'}),
 			'precioUni': forms.TextInput(attrs={'class': 'form-control precioUni','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any', 'oninput':'calcularTotal(this)'}),
 			'montoDescu': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; width: 70px; padding: 3px;','type': 'number', 'step':'any'}),
 			'compra': forms.TextInput(attrs={'class': 'form-control ventaGravada','style': 'font-weight: bold; text-align: right; width: 100px; padding: 3px;','type': 'number', 'step':'any'}),
@@ -210,7 +210,7 @@ class ClienteForm(forms.ModelForm):
 		model = Cliente
 		fields = ('codigo','razonsocial','nombreComercial','tipoDocumentoCliente','numeroDocumento', 'nrc',
 			'telefono', 'correo', 'actividadEconomica','pais','departamento','municipio','direccionComplemento',
-			'tipoContribuyente','tipoPersona', 'agenteRetencion')
+			'tipoContribuyente','tipoPersona', 'diasCredito')
 		widgets = {
 			'codigo': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center', 'readonly':'True'}),
 			'razonsocial': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; align: center'}),
@@ -231,6 +231,7 @@ class ClienteForm(forms.ModelForm):
 			'tipoContribuyente': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'tipoPersona': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold'}),
 			'agenteRetencion': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
+			'diasCredito': forms.TextInput(attrs={'class': 'form-control cantidad','style': 'font-weight: bold; width: 80px; padding: 3px;','type': 'number','step':'1'}),
 		}
 
 
@@ -320,7 +321,6 @@ class DTEContingenciaForm(forms.ModelForm):
 		super(DTEContingenciaForm, self).__init__(*args, **kwargs)
 		if empresa:
 			pass
-			#self.fields['receptor'].queryset = Cliente.objects.filter(empresa_id=empresa)
 
 	class Meta:
 		model = DTEContingencia

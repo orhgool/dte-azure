@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block content %}
+	<table class="table table-striped">
+		<thead>
+			<td>Fecha</td>
+			<td>Acción</td>
+			<td>Usuario</td>
+		</thead>
+		<tbody>
+			{% for reg in bitacora %}
+				<tr>
+					<td>{{reg.fecha|fechaHora}}</td>
+					<td>{{reg.accion}}</td>
+					<td>{{reg.usuario.first_name}} {{reg.usuario.last_name}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

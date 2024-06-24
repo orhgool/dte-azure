@@ -240,7 +240,9 @@
 						<strong>NRC</strong>
 					</td>
 					<td>
-						{{ receptor.nrc }}
+						{% if receptor.nrc %}
+							{{ receptor.nrc }}
+						{% endif %}
 					</td>
 				</tr>
 				<tr>

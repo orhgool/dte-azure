@@ -23,16 +23,20 @@ from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
 from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf,
-	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo)
+	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo, BitacoraDTE)
 from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
 	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
-	TipoInvalidacion, DTEInvalidacion, EstadoDTE)
+	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte)
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 from wkhtmltopdf.views import PDFTemplateView
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from itertools import chain
+
+from unittest.mock import Mock
 
 
 if os.name == 'posix':
@@ -58,19 +62,16 @@ def index(request):
 	numDia, valorDia, numMes, valorMes = datosInicio(request.session['empresa'])
 	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
 
-	tz = timezone(timedelta(hours=-6))
-	fecha_actual = datetime.now(tz=tz)
+	fecha_actual = datetime.now()
 	cxc_queryset = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
 		dias = ExpressionWrapper(fecha_actual - F('fecEmi'), output_field=DateTimeField()))
 	cxc=[]
 	for obj in cxc_queryset:
-		fecha_actual_tz = fecha_actual.astimezone(tz)  # Convertir fecha_actual a la misma zona horaria que obj.fecEmi
-		obj.dias_transcurridos = (fecha_actual_tz - obj.fecEmi).days
+		obj.dias_transcurridos = (fecha_actual - obj.fecEmi).days
 		cxc.append(obj)
 	
 	context = {'empresa': datos_empresa, 'listaDocumentos':documentos, 'valores':valores, 'cxc':cxc}
-	#messages.success(request, request.session['empresa'])
-	#messages.success(request, request.session['logo'])
+	
 	return render(request, 'dte/index.html', context)
 
 
@@ -204,9 +205,11 @@ class DTEInline():
 	model = None
 	form_class = None
 	template_name = 'dte/dte_create_or_update.html'
+	accion = None
 
 
-	def set_dynamic_attributes(self, tipo):
+	def set_dynamic_attributes(self, tipo, tipoAccion):
+		self.accion = tipoAccion
 		if tipo in {'01','03','04','05','06','11'}:
 			self.model = DTECliente
 			self.form_class = DTEClienteForm
@@ -216,18 +219,16 @@ class DTEInline():
 		elif tipo in {'contingencia'}:
 			self.model = DTEContingencia
 			self.form_class = DTEContingenciaForm
-			#messages.info(self.request, self.model)
-	
+
 
 	def get_context_data(self, **kwargs):
-		self.set_dynamic_attributes(kwargs.get('tipo'))
+		self.set_dynamic_attributes(kwargs.get('tipo'), self.accion)
 		context = super().get_context_data(**kwargs)
 		#cliente_frm = ClienteForm(initial=dict(codigo=CodGeneracion(), tipoDocumentoCliente= '13', 
 		#	empresa = self.request.user.userprofile.empresa.codigo, actividadEconomica='10005', pais='9300',
 		#	tipoContribuyente='002', tipoPersona=1))
 		context['listaDocumentos'] = self.request.session.get('documentos', [])
-		#messages.info(self.request, {'context':context})
-		#messages.info(self.request, self.kwargs.get('tipo'))
+		context['bitacora'] = BitacoraAccionDte.objects.filter(dte = self.object.codigoGeneracion) if self.object else ''
 		return context
 
 	def form_valid(self, form):
@@ -238,12 +239,11 @@ class DTEInline():
 			messages.warning(self.request, 'No se pudo guardar el DTE, por favor revise los datos')
 			return self.render_to_response(self.get_context_data(form=form))
 		
-		#empresa = get_object_or_404(Empresa, codigo=form.ambiente) #Actualizar antes de guardar
-		#form.instance.empresa = empresa
 		empresa = get_object_or_404(Empresa, codigo=self.request.session['empresa'])
-		#messages.info(self.request, empresa.ambiente.codigo)
-		#messages.info(self.request, form)
+
 		self.object = form.save()
+		BitacoraDTE(self.request, usuario=self.request.user, dte=form.instance.codigoGeneracion, tipo=self.kwargs.get('tipo'), accion=self.accion)
+
 		if self.kwargs.get('tipo') in {'01','03','04','05','06','11'}:
 			DTECliente.objects.filter(codigoGeneracion=form.instance.codigoGeneracion).update(ambiente=empresa.ambiente.codigo)
 		elif self.kwargs.get('tipo') in {'07','14'}:
@@ -255,31 +255,22 @@ class DTEInline():
 		# for every formset, attempt to find a specific formset save function
         # otherwise, just save.
 		for name, formset in named_formsets.items():
-			#messages.info(self.request, formset)
 			formset_save_func = getattr(self, 'formset_{0}_valid'.format(name), None)
-			#messages.info(self.request, 'formset_{0}_valid'.format(name))
-			#formset_save_func = getattr(self, f'formset_{name}_valid', None)
-			#messages.info(self.request, {'formset_save_func': formset_save_func})
 			if formset_save_func is not None:
 				formset_save_func(formset)
 			else:
 				formset.save()
 
-		#messages.info(self.request, self.object.name)
-
 		if not self.object.selloRecepcion:
 			if self.object.numeroControl and self.object.tipoDte.codigo in ('01','03','04','05','06','07','11','14'):
-				#messages.info(self.request, self.object)
 				qr = genQr(codigo=self.object.codigoGeneracion, empresa=self.object.emisor_id)
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
 			if self.object.tipoDte.codigo == 'contingencia':
 				json = genJson(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo, empresa=self.object.emisor_id)
 				firma = firmar(codigo=self.object.codigoGeneracion, tipo=self.object.tipoDte.codigo)
-				#messages.info(self.request, pdf)
+
 		messages.success(self.request, 'Documento guardado')
-		#messages.success(self.request, json)
-		#return redirect('dte:lista_dte', tipo='cliente')
 		return redirect('dte:actualizar', tipo=self.object.tipoDte.codigo, pk=self.object.codigoGeneracion)
 
 	def formset_detalles_valid(self, formset):
@@ -299,17 +290,9 @@ class DTEInline():
 			if self.kwargs.get('tipo') in {'07','14'}:
 				dte = DTEProveedor.objects.get(codigoGeneracion=detalle.dte_id)
 				receptor = Proveedor.objects.get(codigo=dte.receptor_id)
-			#messages.info(self.request, receptor.tipoContribuyente)
 			if self.kwargs.get('tipo') in {'contingencia'}:
 				dte = DTEContingencia.objects.get(codigoGeneracion=detalle.dteContingencia_id)
 
-			#if dte.tipoDte.codigo=='00': ##################  PARA NO EVALUAR ESTA CONDICION  #################
-			#	items = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id)
-			#	for item in items:
-			#		item.precioUni /= Decimal(1.13)
-			#		item.ventaGravada /= Decimal(1.13)
-			#		item.save(update_fields=['precioUni', 'ventaGravada'])
-			#
 
 			# Inicio de cálculos
 			#messages.info(self.request, str(receptor.tipoContribuyente.codigo) + ' - ' + str(receptor.tipoContribuyente))
@@ -405,7 +388,8 @@ class DTECreate(DTEInline, CreateView):
 		kwargs = super().get_form_kwargs()
 		kwargs['empresa'] = self.request.session.get('empresa')
 		tipo = self.kwargs.get('tipo')
-		self.set_dynamic_attributes(tipo)
+		accion = get_object_or_404(TipoAccionUsuario, id=1)
+		self.set_dynamic_attributes(tipo, 1)
 		kwargs['tipo'] = tipo
 		#kwargs['request'] = self.request
 		#messages.info(self.request, kwargs['tipo'])
@@ -415,7 +399,7 @@ class DTECreate(DTEInline, CreateView):
 
 	def get_form_class(self):
 		tipo = self.kwargs.get('tipo')
-		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo y el formulario estén configurados
+		self.set_dynamic_attributes(tipo, 1)  # Asegurarse de que el modelo y el formulario estén configurados
 		if self.form_class is None:
 			raise ImproperlyConfigured("No se ha definido form_class.")
 		#messages.info(self.request, self.form_class)
@@ -508,7 +492,7 @@ class DTEUpdate(DTEInline, UpdateView):
 
 	def get_form_class(self):
 		tipo = self.kwargs.get('tipo')
-		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo y el formulario estén configurados
+		self.set_dynamic_attributes(tipo, 2)  # Asegurarse de que el modelo y el formulario estén configurados
 		if self.form_class is None:
 			raise ImproperlyConfigured("No se ha definido form_class.")
 		return self.form_class
@@ -516,7 +500,7 @@ class DTEUpdate(DTEInline, UpdateView):
 
 	def get_queryset(self):
 		tipo = self.kwargs.get('tipo')
-		self.set_dynamic_attributes(tipo)  # Asegurarse de que el modelo esté configurado
+		self.set_dynamic_attributes(tipo, 2)  # Asegurarse de que el modelo esté configurado
 		if self.model:
 			return self.model.objects.all()
 		else:
@@ -586,11 +570,10 @@ def eliminar_detalle(request, tipo, pk):
 
 
 class EnviarDTEView(APIView):
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
 	def get(self, request, tipo, codigo=None, cod_anulacion=None):
-	#	template = 'sitria:actualizar_dte'
-	#def get(self, request, codigo, tipo, version, ambiente, docfirmado):
-		
-		tConfiguracion = None #Configuracion.objects.filter(empresa='001').first()
+
 		if tipo in {'01','03','04','05','06','11'}:
 			modelo = DTECliente.objects.get(codigoGeneracion=codigo)
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
@@ -604,7 +587,6 @@ class EnviarDTEView(APIView):
 			version = modelo.version
 			docfirmado = modelo.docfirmado
 		elif tipo == 'anulacion':
-			#messages.info(request, cod_anulacion)
 			modelo = DTEInvalidacion.objects.get(codigoGeneracion=cod_anulacion)
 			codigo = modelo.codigoDte
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
@@ -612,7 +594,6 @@ class EnviarDTEView(APIView):
 			version = 2
 			docfirmado = modelo.docfirmado
 		elif tipo == 'contingencia':
-			#messages.info(request, cod_anulacion)
 			modelo = DTEContingencia.objects.get(codigoGeneracion=codigo)
 			emisor = get_object_or_404(Empresa, codigo=modelo.emisor.codigo)
 			ambiente = emisor.ambiente.codigo
@@ -669,14 +650,17 @@ class EnviarDTEView(APIView):
 				'documento': docfirmado,
 			}
 
-			#consol={'url':url, 'headers':headers, 'data':data}
-
-		#files = {(nombre_archivo, archivo_adjunto)}
-
 		response = requests.post(url, headers=headers, json=data)
+		#response = Mock()
+		#response.status_code = 200
+
+		if response.status_code == 666:
+			messages.info(request, {'request':request, 'user':request.user})
+			return redirect('dte:actualizar', tipo='01', pk=codigo)
 
 		if response.status_code == 200:
 			respuesta_servicio = response.json()
+			#respuesta_servicio = {'selloRecibido':'20249i923u09nnsdif'}
 			estado = get_object_or_404(EstadoDTE, codigo='002')
 
 			if tipo in {'01','03','04','05','06','08','09','11','15'}:
@@ -714,8 +698,9 @@ class EnviarDTEView(APIView):
 			#if not cod_anulacion or tipo != 'contingencia':
 			if not tipo in {'anulacion','contingencia'}:
 				genPdf(codigo=codigo, tipo=tipo, empresa=emisor.codigo)
+				BitacoraDTE(request=request, usuario=request.user, dte=codigo, tipo=tipo, accion=3)
 				if emisor.ambiente.codigo=='01':
-					correo = enviarCorreo(request, codigo=codigo, tipo=tipo)
+					correo = enviarCorreo(request, codigo=codigo, tipo=tipo, reenvio='n')
 				#messages.info(correo)
 			#res = gen_pdf(codigo, tipo, version, ambiente)
 			#estado = EstadoDTE.objects.get(codigo='005')
@@ -724,6 +709,7 @@ class EnviarDTEView(APIView):
 			messages.success(request, respuesta_servicio)
 			#return redirect(template, codigo=codigo)
 			if tipo=='anulacion':
+				#messages.warning(request, {'Reenvío después de enviar a MH': modelo.tipoDte.codigo})
 				return redirect('dte:actualizar', tipo=modelo.tipoDte.codigo, pk=modelo.codigoDte)
 			else:
 				return redirect('dte:actualizar', tipo=tipo, pk=codigo)
@@ -733,7 +719,11 @@ class EnviarDTEView(APIView):
 			#error_message = response
 			messages.info(request, error_message)
 			#return redirect(template, codigo=codigo)
-			return redirect('dte:actualizar', tipo=tipo, pk=codigo)
+			if tipo=='anulacion':
+				#messages.warning(request, {'Reenvío después de enviar a MH': modelo.tipoDte.codigo})
+				return redirect('dte:actualizar', tipo=modelo.tipoDte.codigo, pk=modelo.codigoDte)
+			else:
+				return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 	
 	def post(self, request, codigo, doc_firmado):
 		# Manejar la lógica para solicitudes GET si es necesario
@@ -1138,6 +1128,17 @@ class VistaPreviaHTML(TemplateView):
 		return render(self.request, self.template_name, context, **response_kwargs)
 
 
+def vista_previa_correo(request, tipo, codigo):
+	datos = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+	empresa = get_object_or_404(Empresa, codigo=datos.emisor.codigo)
+	logo = request.session['logo']
+	#logo_local = 
+	enlace = f'https://admin.factura.gob.sv/consultaPublica?ambiente={empresa.ambiente.codigo}&codGen={datos.codigoGeneracion}&fechaEmi={datos.fecEmi.strftime("%Y-%m-%d")}'
+	context={'datos':datos, 'logo':logo, 'enlace':enlace}
+	return render(request, 'plantillas/correo_receptor.html', context)
+
+
+
 def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 	options = {
 		'page-size': 'Letter',
@@ -1277,9 +1278,11 @@ def verCorreo(request, tipo, codigo):
 	return render(request, 'plantillas/correo_receptor.html', context)
 
 
-def correoACliente(request, tipo, codigo):
+def correoACliente(request, tipo, codigo, reenvio):
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
-	messages.success(request, 'Correo enviado')
+	if reenvio == 's':
+		BitacoraDTE(request=request, usuario=request.user, dte=codigo, tipo=tipo, accion=4)
+		messages.success(request, 'Correo enviado')
 	return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 def pruebas(request):
@@ -1298,16 +1301,21 @@ def enviarPrueba(request, tipo):
 
 def invalidarDte(request, tipo, codigo):
 	cod_anulacion = CodGeneracion()
-	dte = get_object_or_404(DTECliente, codigoGeneracion = codigo)
+	if tipo in {'07','14'}:
+		dte = get_object_or_404(DTEProveedor, codigoGeneracion = codigo)
+		receptor_instance = get_object_or_404(Proveedor, codigo=dte.receptor_id)
+	else:
+		dte = get_object_or_404(DTECliente, codigoGeneracion = codigo)
+		receptor_instance = get_object_or_404(Cliente, codigo=dte.receptor_id)
+
 	tipoI = get_object_or_404(TipoInvalidacion, codigo=2)
 	emisor_instance = get_object_or_404(Empresa, codigo=request.session['empresa'])
-	receptor_instance = get_object_or_404(Cliente, codigo=dte.receptor_id)
 	tipoDocumento_instance = get_object_or_404(TipoDocumento, codigo=dte.tipoDte_id)
 	tipoInvalidacion_instance = get_object_or_404(TipoInvalidacion, codigo=2)
 	estado = get_object_or_404(EstadoDTE, codigo='003')
 	invalidado = DTEInvalidacion(codigoGeneracion = cod_anulacion,
 		emisor = emisor_instance,
-		receptor = receptor_instance,
+		receptor_tmp = dte.receptor_id,
 		codigoDte = dte.codigoGeneracion,
 		tipoDte = tipoDocumento_instance,
 		fechaEmision = datetime.now(),
@@ -1317,6 +1325,7 @@ def invalidarDte(request, tipo, codigo):
 	invalidado.save()
 	dte.estadoDte = estado
 	dte.save()
+	BitacoraDTE(request, usuario=request.user, dte=codigo, tipo=tipo, accion=5)
 	json = genJson(codigo=codigo, tipo='anulacion', empresa=request.session['empresa'], codigo_anulacion=cod_anulacion)
 	firma = firmar(codigo=codigo, cod_anulacion=cod_anulacion, tipo='anulacion')
 
@@ -1356,4 +1365,10 @@ def registro_de_cliente_gracias(request, cod_empresa):
 
 
 def custom_page_not_found(request, exception):
-    return render(request, '404.html', status=404)	
+    return render(request, '404.html', status=404)
+
+
+def bitacoraDte(request, codigo):
+	bitacora = BitacoraAccionDte.objects.filter(dte = codigo)
+	context = {'bitacora':bitacora}
+	return render(request, 'dte/bitacoraDte.html', context)

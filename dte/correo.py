@@ -12,21 +12,19 @@ from .models import DTECliente, Empresa, Cliente, Configuracion, TipoDocumento
 
 def enviarCorreo(request, tipo, codigo):
     config = Configuracion.objects.all().first()
-    template = ''
-    if tipo in {'01','03','05','06','11','14'}:
-        template = 'dte:actualizar'
+    template = 'dte:actualizar'
+    if tipo in {'01','03','05','06','11'}:
         tabla = get_object_or_404(DTECliente, codigoGeneracion=codigo)
         emisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
         cliente = Cliente.objects.get(codigo=tabla.receptor_id)
         correo = cliente.correo
         sello = tabla.selloRecepcion
-    elif tipo in {'07'}:
-        pass
-        #template = 'sitria:actualizar_dte_proveedor'
-        #tabla = get_object_or_404(DTEProveedor, codigoGeneracion=codigo)
-        #proveedor = Proveedor.objects.get(codigo=tabla.receptor_id)
-        #correos = proveedor.correo
-        #sello = tabla.selloRecepcion
+    elif tipo in {'07','14'}:
+        tabla = get_object_or_404(DTEProveedor, codigoGeneracion=codigo)
+        emisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+        proveedor = Proveedor.objects.get(codigo=tabla.receptor_id)
+        correo = proveedor.correo
+        sello = tabla.selloRecepcion
 
     #correo = 'alfaconsultores.sv@gmail.com'
 
@@ -41,7 +39,12 @@ def enviarCorreo(request, tipo, codigo):
     # Destinatario y contenido del correo
     destinatario = correo
     asunto = f'{tabla.emisor.nombreComercial}, {tablaTipo.nombre_corto} cod.: {codigo}'
-    datos = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+
+    if tipo in {'01','03','05','06','11'}:
+        datos = get_object_or_404(DTECliente, codigoGeneracion=codigo)
+    elif tipo in {'07','14'}:
+        datos = get_object_or_404(DTEProveedor, codigoGeneracion=codigo)
+    
     empresa = get_object_or_404(Empresa, codigo=datos.emisor.codigo)
     logo = request.session['logo']
     enlace = f'https://admin.factura.gob.sv/consultaPublica?ambiente={empresa.ambiente.codigo}&codGen={datos.codigoGeneracion}&fechaEmi={datos.fecEmi.strftime("%Y-%m-%d")}'

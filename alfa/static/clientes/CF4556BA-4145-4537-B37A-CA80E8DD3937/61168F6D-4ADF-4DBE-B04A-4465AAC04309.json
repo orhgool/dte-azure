@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000026",
+    "codigoGeneracion": "61168F6D-4ADF-4DBE-B04A-4465AAC04309",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2024-06-21",
+    "horEmi": "18:28:03",
+    "tipoMoneda": "USD"
+  },
+  "emisor": {
+    "nit": "03151708121010",
+    "nrc": "2190892",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "2da calle Col. RASA 2 No. 65"
+    },
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "06140611051019",
+    "nombre": "ACOGRUMASAL DE R.L.",
+    "codActividad": "94990",
+    "descActividad": "Actividades de asociaciones n.c.p. ",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "Col Escalon Edif Plaza Cristal"
+    },
+    "telefono": "7627-0171",
+    "correo": "administracion@carmoga.com.sv"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Pago de servicios",
+      "precioUni": 300.0,
+      "montoDescu": 0.0,
+      "compra": 300.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 300.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 300.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 30.0,
+    "totalPagar": 270.0,
+    "totalLetras": "DOSCIENTOS SETENTA 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "61168F6D-4ADF-4DBE-B04A-4465AAC04309",
+    "selloRecibido": "2024B8C120FF0EFA4041B35096C49D7AC8B7NX0U",
+    "fhProcesamiento": "21/06/2024 18:28:28",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

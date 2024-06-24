@@ -79,6 +79,8 @@ admin.site.unregister(get_user_model())
 admin.site.register(get_user_model(), CustomUserAdmin)
 
 admin.site.register(Actividadeconomica, ActividadeconomicaAdmin)
+admin.site.register(TipoAccionUsuario)
+admin.site.register(BitacoraAccionDte)
 admin.site.register(AmbienteDestino)
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(CondicionOperacion)

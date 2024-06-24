@@ -2,7 +2,6 @@ from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from django.http import Http404
 from .models import *
 from datetime import datetime, timezone, timedelta
 
@@ -990,18 +989,9 @@ def anulacion(codAnulacion, codigoDte): # Anulacion
 	tributos_consolidados = {}
 	tributos_consolidados_lista = []
 
-
-	dte = None #get_object_or_404(DTECliente, codigoGeneracion=codigoDte)
-
-	try:
-		tabla = DTECliente
-	except Http404:
-		tabla = DTEProveedor
-	#return dte
-	dte = get_object_or_404(tabla, codigoGeneracion=codigoDte)
-
+	dte = get_object_or_404(DTECliente, codigoGeneracion=codigoDte)
 	emisor = get_object_or_404(Empresa, codigo=dte.emisor_id)
-	receptor = dte.receptor_id
+	receptor = get_object_or_404(Cliente, codigo=dte.receptor_id)
 	#datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
 	
 

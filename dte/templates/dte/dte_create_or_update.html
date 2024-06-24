@@ -14,6 +14,37 @@
             text-align: center;
             width: 100%;
         }
+
+        .action-1 {
+            color: #000;
+            font-weight: bolder;
+        }
+
+        .action-2 {
+            color: #FF9302;
+        }
+
+        .action-3 {
+            color: #28B463;
+            font-weight: bolder;
+        }
+
+        .action-4 {
+            color: #28B463;
+        }
+
+        .action-5 {
+            color: #FF5733;
+            font-weight: bolder;
+        }
+
+        .anulado {
+            color: #E74C3C;
+        }
+
+        .color-bonito {
+            color: #FF9302;
+        }
     </style>
 {% endblock %}
 {% block content %}
@@ -21,10 +52,14 @@
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
-            <strong>Mensaje:</strong> {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+            <!--strong>Mensaje:</strong--> 
+            <li>
+                {{ message }}
+            </li>
+            
         </div>
     {% endfor %}
 {% endif %}
@@ -61,6 +96,43 @@
     </div>
   </div>
 </div>
+
+<!-- Modal bitácora de cambios -->
+<div class="modal fade" id="bitacoraDte" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bitácora de cambios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+                <td><strong>Fecha</strong></td>
+                <td><strong>Acción</strong></td>
+                <td><strong>Usuario</strong></td>
+            </thead>
+            <tbody>
+                {% for reg in bitacora %}
+                    <tr>
+                        <td>{{reg.fecha|fechaHora}}</td>
+                        <td class="action-{{reg.accion.id}}">{{reg.accion}}</td>
+                        <td>{{reg.usuario.first_name}} {{reg.usuario.last_name}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin bitácora de cambios -->
+
 <!-- Modal anular Dte -->
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -192,11 +264,18 @@
                                 {% endif %}
                             {% endif %}
                             {% if sello %}
-                            <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value %}" class="btn btn-primary">Re-enviar correo al cliente</a>
+                            <a href="{% url 'dte:correo' form.tipoDte.value form.codigoGeneracion.value 's' %}" class="btn btn-primary">Re-enviar correo al cliente</a>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">
                               Anular
                             </button>
                             {% endif %}
+
+                            {% if form.numeroControl.value %}
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bitacoraDte">
+                              Bitácora
+                            </button>
+                            {% endif %}
+                            
                         </div>
                 </div>
             </div>
