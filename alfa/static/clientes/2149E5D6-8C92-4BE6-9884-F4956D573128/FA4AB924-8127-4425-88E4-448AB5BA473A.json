@@ -1,0 +1,168 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "01",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000066",
+    "codigoGeneracion": "FA4AB924-8127-4425-88E4-448AB5BA473A",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-06-24",
+    "horEmi": "09:00:22",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03011009161018",
+    "nrc": "2547611",
+    "nombre": "TRANSPORTES ORTEGA Y ASOCIADOS, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES ORTEGA",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Canton San Julian, Lote 78 y 79. Parcelacion Buenos Aires"
+    },
+    "telefono": "7844-8962",
+    "correo": "contabilidad@transporteortegayasociados.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06141710490010",
+    "nrc": "3182",
+    "nombre": "HOLCIM EL SALVADOR, S.A. DE C.V.",
+    "codActividad": "23940",
+    "descActividad": "Fabricacion de cemento, cal y yeso",
+    "nombreComercial": "HOLCIM EL SALVADOR, S.A. DE C.V.",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "09",
+      "complemento": "CALLE HOLCIM AV. EL ESPINO, MADRESELVA, ANTGO CUSCATLAN, LA LIBERTAD"
+    },
+    "telefono": "70398688",
+    "correo": "recepcionfe-sv@holcim.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 99,
+      "descripcion": "FLETE DE CEMENTO EMPACADO DE METAPAN A  DOM- RIO GDE, CONCEPCION DE LA UNION",
+      "precioUni": 746.22,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 746.22,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 99,
+      "descripcion": "FLETE DE CEMENTO EMPACADO DE METAPAN A GLOBAL DEVELOPERS-  RESID. VILLA SAN MIGUEL",
+      "precioUni": 540.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 540.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 3,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 99,
+      "descripcion": "FLETE DE CEMENTO EMPACADO DE METAPAN A FTIATPMU - PMU VARIOS USULUTAN",
+      "precioUni": 474.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 474.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 1760.22,
+    "subTotalVentas": 1760.22,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 228.83
+      }
+    ],
+    "subTotal": 1760.22,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 17.6,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 1989.05,
+    "totalNoGravado": 0.0,
+    "totalPagar": 1971.45,
+    "totalLetras": "MIL NOVECIENTOS SETENTA Y UNO 45/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "TRANSPORTES ORTEGA Y ASOCIADOS, S.A. DE C.V.",
+    "docuEntrega": "03011009161018",
+    "nombRecibe": "HOLCIM EL SALVADOR, S.A. DE C.V.",
+    "docuRecibe": "06141710490010",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "FA4AB924-8127-4425-88E4-448AB5BA473A",
+    "selloRecibido": "202449D5EE8A02C94707AF5FD96D042D7D25GYNR",
+    "fhProcesamiento": "24/06/2024 09:14:33",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}
