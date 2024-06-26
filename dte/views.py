@@ -167,8 +167,57 @@ def lista_dte(request, tipo):
 	page_number = request.GET.get("page")
 	page_obj = paginator.get_page(page_number)
 
-	return render(request, 'dte/lista_dte.html', {'dtes':dtes, 'listaDocumentos':request.session['documentos'], 'page_obj': page_obj, 'nombreDoc':nombreDoc})
+	return render(request, 'dte/lista_dte.html', {
+		'dtes':dtes,
+		'listaDocumentos':request.session['documentos'],
+		'page_obj': page_obj,
+		'nombreDoc':nombreDoc,
+		'tipo':tipo})
 
+def lista_dte_filtrar(request, tipo):
+	criterio = request.GET.get('criterio', '')
+	vEmisor = get_object_or_404(Empresa, codigo=request.session['empresa'])
+	tipoDocumento = get_object_or_404(TipoDocumento, codigo=tipo)
+	nombreDoc = tipoDocumento.nombre
+
+	if criterio == '':
+		if tipo in {'07', '14'}:
+			dtes = DTEProveedor.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo, tipoDte=tipo)
+		else:
+			dtes = DTECliente.objects.filter(emisor=vEmisor, ambiente=vEmisor.ambiente.codigo, tipoDte=tipo)
+		
+		paginator = Paginator(dtes, 10)
+		page_number = request.GET.get("page")
+		page_obj = paginator.get_page(page_number)
+	else:
+		if tipo in {'07', '14'}:
+			dtes = DTEProveedor.objects.filter(				
+				Q(codigoGeneracion__icontains=criterio) |
+				Q(receptor__razonsocial__icontains=criterio) |
+				Q(observaciones__icontains=criterio) |
+				Q(detalles__descripcion__icontains=criterio) |
+				Q(detalles__complemento1__icontains=criterio),
+				emisor=vEmisor,
+				ambiente=vEmisor.ambiente.codigo,
+			).distinct()
+		else:
+			dtes = DTECliente.objects.filter(
+				Q(codigoGeneracion__icontains=criterio) |
+				Q(receptor__razonsocial__icontains=criterio) |
+				Q(observaciones__icontains=criterio) |
+				Q(detalles__descripcion__icontains=criterio) |
+				Q(detalles__complemento1__icontains=criterio),
+				emisor=vEmisor,
+				ambiente=vEmisor.ambiente.codigo,
+			).distinct()
+
+		paginator = Paginator(dtes, 10)
+		page_number = request.GET.get("page")
+		page_obj = paginator.get_page(page_number)
+
+	context = {'dtes': dtes, 'page_obj':page_obj}
+	html = render_to_string('dte/lista_dte_filtro.html', context)
+	return JsonResponse({'html': html, 'criterio_inicial': criterio}) 
 
 @login_required(login_url='manager:login')
 def lista_cliente(request):

@@ -844,7 +844,7 @@ class DTEProveedor(models.Model):
 
 class DTEProveedorDetalle(models.Model):
 	codigoDetalle = models.CharField(primary_key=True, blank=False, max_length=36, default='')
-	dte = models.ForeignKey(DTEProveedor, on_delete = models.CASCADE, blank=True, default='')
+	dte = models.ForeignKey(DTEProveedor, on_delete = models.CASCADE, blank=True, default='', related_name='detalles')
 	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=1, verbose_name='Tipo de ítem')
 	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, default='03', verbose_name='Tipo DTE')
 	tipoGeneracion = models.ForeignKey(TipoGeneracionDocumento, on_delete=models.CASCADE, default=2, verbose_name='Tipo de generación')

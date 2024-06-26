@@ -57,10 +57,22 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <div class="mb-3 d-flex">
+                    <div class="col-md-9">
+                        <input type="text" id="txtCriterio" name="Criterio" class="form-control" placeholder="Buscar por código de generación, razón social, observaciones o detalle de ítem">
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-primary mb-3 w-100" id="btnBuscar" onclick="buscarDte()">Buscar</button
+                        >
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary mb-3 w-100" id="btnLimpiar" onclick="limpiarBusqueda()">Limpiar filtro</button>
+                    </div>
+                </div>
                 <!--h4 class="card-title">Documentos emitidos</h4-->
                 <h4 class="card-title">{{nombreDoc}}</h4>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="listaDte">
                         <thead>
                             <tr>
                                 <th>Fecha</th>
@@ -69,8 +81,8 @@
                                 <th>Cliente</th>
                                 <th>Monto(USD)</th>
                                 <th>Observaciones</th>
-                                <th>E.P.</th>
-                                <th>M.H.</th>
+                                <th>Pago</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,9 +108,9 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <br>
+                    <!--br>
                     <p class="cursiva">E.P.: Indica el estado del pago por parte del cliente.<br>
-                    M.H.: Indica si el documento ya se envió al Ministerio de Hacienda.</p>
+                    M.H.: Indica si el documento ya se envió al Ministerio de Hacienda.</p-->
                 </div>
             </div>
             <div class="card-body">
@@ -131,4 +143,44 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    function buscarDte() {
+        var criterio = $("#txtCriterio").val();
+        //alert({{tipo}});
+        $.ajax({
+            type: "GET",
+            url: "/lista_dte_filtrar/{{tipo}}",  // Define la URL de la vista de búsqueda
+            data: {'criterio': criterio},
+            success: function (data) {
+                if (data && data.html){
+                    $("#listaDte tbody").html(data.html);
+                    console.log("Buscar:", criterio);
+                } else {
+                    console.error("La respuesta Ajax no contiene el formato esperado:", data);
+                }
+            }
+        });
+    }
+
+    function limpiarBusqueda() {
+        var criterio = "";
+        $('#txtCriterio').val("");
+        $.ajax({
+            type: "GET",
+            url: "/lista_dte_filtrar/{{tipo}}",  // Define la URL de la vista de búsqueda
+            data: {'criterio': criterio},
+            success: function (data) {
+                if (data && data.html){
+                    $("#listaDte tbody").html(data.html);
+                    console.log("Limpiar:", criterio);
+                } else {
+                    console.error("La respuesta Ajax no contiene el formato esperado:", data);
+                }
+            }
+        });
+    }
+</script>
 {% endblock %}

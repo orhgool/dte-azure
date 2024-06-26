@@ -12,6 +12,7 @@ handler404 = 'dte.views.custom_page_not_found'
 urlpatterns = [
 	path('', index, name='index'),
 	path('lista_dte/<str:tipo>', lista_dte, name='lista_dte'),
+    path('lista_dte_filtrar/<str:tipo>', lista_dte_filtrar, name='lista_dte_filtrar'),
 	path('autenticar/', autenticar, name='autenticar'),
 	path('loginMH/', loginMH, name='loginMH'),
 	path('vista_previa/<str:tipo>/<str:codigo>/', vista_previa_pdf_dte, name='vista_previa'),

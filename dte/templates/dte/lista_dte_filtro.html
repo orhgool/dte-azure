@@ -1,0 +1,30 @@
+{% load my_filters %}
+
+{% if page_obj %}
+    {% for dte in page_obj %}
+        <tr>
+            <td>{{dte.fecEmi|fecha}}</td>
+            <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}} {{dte.numeroControl|slice:"27:"}}</td>
+            <td title="{{dte.codigoGeneracion}}"><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
+            <td title="{{dte.receptor}}">{{dte.receptor.nombreComercial}}</td>
+            <td class="derecha">{{dte.totalPagar|moneda}}</td>
+            <td title="{{dte.observaciones}}">
+                {% if dte.observaciones %}
+                    {{dte.observaciones|slice:":40"}}...
+                {% endif %}
+            </td>
+            {% if dte.estadoPago %}
+                <td class="pagado">Pagado</td>
+            {% else %}
+                <td class="no-pagado"> No pagado</td>
+            {% endif %}
+            <td class="{{dte.estadoDte}}">{{dte.estadoDte}}</td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="8">
+            No se encontró el criterio de búsqueda.
+        </td>
+    </tr>
+{% endif %}
