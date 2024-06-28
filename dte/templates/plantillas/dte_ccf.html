@@ -379,7 +379,9 @@
 				</tr>
 			</tbody>
 		</table>
-		<!--p class="pie-pagina">Facturación electrónica ALFA | alfa.com.sv | Whatsapp +503 6984 8539</p-->
+		{% if not emisor.codigo == '42310F1D-DC39-4D53-BC6C-714D0086E8A0' %}
+		<p class="pie-pagina">Facturación electrónica ALFA | alfaconsultores.sv@gmail.com | Whatsapp +503 6984 8539</p>
+		{% endif %}
 	</div>
 </body>
 </html>

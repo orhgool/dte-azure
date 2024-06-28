@@ -344,11 +344,13 @@ class DTEInline():
 
 
 			# Inicio de cálculos
-			#messages.info(self.request, str(receptor.tipoContribuyente.codigo) + ' - ' + str(receptor.tipoContribuyente))
-			if dte.tipoDte.codigo in {'01','03','04','05','06','11'}:
+			
+			retencion = 0
+
+			if dte.tipoDte.codigo in {'01','03','04','05','06'}:
 				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
 				
-				if receptor.tipoContribuyente.codigo == '001':
+				if receptor.tipoContribuyente.codigo == '001' and total_gravada>=100:
 					if dte.tipoDte.codigo == '01':
 						retencion = round(((float(total_gravada) / float(1.13)) * float(0.01)),2)
 					else:
@@ -371,7 +373,7 @@ class DTEInline():
 					totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
 					subTotal=total_gravada,
-					ivaPerci1=0, #float(total_gravada)*float(0.13),
+					ivaPerci1=0,
 					ivaRete1 = retencion,
 					montoTotalOperacion= round((float(total_gravada)*float(1.13)),2),
 					totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
@@ -380,9 +382,10 @@ class DTEInline():
 					totalGravada=total_gravada,
 					subTotalVentas=total_gravada,
 					subTotal=total_gravada,
-					ivaPerci1=0, #float(total_gravada)*float(0.13),
-					montoTotalOperacion=float(total_gravada)*float(1.13),
-					totalPagar=float(total_gravada)*float(1.13))
+					ivaPerci1=0,
+					ivaRete1 = retencion,
+					montoTotalOperacion= round((float(total_gravada)*float(1.13)),2),
+					totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
 			if dte.tipoDte.codigo in {'11'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
 					totalGravada=total_gravada,
@@ -1228,13 +1231,25 @@ def vista_previa_pdf_dte(request, tipo, codigo, *args, **kwargs):
 
 	if tipo == '05':
 		template_name = 'plantillas/dte_nc.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
+			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+		).first()
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
 	if tipo == '06':
 		template_name = 'plantillas/dte_nd.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
+			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+		).first()
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 

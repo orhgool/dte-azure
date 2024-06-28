@@ -716,7 +716,6 @@ class DTECliente(models.Model):
 
 
 class DTEClienteDetalle(models.Model):
-	#from .funciones import CodGeneracion
 	codigoDetalle = models.CharField(db_column='CodigoDetalle', primary_key=True, blank=True, max_length=36)
 	dte = models.ForeignKey(DTECliente, on_delete=models.CASCADE, blank=True, default='', related_name='detalles')
 	tipoItem = models.ForeignKey(TipoItem, on_delete=models.CASCADE, db_column='tipoItem_id', default=2, verbose_name='Tipo de ítem')
@@ -766,11 +765,6 @@ class DTEClienteDetalle(models.Model):
 
 	def __str__(self):
 		return "%s" % (self.codigoDetalle)
-
-	#def __init__(self, *args, **kwargs):
-	#	super().__init__(*args, **kwargs)
-	#	if not self.codigoDetalle:
-	#		self.codigoDetalle = str(uuid.uuid4())
 
 	def save(self, *args, **kwargs):
 		if not self.codigoDetalle:
