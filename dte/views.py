@@ -346,6 +346,7 @@ class DTEInline():
 			# Inicio de cálculos
 			
 			retencion = 0
+			#messages.info(self.request, receptor.tipoContribuyente.codigo)
 
 			if dte.tipoDte.codigo in {'01','03','04','05','06'}:
 				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
