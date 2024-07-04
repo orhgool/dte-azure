@@ -50,7 +50,8 @@ def index(request):
 	config = Configuracion.objects.all().first()
 	request.session['empresa'] = request.user.userprofile.empresa.codigo
 	datos_empresa = get_object_or_404(Empresa, codigo=request.user.userprofile.empresa.codigo)
-	#request.session['empresa_nombre'] = request.user.userprofile.empresa.nombreComercial
+	request.session['empresa_nombre'] = datos_empresa.razonsocial
+	empresa_nombre = datos_empresa.razonsocial
 	request.session['logo'] = config.blobUrl + 'empresas/logos/' + request.user.userprofile.empresa.codigo + '_logo.png'
 	#request.session['logo'] = os.path.join(settings.STATIC_DIR, 'clientes', 'logos', request.user.userprofile.empresa.codigo + '_logo.png')
 	#messages.success(request, request.session['logo'])
@@ -63,7 +64,11 @@ def index(request):
 	valores = {'numDia':numDia, 'valorDia':valorDia, 'numMes': numMes, 'valorMes': valorMes}
 
 	fecha_actual = datetime.now()
-	cxc_queryset = DTECliente.objects.filter(emisor=request.session['empresa'], estadoPago=False).annotate(
+	cxc_queryset = DTECliente.objects.filter(
+		emisor=request.session['empresa'],
+		ambiente=datos_empresa.ambiente_id,
+		estadoDte='002',
+		estadoPago=False).annotate(
 		dias = ExpressionWrapper(fecha_actual - F('fecEmi'), output_field=DateTimeField()))
 	cxc=[]
 	for obj in cxc_queryset:
@@ -348,7 +353,7 @@ class DTEInline():
 			retencion = 0
 			#messages.info(self.request, receptor.tipoContribuyente.codigo)
 
-			if dte.tipoDte.codigo in {'01','03','04','05','06'}:
+			if dte.tipoDte.codigo in {'01','03','04','05','06','11'}:
 				total_gravada = DTEClienteDetalle.objects.filter(dte_id=detalle.dte_id).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada']
 				
 				if receptor.tipoContribuyente.codigo == '001' and total_gravada>=100:

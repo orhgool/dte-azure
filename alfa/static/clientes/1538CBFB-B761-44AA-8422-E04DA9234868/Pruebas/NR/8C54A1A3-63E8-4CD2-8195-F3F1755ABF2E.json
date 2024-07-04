@@ -1,0 +1,117 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "04",
+    "numeroControl": "DTE-04-00000000-000000000000006",
+    "codigoGeneracion": "8C54A1A3-63E8-4CD2-8195-F3F1755ABF2E",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-06-30",
+    "horEmi": "22:20:28",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "06140702171049",
+    "nrc": "2576186",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "codActividad": "49226",
+    "descActividad": "Servicios de transporte de personal",
+    "nombreComercial": "TRANSPORTES ALAS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "CALLE CISNEROS, BO LA VEGA #631"
+    },
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06143009830016",
+    "nrc": "5509",
+    "nombre": "AEROMENTENIMIENTO, S.A.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "nombreComercial": "AEROMENTENIMIENTO, S.A.",
+    "direccion": {
+      "departamento": "08",
+      "municipio": "13",
+      "complemento": "ACCESO 6, AEROPUERTO INTER EL SALVADOR"
+    },
+    "telefono": "2312-4120",
+    "correo": "accounts.payable@aeroman.com.sv",
+    "bienTitulo": "04"
+  },
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ]
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 13.0
+      }
+    ],
+    "subTotal": 100.0,
+    "montoTotalOperacion": 113.0,
+    "totalLetras": "CIENTO TRECE 00/100 USD"
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "8C54A1A3-63E8-4CD2-8195-F3F1755ABF2E",
+    "selloRecibido": "2024E6F830B2418348CAB658F34891F963DFLMCZ",
+    "fhProcesamiento": "30/06/2024 22:20:39",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

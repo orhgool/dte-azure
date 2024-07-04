@@ -7,7 +7,7 @@ from django.db.models import F, Q, Sum, ExpressionWrapper, DecimalField
 from django.template.loader import render_to_string, get_template
 from .models import *
 from .jsons import fcf, ccf, nc, nd, fex, fse, anulacion, contingencia
-from .jsons_pruebas import fcf_p, ccf_p, nc_p, nd_p, fex_p, fse_p
+from .jsons_pruebas import fcf_p, ccf_p, nr_p, nc_p, nd_p, fex_p, fse_p
 from .guardarBlob import subirArchivo
 from datetime import datetime, timedelta, timezone
 from num2words import num2words
@@ -94,6 +94,8 @@ def gen_prueba(request, tipo, empresa):
 		json_data = fcf_p(empresa, codigo)
 	if tipo=='03':
 		json_data = ccf_p(empresa, codigo)
+	if tipo=='04':
+		json_data = nr_p(empresa, codigo)
 	if tipo=='05':
 		json_data = nc_p(empresa, codigo)
 	if tipo=='06':

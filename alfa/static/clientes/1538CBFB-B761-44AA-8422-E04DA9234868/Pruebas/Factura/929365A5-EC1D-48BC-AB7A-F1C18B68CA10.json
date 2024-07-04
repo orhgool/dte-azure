@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000011",
+    "codigoGeneracion": "929365A5-EC1D-48BC-AB7A-F1C18B68CA10",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-02",
+    "horEmi": "08:34:28",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "06140702171049",
+    "nrc": "2576186",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "codActividad": "49226",
+    "descActividad": "Servicios de transporte de personal",
+    "nombreComercial": "TRANSPORTES ALAS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "CALLE CISNEROS, BO LA VEGA #631"
+    },
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06143009830016",
+    "nrc": "5509",
+    "nombre": "AEROMENTENIMIENTO, S.A.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "direccion": {
+      "departamento": "08",
+      "municipio": "13",
+      "complemento": "ACCESO 6, AEROPUERTO INTER EL SALVADOR"
+    },
+    "telefono": "2312-4120",
+    "correo": "accounts.payable@aeroman.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "docuEntrega": "06140702171049",
+    "nombRecibe": "AEROMENTENIMIENTO, S.A.",
+    "docuRecibe": "06143009830016",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "929365A5-EC1D-48BC-AB7A-F1C18B68CA10",
+    "selloRecibido": "2024FA0D3805D62042BEB337FB6AFAFC779E8IYA",
+    "fhProcesamiento": "02/07/2024 08:34:40",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

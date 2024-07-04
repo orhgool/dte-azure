@@ -1,0 +1,43 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "codigoGeneracion": "4C382A8E-F5FD-4691-88A9-87ADFFFCE143",
+    "fTransmision": "2024-07-03",
+    "hTransmision": "10:23:09"
+  },
+  "emisor": {
+    "nit": "03151708121010",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "nombreResponsable": "CARMOGA",
+    "tipoDocResponsable": "36",
+    "numeroDocResponsable": "03151708121010",
+    "tipoEstablecimiento": "02",
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codPuntoVenta": null,
+    "codEstableMH": null
+  },
+  "detalleDTE": [
+    {
+      "noItem": 1,
+      "tipoDoc": "03",
+      "codigoGeneracion": "09728D90-5D40-420E-8FD8-8E9100FA21B6"
+    }
+  ],
+  "motivo": {
+    "fInicio": "2024-07-03",
+    "fFin": "2024-07-03",
+    "hInicio": "07:22:33",
+    "hFin": "10:22:33",
+    "tipoContingencia": 1,
+    "motivoContingencia": "No disponibilidad de sistema del MH"
+  },
+  "selloRecepcion": {
+    "estado": "RECIBIDO",
+    "fechaHora": "03/07/2024 10:23:29",
+    "mensaje": "Documento recibido",
+    "selloRecibido": "2024614C277091644BDDA107CBC312498423BGOS",
+    "observaciones": []
+  }
+}

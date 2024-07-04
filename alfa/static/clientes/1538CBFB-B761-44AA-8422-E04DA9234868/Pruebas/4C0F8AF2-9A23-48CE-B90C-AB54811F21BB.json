@@ -1,0 +1,43 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "codigoGeneracion": "4C0F8AF2-9A23-48CE-B90C-AB54811F21BB",
+    "fTransmision": "2024-07-01",
+    "hTransmision": "06:09:05"
+  },
+  "emisor": {
+    "nit": "06140702171049",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "nombreResponsable": "TRANSPORTES ALAS",
+    "tipoDocResponsable": "36",
+    "numeroDocResponsable": "06140702171049",
+    "tipoEstablecimiento": "02",
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codPuntoVenta": null,
+    "codEstableMH": null
+  },
+  "detalleDTE": [
+    {
+      "noItem": 1,
+      "tipoDoc": "03",
+      "codigoGeneracion": "B8641B43-F3D0-464C-A3D7-004F024D4480"
+    }
+  ],
+  "motivo": {
+    "fInicio": "2024-07-01",
+    "fFin": "2024-07-01",
+    "hInicio": "02:07:48",
+    "hFin": "03:07:48",
+    "tipoContingencia": 3,
+    "motivoContingencia": "Falla en el suministro de servicio de Internet del Emisor"
+  },
+  "selloRecepcion": {
+    "estado": "RECIBIDO",
+    "fechaHora": "01/07/2024 06:09:19",
+    "mensaje": "Documento recibido",
+    "selloRecibido": "202444A756ABFE3449C1AEC5A5DD52EA20E47XPT",
+    "observaciones": []
+  }
+}

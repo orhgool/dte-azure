@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
-receptor = get_object_or_404(Cliente, codigo='A3CA25E8-6FE2-4823-A38D-CDDC4382A410')
+receptor = get_object_or_404(Cliente, codigo='B9E0BCAB-ED76-46D9-A4C9-5342BE7BDF62')
 
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):
@@ -299,6 +299,150 @@ def ccf_p(empresa, codigo): # 03 - CCF
 			'emisor': emisor_data,
 			'receptor': receptor_data,
 			'otrosDocumentos': otrosDocumentos_data,
+			'ventaTercero': ventaTercero_data,
+			'cuerpoDocumento': cuerpoDocumento_data,
+			'resumen': resumen_data,
+			'extension': extension_data,
+			'apendice': apendice_data,
+		}
+
+	json_data = replace_in_dict(json_data, 'á', 'a')
+	json_data = replace_in_dict(json_data, 'é', 'e')
+	json_data = replace_in_dict(json_data, 'í', 'i')
+	json_data = replace_in_dict(json_data, 'ó', 'o')
+	json_data = replace_in_dict(json_data, 'ú', 'u')
+	json_data = replace_in_dict(json_data, 'ñ', 'n')
+	json_data = replace_in_dict(json_data, 'Á', 'A')
+	json_data = replace_in_dict(json_data, 'É', 'E')
+	json_data = replace_in_dict(json_data, 'Í', 'I')
+	json_data = replace_in_dict(json_data, 'Ó', 'O')
+	json_data = replace_in_dict(json_data, 'Ú', 'U')
+	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+
+	return json_data
+
+
+def nr_p(empresa, codigo): # 04 - Nota de remisión
+	emisor = get_object_or_404(Empresa, codigo=empresa)
+	from .funciones import CantLetras, CodGeneracion, Correlativo
+	json_data = {}
+	datos_emisor = {}
+	datos_receptor = {}
+	datos_detalle = []
+	documento_relacionado = []
+	tributos_consolidados = {}
+	tributos_consolidados_lista = []
+
+	identificacion_data = {
+			'version': 3,
+			'ambiente': '00',
+			'tipoDte': '04',
+			'numeroControl': Correlativo(cod_tipo='04', cod_empresa=empresa),
+			'codigoGeneracion': codigo,
+			'tipoModelo': 1,
+			'tipoOperacion': 1,
+			'fecEmi': datetime.now().strftime("%Y-%m-%d"),
+			'horEmi': datetime.now().strftime("%H:%M:%S"),
+			'tipoMoneda': 'USD',
+			'tipoContingencia': None,
+			'motivoContin': None
+		}
+
+	documentoRelacionado_data = None
+
+	emisor_data = {'nit': emisor.nit.replace('-',''),
+					'nrc': emisor.nrc.replace('-',''),
+					'nombre': emisor.razonsocial,
+					'codActividad': emisor.actividadEconomica_id, 
+					'descActividad': emisor.actividadEconomica.descripcion,
+					'nombreComercial': emisor.nombreComercial,
+					'tipoEstablecimiento': emisor.tipoEstablecimiento.codigo,
+					'direccion': {'departamento':emisor.departamento_id,
+									'municipio':emisor.municipio.codigo,
+									'complemento':emisor.direccionComplemento},
+					'telefono': emisor.telefono,
+					'correo': emisor.correo,
+					'codEstableMH': None,
+					'codEstable': None,
+					'codPuntoVentaMH': None,
+					'codPuntoVenta': None
+					}
+
+	receptor_data = {'tipoDocumento': '36',
+				    'numDocumento': receptor.numeroDocumento.replace('-',''),
+						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
+						'nombre': receptor.razonsocial,
+						'codActividad': receptor.actividadEconomica_id,
+						'descActividad': receptor.actividadEconomica.descripcion,
+						'nombreComercial': receptor.nombreComercial,
+						'direccion': {'departamento':receptor.departamento_id,
+									'municipio':receptor.municipio.codigo,
+									'complemento':receptor.direccionComplemento},
+						'telefono': receptor.telefono,
+						'correo': receptor.correo,
+						'bienTitulo': '04'
+					}
+
+	otrosDocumentos_data = None
+	ventaTercero_data = None
+
+
+	cuerpoDocumento_data = {
+			"numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": None,
+      "cantidad": 1.0,
+      "codigo": None,
+      "codTributo": None,
+      "uniMedida": 59,
+      "descripcion": "Servicios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ]
+		},
+
+	resumen_data = {
+			"totalNoSuj": 0.0,
+	    "totalExenta": 0.0,
+	    "totalGravada": 100.0,
+	    "subTotalVentas": 100.0,
+	    "descuNoSuj": 0.0,
+	    "descuExenta": 0.0,
+	    "descuGravada": 0.0,
+	    "porcentajeDescuento": 0.0,
+	    "totalDescu": 0.0,
+	    "tributos": [
+	      {
+	        "codigo": "20",
+	        "descripcion": "Impuesto al Valor Agregado 13%",
+	        "valor": 13.0
+	      }
+	    ],
+	    "subTotal": 100.0,
+	    "montoTotalOperacion": 113.0,
+	    "totalLetras": "CIENTO TRECE 00/100 USD"
+	}
+
+	extension_data = {
+		'nombEntrega': None,
+	    'docuEntrega': None,
+	    'nombRecibe': None,
+	    'docuRecibe': None,
+	    'observaciones': None
+	}
+
+	apendice_data = None
+
+	json_data = {
+			'identificacion': identificacion_data,
+			'documentoRelacionado' : documentoRelacionado_data,
+			'emisor': emisor_data,
+			'receptor': receptor_data,
 			'ventaTercero': ventaTercero_data,
 			'cuerpoDocumento': cuerpoDocumento_data,
 			'resumen': resumen_data,

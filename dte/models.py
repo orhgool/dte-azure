@@ -512,7 +512,7 @@ class TituloRemision(models.Model):
 	class Meta:
 		verbose_name = 'Título a que se remiten los bienes'
 		verbose_name_plural = "Títulos a que se remiten los bienes"
-		ordering = ('nombre',)
+		ordering = ('codigo',)
 
 
 class TipoDonacion(models.Model):
@@ -695,6 +695,7 @@ class DTECliente(models.Model):
 	regimen = models.ForeignKey(Regimen, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Regimen')
 	incoterms = models.ForeignKey(Incoterms, on_delete=models.CASCADE, null=True, blank=True, default=None, verbose_name='Incoterms')
 	diasCredito = models.IntegerField(null=True, blank=True, default=30, verbose_name='Días crédito')
+	tituloRemision = models.ForeignKey(TituloRemision, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Título remisión')
 		
 	def __str__(self):
 		return "%s" % (self.numeroControl)

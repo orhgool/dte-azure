@@ -1,0 +1,131 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000001",
+    "codigoGeneracion": "139AAF70-FEDC-4F4C-80E5-2A69E28E7CC6",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-03",
+    "horEmi": "14:23:43",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "06140702171049",
+    "nrc": "2576186",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "codActividad": "49226",
+    "descActividad": "Servicios de transporte de personal",
+    "nombreComercial": "TRANSPORTES ALAS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "CALLE CISNEROS, BO LA VEGA #631"
+    },
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 2,
+    "recintoFiscal": null,
+    "regimen": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142706011049",
+    "nombre": "YOUNGONE EL SALVADOR, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Otros",
+    "complemento": "KM 28 1/2 carretera a Comalapa Internacional de El Salvador Zona Franca Internacional",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "23663133",
+    "correo": "compras@youngone.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 21.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "RUTA 1 ILOPANGO - GUAJE -  ZONA FRANCA INTERNACIONAL Y VIC",
+      "precioUni": 85.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 1785.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 2,
+      "cantidad": 22.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "RUTA 3 CENTRO - ZONA FRANCA INTERNACIONAL Y VIC",
+      "precioUni": 83.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 1826.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 3,
+      "cantidad": 22.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "RUTA 2 ILOPANGO - SOYAPANGO - ZONA FRANCA INTERNACIONAL Y VIC",
+      "precioUni": 85.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 1870.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 4,
+      "cantidad": 21.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "RUTA 4 SANTA ANA - ZONA FRANCA INTERNACIONAL Y VIC",
+      "precioUni": 165.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 3465.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 8946.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 8946.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 8946.0,
+    "totalLetras": "OCHO MIL NOVECIENTOS CUARENTA Y SEIS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": null,
+    "descIncoterms": null,
+    "observaciones": null
+  },
+  "apendice": null
+}
