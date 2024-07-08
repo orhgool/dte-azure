@@ -1,0 +1,88 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000015",
+    "codigoGeneracion": "7EEC07EE-59BF-4045-B19D-7F107B538B74",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-08",
+    "horEmi": "06:16:59",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "36",
+    "numDocumento": "016312457",
+    "nombre": "Proveedor de servicios",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "03",
+      "complemento": "Urbanizacion Lomas de San Antonio"
+    },
+    "telefono": "00000000",
+    "correo": "cliente@cliente.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 99,
+      "descripcion": "servicios",
+      "precioUni": 1000.0,
+      "montoDescu": 0.0,
+      "compra": 1000.0
+    }
+  ],
+  "resumen": {
+    "totalCompra": 1000.0,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 1000.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 100.0,
+    "totalPagar": 900.0,
+    "totalLetras": "NOVECIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "7EEC07EE-59BF-4045-B19D-7F107B538B74",
+    "selloRecibido": "20243E3D50503337493BA42FD08EA8BB9A70SGIS",
+    "fhProcesamiento": "08/07/2024 06:17:10",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

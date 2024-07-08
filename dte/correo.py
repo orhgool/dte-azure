@@ -1,4 +1,4 @@
-import os, smtplib, requests
+import os, smtplib, requests, ssl
 from django.conf import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -31,10 +31,16 @@ def enviarCorreo(request, tipo, codigo):
     tablaTipo = TipoDocumento.objects.get(codigo=tipo)
 
     # Datos de conexión
-    servidor_smtp = config.servidorSmtp
-    puerto_smtp = config.puertoSmtp
-    cuenta_correo = config.usuarioCorreo
-    contraseña = config.claveCorreo
+    if emisor.correoPrivado == False:
+        servidor_smtp = config.servidorSmtp
+        puerto_smtp = config.puertoSmtp
+        cuenta_correo = config.usuarioCorreo
+        contraseña = config.claveCorreo
+    else:
+        servidor_smtp = emisor.correoServidorSmtp
+        puerto_smtp = emisor.correoPuertoSmtp
+        cuenta_correo = emisor.correoUsuario
+        contraseña = emisor.correoClave
 
     # Destinatario y contenido del correo
     destinatario = correo
@@ -74,19 +80,57 @@ def enviarCorreo(request, tipo, codigo):
         mensaje.attach(pdf_attachment)
 
 
-        # Configurar la conexión con el servidor SMTP
-        conexion_smtp = smtplib.SMTP(servidor_smtp, puerto_smtp)
-        conexion_smtp.starttls()
-        conexion_smtp.login(cuenta_correo, contraseña)
+        if emisor.correoPrivado == False:
+            # Configurar la conexión con el servidor SMTP
+            #messages.info(request, {'servidor_smtp': servidor_smtp, 'puerto_smtp':puerto_smtp, 'cuenta_correo': cuenta_correo, 'contraseña':contraseña})
+            conexion_smtp = smtplib.SMTP(servidor_smtp, puerto_smtp)
+            conexion_smtp.starttls()
+            conexion_smtp.login(cuenta_correo, contraseña)
 
-        # Enviar el correo
-        conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
-        conexion_smtp.quit()
+            # Enviar el correo
+            messages.info(request, {})
+            conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
+            conexion_smtp.quit()
 
-        mensaje_respuesta = 'Correo enviado'
-        
+            mensaje_respuesta = 'Correo enviado'
+        else:
+            smtp_server = smtplib.SMTP_SSL(servidor_smtp, puerto_smtp)
+            smtp_server.ehlo()
+            smtp_server.login(cuenta_correo, contraseña)
+            smtp_server.sendmail(cuenta_correo, destinatario, mensaje.as_string())
+            smtp_server.close()
+            
+            if emisor.correoPuertoSmtp == 465:
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL(servidor_smtp, puerto_smtp, context=context) as conexion_smtp:
+                    messages.info(request, f'Conectando a servidor SMTP: {servidor_smtp}:{puerto_smtp}')
+                    conexion_smtp.login(cuenta_correo, contraseña)
+                    messages.info(request, 'Sesión iniciada, enviando correo...')
+                    conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
+                    #messages.info(request, 'Correo enviado exitosamente')
+                    mensaje_respuesta = 'Correo enviado'
+                    
+
+
+            elif emisor.correoPuertoSmtp == 587:
+                with smtplib.SMTP(servidor_smtp, puerto_smtp) as conexion_smtp:
+                    messages.info(request, f'Conectando a servidor SMTP: {servidor_smtp}:{puerto_smtp}')
+                    conexion_smtp.starttls(context=ssl.create_default_context())
+                    messages.info(request, 'Iniciando sesión en servidor SMTP')
+                    conexion_smtp.login(cuenta_correo, contraseña)
+                    messages.info(request, 'Sesión iniciada, enviando correo...')
+                    conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
+                    #messages.info(request, 'Correo enviado exitosamente a ' + destinatario)
+                    mensaje_respuesta = 'Correo enviado'
+
+            #mensaje_respuesta = 'Verifique el puerto SMTP'
+
+    except FileNotFoundError as e:
+        mensaje_respuesta = f'Error: {str(e)}'
+    except smtplib.SMTPException as e:
+        mensaje_respuesta = f'Error SMTP: {str(e)}'        
     except Exception as e:
         mensaje_respuesta = f'Error al enviar el correo: {str(e)}'
-        messages.info(request, mensaje_respuesta)
+        #messages.info(request, mensaje_respuesta)
 
-    return HttpResponse(mensaje_respuesta)
+    return mensaje_respuesta

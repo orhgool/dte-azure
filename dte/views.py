@@ -390,7 +390,7 @@ class DTEInline():
 					subTotal=total_gravada,
 					ivaPerci1=0,
 					ivaRete1 = retencion,
-					montoTotalOperacion= round((float(total_gravada)*float(1.13)),2),
+					montoTotalOperacion= round((float(total_gravada)*float(1.13)),2) - float(retencion),
 					totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
 			if dte.tipoDte.codigo in {'11'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
@@ -1349,10 +1349,11 @@ def verCorreo(request, tipo, codigo):
 
 
 def correoACliente(request, tipo, codigo, reenvio):
+	#messages.info(request, 'Inicio')
 	enviar = enviarCorreo(request, tipo=tipo, codigo=codigo)
 	if reenvio == 's':
 		BitacoraDTE(request=request, usuario=request.user, dte=codigo, tipo=tipo, accion=4)
-		messages.success(request, 'Correo enviado')
+		messages.success(request, enviar)
 	return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 def pruebas(request):

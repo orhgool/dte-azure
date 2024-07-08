@@ -1,0 +1,122 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "06",
+    "numeroControl": "DTE-06-00000000-000000000000005",
+    "codigoGeneracion": "B92AA0A3-916E-40CD-88A8-6DEA17DB60C2",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-08",
+    "horEmi": "06:07:00",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": [
+    {
+      "tipoDocumento": "03",
+      "tipoGeneracion": 1,
+      "numeroDocumento": "3748",
+      "fechaEmision": "2024-06-07"
+    }
+  ],
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com"
+  },
+  "receptor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA Consultores, SA de CV",
+    "nombreComercial": null,
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 CL Pte B12 C19"
+    },
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": "3748",
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Debito",
+      "precioUni": 10.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 10.0,
+      "tributos": [
+        "20"
+      ]
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 10.0,
+    "subTotalVentas": 10.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 1.3
+      }
+    ],
+    "subTotal": 10.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 11.3,
+    "totalLetras": "ONCE 30/100 USD",
+    "condicionOperacion": 1,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "B92AA0A3-916E-40CD-88A8-6DEA17DB60C2",
+    "selloRecibido": "2024B22A77EE820643BEA4975A8411566EBCHGQF",
+    "fhProcesamiento": "08/07/2024 06:07:12",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

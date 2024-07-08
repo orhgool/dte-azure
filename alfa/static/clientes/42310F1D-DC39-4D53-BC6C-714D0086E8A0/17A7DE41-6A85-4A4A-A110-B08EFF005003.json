@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "17A7DE41-6A85-4A4A-A110-B08EFF005003",
+    "fecAnula": "2024-07-07",
+    "horAnula": "12:55:55"
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "nomEstablecimiento": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "01",
+    "codigoGeneracion": "325BEE1D-1C1D-498F-B88F-010F8B7E84F3",
+    "selloRecibido": "20248F24020CFE054D7D8CCCD7E4015D71AFSV05",
+    "numeroControl": "DTE-01-00000000-000000000000005",
+    "fecEmi": "2024-07-07",
+    "montoIva": 90.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "03070711201016",
+    "nombre": "ALFA Consultores, SA de CV",
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03150709171014",
+    "nombreSolicita": "ALFA Consultores, SA de CV",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "03070711201016"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "17A7DE41-6A85-4A4A-A110-B08EFF005003",
+    "selloRecibido": "2024B2CCB5B5BC1240C9AB64FAB4E2883089OXAV",
+    "fhProcesamiento": "07/07/2024 12:56:04",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

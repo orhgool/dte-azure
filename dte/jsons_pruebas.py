@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
-receptor = get_object_or_404(Cliente, codigo='B9E0BCAB-ED76-46D9-A4C9-5342BE7BDF62')
+receptor = get_object_or_404(Cliente, codigo='081EDF8E-9A3E-4D76-8F92-AAF3BB20482B')
 
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):

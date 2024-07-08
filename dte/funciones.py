@@ -184,13 +184,25 @@ def genPdf(codigo, tipo, empresa):
 
 	if tipo == '05':
 		template_name = 'plantillas/dte_nc.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
+			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+		).first()
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
 	if tipo == '06':
 		template_name = 'plantillas/dte_nd.html'
-		dte = DTECliente.objects.get(codigoGeneracion=codigo)
+		dte = DTECliente.objects.filter(codigoGeneracion=codigo).annotate(
+			totalExentaIVA=ExpressionWrapper(F('totalExenta') * 1.13, output_field=DecimalField()),
+			totalGravadaIVA=ExpressionWrapper(F('totalGravada') * 1.13, output_field=DecimalField()),
+			IVA=ExpressionWrapper(F('totalGravada') * 0.13, output_field=DecimalField()),
+			subTotalVentasIVA=ExpressionWrapper(F('subTotalVentas') * 1.13, output_field=DecimalField()),
+			totalPagarIVA=ExpressionWrapper(F('totalPagar'), output_field=DecimalField())
+		).first()
 		receptor = Cliente.objects.get(codigo=dte.receptor_id)
 		dte_detalle = DTEClienteDetalle.objects.filter(dte=dte)
 
