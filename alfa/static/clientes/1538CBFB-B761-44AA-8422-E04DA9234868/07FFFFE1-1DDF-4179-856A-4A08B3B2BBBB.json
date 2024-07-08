@@ -1,0 +1,135 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "01",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000002",
+    "codigoGeneracion": "07FFFFE1-1DDF-4179-856A-4A08B3B2BBBB",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-08",
+    "horEmi": "10:53:50",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "06140702171049",
+    "nrc": "2576186",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "codActividad": "49226",
+    "descActividad": "Servicios de transporte de personal",
+    "nombreComercial": "TRANSPORTES ALAS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "CALLE CISNEROS, BO LA VEGA #631"
+    },
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06140101021015",
+    "nrc": "1482356",
+    "nombre": "MINISTERIO DE GOBERNACION  Y DESARROLLO TERRITORIAL",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "nombreComercial": "MINISTERIO DE GOBERNACION Y DESARROLLO TERRITORIAL",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "4a. Calle Poniente y 15 Ave Nte. Efificio MIGOBDT, Centro de Gobierno, San Salvador"
+    },
+    "telefono": "2527-7253 7254",
+    "correo": "facturacion.electronica@gobernacion.gob.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 19.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "ITEM No 7 MIGOBDT - COJUTEPEQUE, CEDROS",
+      "precioUni": 51.371,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 976.05,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 19.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "ITEM No 6 MIGOBDT - CHALCHUAPA",
+      "precioUni": 51.371,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 976.05,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 1952.1,
+    "subTotalVentas": 1952.1,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 253.78
+      }
+    ],
+    "subTotal": 1952.1,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 19.52,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 2205.87,
+    "totalNoGravado": 0.0,
+    "totalPagar": 2186.35,
+    "totalLetras": "DOS MIL CIENTO OCHENTA Y SEIS 35/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "docuEntrega": "06140702171049",
+    "nombRecibe": "MINISTERIO DE GOBERNACION  Y DESARROLLO TERRITORIAL",
+    "docuRecibe": "06140101021015",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}
