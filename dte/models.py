@@ -649,8 +649,8 @@ class ControlDocumento(models.Model):
 
 class DTECliente(models.Model):
 	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
-	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, default='001')
-	selloRecepcion = models.CharField(db_column = 'SelloRecepcion', max_length = 100, default = '',null=True, blank=True, verbose_name='Sello de recepción')
+	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+	selloRecepcion = models.CharField(db_column = 'SelloRecepcion', max_length = 100, default = '', null=True, blank=True, verbose_name='Sello de recepción')
 	version = models.IntegerField(db_column = 'Version', verbose_name='Versión JSON', default=3)
 	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='00', verbose_name='Ambiente de trabajo')
 	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE,default='', verbose_name='Tipo DTE')
