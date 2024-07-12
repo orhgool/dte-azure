@@ -1,0 +1,228 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "01",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000069",
+    "codigoGeneracion": "10C47D94-DB9D-4323-A518-F433B10E21B1",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-08",
+    "horEmi": "14:07:08",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03012410921013",
+    "nrc": "2392050",
+    "nombre": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "codActividad": "49233",
+    "descActividad": "Transporte de carga internacional",
+    "nombreComercial": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "CTON. SAN JULIAN CRIO LA NUEVA"
+    },
+    "telefono": "2450 2700",
+    "correo": "contabilidad@transporteortegalopez.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06141710490010",
+    "nrc": "3182",
+    "nombre": "HOLCIM EL SALVADOR S.A DE C.V.",
+    "codActividad": "23940",
+    "descActividad": "Fabricacion de cemento, cal y yeso",
+    "nombreComercial": "HOLCIM",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "09",
+      "complemento": "CALLE HOLCIM AV. EL ESPINO MADRE SELVA"
+    },
+    "telefono": "25050000",
+    "correo": "lpc.mailroom-slv@holcim.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA SAN MIGUEL DOC COMPRA 4574155020",
+      "precioUni": 540.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 540.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA SAN MIGUEL DOC COMPRA 4574155020",
+      "precioUni": 540.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 540.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 3,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA SAN MIGUEL DOC COMPRA 4574155020",
+      "precioUni": 540.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 540.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 4,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA OPICO DOC COMPRA 4574155020",
+      "precioUni": 234.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 234.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 5,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA OPICO DOC COMPRA 4574155020",
+      "precioUni": 234.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 234.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 6,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE CEMENTO EMPACADO HACIA SANTA ELENA DOC COMPRA 4574155020",
+      "precioUni": 258.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 258.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 2346.0,
+    "subTotalVentas": 2346.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 304.98
+      }
+    ],
+    "subTotal": 2346.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 23.46,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 2650.98,
+    "totalNoGravado": 0.0,
+    "totalPagar": 2627.52,
+    "totalLetras": "DOS MIL SEISCIENTOS VEINTISIETE 52/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "docuEntrega": "03012410921013",
+    "nombRecibe": "HOLCIM EL SALVADOR S.A DE C.V.",
+    "docuRecibe": "06141710490010",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "10C47D94-DB9D-4323-A518-F433B10E21B1",
+    "selloRecibido": "20246F8CCCDC582F42E78DD252D0FABB3801OP7R",
+    "fhProcesamiento": "08/07/2024 14:19:15",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

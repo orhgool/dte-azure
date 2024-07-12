@@ -944,6 +944,62 @@ class DTEContingenciaDetalle(models.Model):
 		verbose_name_plural = "Detalles contingencia de DTE's"
 
 
+
+class DTECompra(models.Model):
+	codigoGeneracion = models.CharField(primary_key=True, default='', max_length=36, verbose_name='Código de generación')
+	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
+	proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, null=True, blank=True)
+	selloRecepcion = models.CharField(db_column = 'SelloRecepcion', max_length = 100, default = '', null=True, blank=True, verbose_name='Sello de recepción')
+	version = models.IntegerField(db_column = 'Version', verbose_name='Versión JSON', default=3)
+	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='00', verbose_name='Ambiente de trabajo')
+	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE,default='', verbose_name='Tipo DTE')
+	numeroControl = models.CharField(max_length=31, default='', null=True, blank=True, verbose_name='Número de control')
+	tipoModelo = models.ForeignKey(ModeloFacturacion, on_delete=models.CASCADE, db_column = 'TipoModelo', default='1', verbose_name='Tipo de modelo')
+	tipoTransmision = models.ForeignKey(TipoTransmision, on_delete=models.CASCADE, db_column = 'TipoTransmision', default='1', verbose_name='Tipo de transmisión')
+	tipoContingencia = models.ForeignKey(TipoContingencia, on_delete=models.CASCADE, blank=True,db_column = 'TipoContingencia', max_length=10, null=True, verbose_name='Tipo de contingencia')
+	motivoContin = models.CharField(max_length=255, blank=True, null=True, default='', verbose_name='Motivo de contingencia')
+	fecEmi = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de emisión')
+	tipoMoneda = models.ForeignKey(Moneda, on_delete=models.CASCADE, default = '001')
+	totalNoSuj = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total no sujetas')
+	totalExenta = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total exentas')
+	totalGravada = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='Total gravadas')
+	subTotalVentas = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='Sub-total ventas')
+	descuNoSuj = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Descuento no sujetas')
+	descuExenta = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Descuento exentas')
+	descuGravada = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Descuento gravadas')
+	porcentajeDescuento = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Porcentaje descuento')
+	totalDescu = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total descuento')
+	subTotal = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='Sub total')
+	totalCompra = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total compra')
+	ivaPerci1 = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='IVA percibido')
+	ivaRete1 = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='IVA retenido')
+	reteRenta = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Retención de renta')
+	montoTotalOperacion = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True, default=0.0 , verbose_name='Monto total de operación')
+	totalNoGravado = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total no gravado')
+	totalPagar = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Total a pagar')
+	totalLetras = models.CharField(max_length=200, blank=True, null=True, default='' , verbose_name='Total en letras')
+	saldoFavor = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, default=0.0 , verbose_name='Saldo a favor')
+	condicionOperacion = models.ForeignKey(CondicionOperacion, on_delete=models.CASCADE, db_column = 'CondicionOperacion', default='2', verbose_name='Condición de la operación')
+	pagos = models.IntegerField(blank=True, default=1)
+	numPagoElectronico = models.IntegerField(null=True, blank=True, verbose_name='Número de pago electrónico')
+	observaciones = models.CharField(max_length=3000, null=True, blank=True, default='', verbose_name='Observaciones')
+	placaVehiculo = models.CharField(max_length=10, blank=True, null=True, verbose_name='Placa del vehículo')
+	estadoPago = models.BooleanField(null=False, blank=True, default=True, verbose_name='Pagado')
+	docfirmado = models.TextField(null=True, blank=True, verbose_name='Documento firmado')
+	fechaPago = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de pago')
+		
+	def __str__(self):
+		return "%s" % (self.numeroControl)
+
+	def rz(self):
+		return "%s" % (self.razonsocial)
+
+	class Meta:
+		verbose_name = 'DTE de compra'
+		verbose_name_plural = "DTE's de compras"
+		ordering = ('-fecEmi',)	
+
+
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='001')

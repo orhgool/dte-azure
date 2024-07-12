@@ -59,7 +59,7 @@ def enviarCorreo(request, tipo, codigo):
 
     # Configurar el correo
     mensaje = MIMEMultipart()
-    mensaje['From'] = 'Facturación electrónica'
+    mensaje['From'] = cuenta_correo
     mensaje['To'] = destinatario
     mensaje['Subject'] = asunto
     mensaje.attach(MIMEText(cuerpo_html, 'html'))
@@ -82,7 +82,6 @@ def enviarCorreo(request, tipo, codigo):
 
         if emisor.correoPrivado == False:
             # Configurar la conexión con el servidor SMTP
-            #messages.info(request, {'servidor_smtp': servidor_smtp, 'puerto_smtp':puerto_smtp, 'cuenta_correo': cuenta_correo, 'contraseña':contraseña})
             conexion_smtp = smtplib.SMTP(servidor_smtp, puerto_smtp)
             conexion_smtp.starttls()
             conexion_smtp.login(cuenta_correo, contraseña)
@@ -96,31 +95,11 @@ def enviarCorreo(request, tipo, codigo):
         else:
             
             if emisor.correoPuertoSmtp == 465:
-                context = ssl.create_default_context()
-                conexion_smtp = smtplib.SMTP_SSL(servidor_smtp, 465, context=context)
-                #messages.info(request, f'Conectando a servidor SMTP: {servidor_smtp}:{puerto_smtp} - {cuenta_correo}')
+                conexion_smtp = smtplib.SMTP_SSL(servidor_smtp, 465)
                 conexion_smtp.login(cuenta_correo, contraseña)
-                #messages.info(request, 'Sesión iniciada, enviando correo...')
                 conexion_smtp.sendmail(cuenta_correo, destinatario, mensaje.as_string())
-                #messages.info(request, 'Correo enviado exitosamente a: ' + destinatario)
+                conexion_smtp.quit()
                 mensaje_respuesta = 'Correo enviado'
-
-            elif emisor.correoPuertoSmtp == 46500:
-                smtp_server = smtplib.SMTP_SSL(servidor_smtp, puerto_smtp)
-                smtp_server.ehlo()
-                smtp_server.login(cuenta_correo, contraseña)
-                smtp_server.sendmail(cuenta_correo, destinatario, 'mensaje')
-                smtp_server.close()
-                mensaje_respuesta = 'Correo enviado'
-                    
-            elif emisor.correoPuertoSmtp == 46500:
-                context = ssl.create_default_context()
-                server = smtplib.SMTP(servidor_smtp, puerto_smtp)
-                server.starttls(context=context)
-                server.login(cuenta_correo, contraseña)
-                server.sendmail(cuenta_correo, destinatario, mensaje.as_string())
-                mensaje_respuesta = 'Correo enviado'
-
 
             elif emisor.correoPuertoSmtp == 587:
                 with smtplib.SMTP(servidor_smtp, puerto_smtp) as conexion_smtp:

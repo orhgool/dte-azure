@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load my_filters %}
+{% block titulo %}
+    Autenticación con el Ministrerio de Hacienda
+{% endblock %}
+{% block estilo %}
+    <style type="text/css">
+        .centrado {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message.tags.capitalize }}:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="card-title">Prueba de correo ASETRANS</h4>
+                </div>
+                <div class="card-body">
+                  
+                    <a href="{% url 'dte:enviarCorreoAse' %}" class="btn btn-primary">Enviar</a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

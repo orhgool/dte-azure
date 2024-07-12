@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load my_filters %}
+
+{% block titulo %}
+    Documentos emitidos a clientes
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message.tags.capitalize }}:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Cargar archivo de compras</h4>                
+                    <form id="jsonForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="d-flex">
+                                <div class="col-md-1">
+                                    <label for="proveedor">Proveedor:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="proveedor" name="proveedor" class="form-control">
+                                        {% for proveedor in proveedores %}
+                                            <option value="{{ proveedor.codigo }}">{{ proveedor.razonsocial }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" id="jsonFile" name="jsonFile" accept=".json" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary">Cargar</button>
+                                </div>
+                            </div>
+                        </div> 
+                    </form>
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="home" aria-selected="true">Información general</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="json-tab" data-toggle="tab" href="#json" role="tab" aria-controls="profile" aria-selected="false">Contenido del JSON</a>
+                  </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div id="jsonDisplay" class="mt-4">
+                        <table class="table table-striped">
+                            <tbody id="jsonTableBody">
+                                <!-- Los datos se insertarán aquí -->
+                            </tbody>
+                        </table>
+                        <button id="saveJsonData" class="btn btn-primary mt-3">Guardar compra</button>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="json" role="tabpanel" aria-labelledby="json-tab">
+                    <div id="jsonDisplay-crudo" class="mt-4"></div>                      
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!--script src="https://code.jquery.com/jquery-3.6.0.min.js"></script-->
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    $(document).ready(function () {
+        let jsonData;
+
+        $('#jsonForm').on('submit', function (e) {
+            e.preventDefault();
+            var file = $('#jsonFile')[0].files[0];
+            var formData = new FormData();
+            formData.append('jsonFile', file);
+
+            $.ajax({
+                url: '{% url "dte:upload_json" %}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function (data) {
+                    jsonData = data;
+                    $('#jsonDisplay-crudo').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+
+                    var codigoGeneracion = data.identificacion.codigoGeneracion;
+                    var fecEmi = data.identificacion.fecEmi;
+                    var numeroControl = data.identificacion.numeroControl;
+                    var nombreEmisor = data.emisor.nombre;
+                    var nitEmisor = data.emisor.nit;
+                    var receptorNombre = data.receptor.nombre;
+                    var selloRecepcion = data.selloRecepcion.selloRecibido;
+
+                    var tableRow = `
+                        <tr><td>Proveedor</td><td>${nombreEmisor}</td></tr>
+                        <tr><td>NIT</td><td>${nitEmisor}</td></tr>
+                        <tr><td>Código de generación</td><td>${codigoGeneracion}</td></tr>
+                        <tr><td>Fecha de emisión</td><td>${fecEmi}</td></tr>
+                        <tr><td>Número de control</td><td>${numeroControl}</td></tr>
+                        <tr><td>Receptor</td><td>${receptorNombre}</td></tr>
+                        <tr><td>Sello de recepción del Ministerio</td><td>${selloRecepcion}</td></tr>
+                    `;
+
+                    $('#jsonTableBody').html(tableRow);
+                },
+                error: function (xhr, status, error) {
+                    $('#jsonDisplay').html('<div class="alert alert-danger">Error al cargar el archivo: ' + error + '</div>');
+                }
+            });
+        });
+
+        $('#saveJsonData').on('click', function () {
+            if (jsonData) {
+                var proveedorSeleccionado = $('#proveedor').val();
+                jsonData.proveedor = proveedorSeleccionado;
+
+                $.ajax({
+                    url: '{% url "dte:guardar_json_data" %}',
+                    type: 'POST',
+                    data: JSON.stringify(jsonData),
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function (response) {
+                        alert('Datos guardados exitosamente');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error al guardar los datos: ' + xhr.responseJSON.error);
+                    }
+                });
+            } else {
+                alert('No hay datos para guardar');
+            }
+        });
+    });
+</script>
+{% endblock %}

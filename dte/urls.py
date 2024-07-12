@@ -50,6 +50,9 @@ urlpatterns = [
     path('registro_de_cliente/<str:cod_empresa>', cliente_auto_registro, name='cliente_auto_registro'),
     path('<str:cod_empresa>/gracias', registro_de_cliente_gracias, name='registro_de_cliente_gracias'),
     path('bitacoraDte/<str:codigo>', bitacoraDte, name='bitacoraDte'),
+    path('seleccionar_json/', seleccionar_json, name='seleccionar_json'),
+    path('upload_json/', upload_json, name='upload_json'),
+    path('guardar_json_data/', guardar_json_data, name='guardar_json_data'),
 ]
 
 if settings.DEBUG:

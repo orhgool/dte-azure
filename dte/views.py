@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from datetime import datetime, timedelta, timezone
@@ -26,7 +27,7 @@ from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genP
 	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo, BitacoraDTE)
 from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
 	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
-	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte)
+	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte, DTECompra)
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -37,6 +38,10 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from itertools import chain
 
 from unittest.mock import Mock
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 if os.name == 'posix':
@@ -1443,3 +1448,105 @@ def bitacoraDte(request, codigo):
 	bitacora = BitacoraAccionDte.objects.filter(dte = codigo)
 	context = {'bitacora':bitacora}
 	return render(request, 'dte/bitacoraDte.html', context)
+
+
+#####################################################################################
+#                               REGISTRO DE COMPRAS                                 #
+#####################################################################################
+
+def seleccionar_json(request):
+	empresa = request.session.get('empresa')
+	proveedores = Proveedor.objects.filter(empresa=empresa)
+	return render(request, 'dte/seleccionar_json.html', {'proveedores':proveedores})
+
+
+def upload_json(request):
+    if request.method == 'POST' and request.FILES.get('jsonFile'):
+        json_file = request.FILES['jsonFile']
+        try:
+            data = json.load(json_file)
+            return JsonResponse(data, safe=False)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Archivo JSON inválido'}, status=400)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+@csrf_exempt
+def guardar_json_data(request):
+	if request.method == 'POST':
+		try:
+			data = json.loads(request.body)
+			#messages.info(request, {'data':data})
+			proveedor_codigo = data.get('proveedor')
+			proveedor = get_object_or_404(Proveedor,codigo=proveedor_codigo)
+			#messages.info(request, 'Proveedor recuperado')
+
+			empresa = get_object_or_404(Empresa, codigo=request.session['empresa'])
+			tipoDte = get_object_or_404(TipoDocumento, codigo=data['identificacion']['tipoDte'])
+
+			fecha_str = data['identificacion']['fecEmi']
+			hora_str = data['identificacion']['horEmi']
+			fecha_hora_str = f"{fecha_str} {hora_str}"
+			fecha_hora_obj = datetime.strptime(fecha_hora_str, '%Y-%m-%d %H:%M:%S')
+
+			iedntificación = data.get('identificacion', {})
+			resumen = data.get('resumen', {})
+			
+			
+			# Crear una nueva instancia del modelo DTECompra
+			dte_compra = DTECompra(
+				empresa = empresa,
+				proveedor = proveedor,
+				codigoGeneracion = identificación.get('codigoGeneracion',''),
+				numeroControl = identificación.get('numeroControl',''),
+				selloRecepcion = identificación.get('selloRecepcion',''),
+				tipoModelo = identificación.get('tipoModelo',''),
+				tipoTransmision = identificación.get('tipoTransmision',''),
+				tipoContingencia = identificación.get('tipoContingencia',''),
+				motivoContin = identificación.get('motivoContin',''),
+				fecEmi = fecha_hora_obj,
+				tipoDte = tipoDte,
+				tipoMoneda = identificación.get('tipoMoneda',''),
+				totalNoSuj = resumen.get('totalNoSuj', 0),
+				totalExenta = resumen.get('totalExenta', 0),
+				totalGravada = resumen.get('totalGravada', 0),
+				subTotalVentas = resumen.get('subTotalVentas', 0),
+				descuNoSuj = resumen.get('descuNoSuj', 0),
+				descuExenta = resumen.get('descuExenta', 0),
+				descuGravada = resumen.get('descuGravada', 0),
+				porcentajeDescuento = resumen.get('porcentajeDescuento', 0),
+				totalDescu = resumen.get('totalDescu', 0),
+				subTotal = resumen.get('subTotal', 0),
+				totalCompra = resumen.get('totalCompra', 0),
+				ivaPerci1 = resumen.get('ivaPerci1', 0),
+				ivaRete1 = resumen.get('ivaRete1', 0),
+				reteRenta = resumen.get('reteRenta', 0),
+				montoTotalOperacion = resumen.get('montoTotalOperacion', 0),
+				totalNoGravado = resumen.get('totalNoGravado', 0),
+				totalPagar = resumen.get('totalPagar', 0),
+				saldoFavor = resumen.get('saldoFavor', 0),
+				condicionOperacion = resumen.get('condicionOperacion', 0),
+				pagos = resumen.get('pagos', 0),
+				numPagoElectronico = resumen.get('numPagoElectronico', 0),
+				observaciones = resumen.get('observaciones', ''),
+				placaVehiculo = resumen.get('placaVehiculo', '')
+			)
+			#messages.info(request, 'Instancia DTECompra creada')
+			#messages.info(request, {'Valores de instancia':dte_compra})
+			dte_compra.save()
+			#messages.info(request, 'Instancia guardada')
+			return JsonResponse({'message': 'Datos guardados exitosamente'})
+
+		except Proveedor.DoesNotExist:
+			return JsonResponse({'error': 'Proveedor no encontrado.'}, status=400)
+		except KeyError as e:
+			return JsonResponse({'error': f'Falta el campo requerido: {str(e)}'}, status=400)
+		except ValueError as e:
+			return JsonResponse({'error': str(e)}, status=400)
+		except Exception as e:
+			return JsonResponse({'error': f'Ocurrió un error: {str(e)}'}, status=400)
+	return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+#####################################################################################
+#####################################################################################
