@@ -859,8 +859,8 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 	receptor = get_object_or_404(Proveedor, codigo=dte.receptor_id)
 	datos_identificacion = {'codigoGeneracion':codigo, 'tipo':dte.tipoDte, 'version':dte.version}
 	
-	tz = timezone(timedelta(hours=-6))
-	fecha = dte.fecEmi(tz=tz)
+	#tz = timezone(timedelta(hours=-6))
+	#fecha = dte.fecEmi(tz=tz)
 	identificacion_data = {
 			'version': dte.version,
 			'ambiente': dte.ambiente.codigo,
@@ -871,8 +871,8 @@ def fse(codigo): # 14 - Factura de sujeto excluido
 			'tipoOperacion': int(dte.tipoTransmision_id),
 			'tipoContingencia': None,
 			'motivoContin': None,
-			'fecEmi': fecha.strftime("%Y-%m-%d"),
-			'horEmi': fecha.strftime("%H:%M:%S"),
+			'fecEmi': dte.fecEmi.strftime("%Y-%m-%d"),
+			'horEmi': dte.fecEmi.strftime("%H:%M:%S"),
 			'tipoMoneda': 'USD'
 		}
 

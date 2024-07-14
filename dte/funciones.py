@@ -395,3 +395,68 @@ def BitacoraDTE(request, usuario, dte, tipo, accion):
 	bitacora.save()
 
 	return 'Guardado'
+
+def calcularTotales(tipo, codigo):
+
+	retencion = 0
+
+	if tipo in {'01','03','04','05','06','11'}:
+		dte = get_object_or_404(DTECliente, codigoGeneracion = codigo)
+		receptor = get_object_or_404(Cliente, codigo = dte.receptor_id)
+	else:
+		dte = get_object_or_404(DTEProveedor, codigoGeneracion = codigo)
+		receptor = get_object_or_404(Proveedor, codigo = dte.receptor_id)
+
+	if dte.tipoDte.codigo in {'01','03','04','05','06','11'}:
+		total_gravada = DTEClienteDetalle.objects.filter(dte_id=codigo).aggregate(total_gravada=Sum(F('ventaGravada')))['total_gravada'] or 0
+		
+		if receptor.tipoContribuyente.codigo == '001' and total_gravada>=100:
+			if dte.tipoDte.codigo == '01':
+				retencion = round(((float(total_gravada) / float(1.13)) * float(0.01)),2)
+			else:
+				retencion = round((float(total_gravada) * float(0.01)),2)
+		else:
+			retencion = 0
+
+	if dte.tipoDte.codigo in {'01'}:
+		DTECliente.objects.filter(codigoGeneracion=codigo).update(
+			totalGravada = total_gravada,
+			subTotalVentas = total_gravada,
+			subTotal = total_gravada,
+			ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
+			ivaRete1 = retencion,
+			montoTotalOperacion = float(total_gravada),
+			totalPagar = float(total_gravada) - float(retencion))
+
+	if dte.tipoDte.codigo in {'03'}:
+		DTECliente.objects.filter(codigoGeneracion=codigo).update(
+			totalGravada=total_gravada,
+			subTotalVentas=total_gravada,
+			subTotal=total_gravada,
+			ivaPerci1=0,
+			ivaRete1 = retencion,
+			montoTotalOperacion= round((float(total_gravada)*float(1.13)),2),
+			totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
+	if dte.tipoDte.codigo in {'05','06'}:
+		DTECliente.objects.filter(codigoGeneracion=codigo).update(
+			totalGravada=total_gravada,
+			subTotalVentas=total_gravada,
+			subTotal=total_gravada,
+			ivaPerci1=0,
+			ivaRete1 = retencion,
+			montoTotalOperacion= round((float(total_gravada)*float(1.13)),2) - float(retencion),
+			totalPagar = round((float(total_gravada)*float(1.13)),2) - float(retencion))
+	if dte.tipoDte.codigo in {'11'}:
+		DTECliente.objects.filter(codigoGeneracion=codigo).update(
+			totalGravada=total_gravada,
+			montoTotalOperacion=total_gravada,
+			totalPagar=total_gravada)
+	if dte.tipoDte.codigo in {'14'}:
+		total_compra = DTEProveedorDetalle.objects.filter(dte_id=codigo).aggregate(total_compra=Sum(F('compra')))['total_compra'] or 0
+		DTEProveedor.objects.filter(codigoGeneracion=codigo).update(
+			totalCompra=total_compra,
+			reteRenta=round((float(total_compra)*float(0.1)),2),
+			subTotal=total_compra,
+			totalPagar=round((float(total_compra)-(float(total_compra)*0.1)),2))
+
+	return 'Subtotales actualizados'

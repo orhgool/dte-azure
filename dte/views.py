@@ -24,7 +24,7 @@ from decimal import Decimal
 from .correo import enviarCorreo
 from .forms import *
 from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genPdf,
-	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo, BitacoraDTE)
+	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo, BitacoraDTE, calcularTotales)
 from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
 	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
 	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte, DTECompra)
@@ -616,14 +616,21 @@ class DTEUpdate(DTEInline, UpdateView):
 
 def eliminar_detalle(request, tipo, pk):
 	try:
-		detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
-	except DTEClienteDetalle.DoesNotExist:
+
+		if tipo in {'01','03','04','05','06','11'}:
+			detalle = DTEClienteDetalle.objects.get(codigoDetalle=pk)
+		else:
+			detalle = DTEProveedorDetalle.objects.get(codigoDetalle=pk)
+
+	except DTEClienteDetalle.DoesNotExist or DTEProveedorDetalle.DoesNotExist:
 		messages.success(
 			request, 'Objeto no existe'
 			)
 		return redirect('dte:actualizar', tipo=tipo, pk=detalle.dte.codigoGeneracion)
 
 	detalle.delete()
+
+	calcularTotales(tipo=tipo, codigo=detalle.dte_id)
 
 	messages.success(
 		request, 'Detalle eliminado con éxito'

@@ -1,0 +1,86 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000001",
+    "codigoGeneracion": "3A60A981-6862-4D6B-9554-7C2E1355F737",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2024-07-13",
+    "horEmi": "12:39:48",
+    "tipoMoneda": "USD"
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "13",
+    "numDocumento": "026620569",
+    "nombre": "MARIO ERNESTO AGUILAR TREJO",
+    "codActividad": "45203",
+    "descActividad": "Enderezado y pintura de vehiculos automotores",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "COL JARDINES DE SONSONATE N 4"
+    },
+    "telefono": "S/N",
+    "correo": "aguilarmarioernesto52@gmail.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "ENDEREZADO Y PINTURA DE CAMION MERCEDES PLACA 113883",
+      "precioUni": 500.0,
+      "montoDescu": 0.0,
+      "compra": 500.0
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "ENDEREZADO Y PINTURA DE CAMION MERCEDES PLACA 108331",
+      "precioUni": 194.46,
+      "montoDescu": 0.0,
+      "compra": 194.46
+    }
+  ],
+  "resumen": {
+    "totalCompra": 694.46,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 694.46,
+    "ivaRete1": 0.0,
+    "reteRenta": 69.45,
+    "totalPagar": 625.01,
+    "totalLetras": "SEISCIENTOS VEINTICINCO 01/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

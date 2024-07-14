@@ -1,0 +1,145 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000001",
+    "codigoGeneracion": "E49293EC-9167-4F3A-9A74-6038BA268973",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-14",
+    "horEmi": "16:08:23",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "00000000000000",
+    "nrc": "000000",
+    "nombre": "Lighthouse, S.A. de C.V.",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "nombreComercial": "Lighthouse",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "1ra Cl Pte, direccion de ejemplo #01"
+    },
+    "telefono": "00000000",
+    "correo": "info@lighthouse.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 2,
+    "recintoFiscal": null,
+    "regimen": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "complemento": "22 cl pte bl 12 Urb Lomas de San Antonio No 19",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio 1",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio 3",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 100.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 3,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio 4",
+      "precioUni": 34.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 34.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 4,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio 6",
+      "precioUni": 34.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 34.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    },
+    {
+      "numItem": 5,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio 8",
+      "precioUni": 34.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 34.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 302.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 302.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 302.0,
+    "totalLetras": "TRESCIENTOS DOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": null,
+    "descIncoterms": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

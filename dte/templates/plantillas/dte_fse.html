@@ -223,7 +223,7 @@
 						{{ receptor.razonsocial }}
 					</td>
 					<td width="10%">
-						<strong>{{ receptor.tipoDocumentoCliente }}</strong>
+						<strong>{{ receptor.tipoDocumentoProveedor }}</strong>
 					</td>
 					<td width="15%">
 						{{ receptor.numeroDocumento }}
@@ -240,7 +240,10 @@
 						<strong>NRC</strong>
 					</td>
 					<td>
+						{% if receptor.nrc %}
 						{{ receptor.nrc }}
+						{% else %}
+						{% endif %}
 					</td>
 				</tr>
 				<tr>
@@ -306,7 +309,7 @@
 				<tr class="row-line">
 					<td class="row-line" colspan="5"><b>Valor en letras:</b> {{letras}}</td>
 					<td class="row-line-left" colspan="3" rowspan="2"><b>Sumas</b></td>
-					<td align="right" rowspan="2">{{dte.totalCompra}}</td>
+					<td align="right" rowspan="2">{{dte.totalCompra|moneda}}</td>
 				</tr>
 				<tr>
 					<td colspan="5" class="titulo-apartado">Extensión</td>
@@ -333,7 +336,13 @@
 					<td align="right" rowspan="2">{{dte.totalPagar|moneda}}</td>  <!-- |moneda -->
 				</tr>
 				<tr>
-					<td colspan="5">{{dte.observaciones}}.</td>
+					<td colspan="5">
+					{% if dte.observaciones %}
+						{{dte.observaciones}}.
+					{% else %}
+
+					{% endif %}
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -649,7 +649,7 @@ class ControlDocumento(models.Model):
 
 class DTECliente(models.Model):
 	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
-	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+	receptor = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=False)
 	selloRecepcion = models.CharField(db_column = 'SelloRecepcion', max_length = 100, default = '', null=True, blank=True, verbose_name='Sello de recepción')
 	version = models.IntegerField(db_column = 'Version', verbose_name='Versión JSON', default=3)
 	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='00', verbose_name='Ambiente de trabajo')
@@ -762,6 +762,7 @@ class DTEClienteDetalle(models.Model):
 	IVAComision = models.DecimalField(db_column='IVAComision', max_digits=11, decimal_places=2, default=0, verbose_name='IVA comisión')
 	liquidoApagar = models.DecimalField(db_column='LiquidoAPagar', max_digits=11, decimal_places=2, default=0, verbose_name='Líquido a pagar')
 	totalLetras = models.CharField(db_column='TotalLetras', max_length=200, default='', verbose_name='Total en letras')
+	fechaCreacion = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False, verbose_name='Fecha de emisión')
 	
 
 	def __str__(self):
@@ -775,6 +776,7 @@ class DTEClienteDetalle(models.Model):
 	class Meta:
 		verbose_name = 'DTE cliente detalle'
 		verbose_name_plural = "DTE's cliente detalles"
+		ordering = ('fechaCreacion',)
 
 class DTEClienteDetalleTributo(models.Model):
 	codigoDetalle = models.ForeignKey(DTEClienteDetalle, on_delete=models.CASCADE)
@@ -792,7 +794,7 @@ class DTEClienteDetalleTributo(models.Model):
 
 class DTEProveedor(models.Model):
 	emisor = models.ForeignKey(Empresa, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
-	receptor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, default='A4BCBC83-4C59-4A3F-9C25-807D83AD0837')
+	receptor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, null=True, blank=False)
 	version = models.IntegerField(verbose_name='Versión JSON', default=3)
 	ambiente = models.ForeignKey(AmbienteDestino, on_delete=models.CASCADE, default='00', verbose_name='Ambiente de trabajo')
 	tipoDte = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, default='', verbose_name='Tipo DTE')
