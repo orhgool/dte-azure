@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "14",
+    "numeroControl": "DTE-14-00000000-000000000000002",
+    "codigoGeneracion": "81D6107E-D56F-4822-B1D5-50339226C83D",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2024-07-15",
+    "horEmi": "10:40:51",
+    "tipoMoneda": "USD"
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "sujetoExcluido": {
+    "tipoDocumento": "13",
+    "numDocumento": "009145946",
+    "nombre": "NEHEMIAS  ANTONIO TELULE JACO",
+    "codActividad": "33150",
+    "descActividad": "Reparacion y mantenimiento de equipo de transporte, excepto vehiculos automotores",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "06",
+      "complemento": "Izalco , Sonsonate"
+    },
+    "telefono": "7022-0103",
+    "correo": "telulenehemias@gmail.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "CAMBIO DE BOLSA DE AIRE Y ENGRASE DE CENTURY",
+      "precioUni": 27.78,
+      "montoDescu": 0.0,
+      "compra": 27.78
+    },
+    {
+      "numItem": 2,
+      "tipoItem": 2,
+      "cantidad": 2.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "ENGRASE COLUMBIA AMARILLO Y CASCADIA",
+      "precioUni": 11.12,
+      "montoDescu": 0.0,
+      "compra": 22.24
+    },
+    {
+      "numItem": 3,
+      "tipoItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "CAMBIO DE AMORTIGUADORES COLUMBIA BLANCO Y ENGRASE",
+      "precioUni": 55.56,
+      "montoDescu": 0.0,
+      "compra": 55.56
+    },
+    {
+      "numItem": 4,
+      "tipoItem": 2,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "COLUMBIA BLANCO INSTALAR BASE DE AMORTIGUADOR Y CAMBIAR SOPORTE DE HOJA DE RESORTE.",
+      "precioUni": 133.34,
+      "montoDescu": 0.0,
+      "compra": 133.34
+    }
+  ],
+  "resumen": {
+    "totalCompra": 238.92,
+    "descu": 0.0,
+    "totalDescu": 0.0,
+    "subTotal": 238.92,
+    "ivaRete1": 0.0,
+    "reteRenta": 23.89,
+    "totalPagar": 215.03,
+    "totalLetras": "DOSCIENTOS QUINCE 03/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "81D6107E-D56F-4822-B1D5-50339226C83D",
+    "selloRecibido": "20244C47A420658C4DC98B6E8C9B6380C0BC6JHT",
+    "fhProcesamiento": "15/07/2024 10:55:03",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

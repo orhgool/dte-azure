@@ -42,7 +42,7 @@
       "municipio": "15",
       "complemento": "COL JARDINES DE SONSONATE N 4"
     },
-    "telefono": "S/N",
+    "telefono": "74547280",
     "correo": "aguilarmarioernesto52@gmail.com"
   },
   "cuerpoDocumento": [
@@ -52,7 +52,7 @@
       "cantidad": 1.0,
       "codigo": null,
       "uniMedida": 59,
-      "descripcion": "ENDEREZADO Y PINTURA DE CAMION MERCEDES PLACA 113883",
+      "descripcion": "ENDEREZADO Y PINTURA DE CAMION VOLVO  PLACA 113883",
       "precioUni": 500.0,
       "montoDescu": 0.0,
       "compra": 500.0
@@ -82,5 +82,20 @@
     "pagos": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "3A60A981-6862-4D6B-9554-7C2E1355F737",
+    "selloRecibido": "2024D1F2A801C45F4E6A9D435F6C7959AC97DCPR",
+    "fhProcesamiento": "15/07/2024 10:38:30",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
 }
