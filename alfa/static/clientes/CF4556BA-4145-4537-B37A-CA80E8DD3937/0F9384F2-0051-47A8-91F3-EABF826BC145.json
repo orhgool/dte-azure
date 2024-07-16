@@ -1,0 +1,108 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000109",
+    "codigoGeneracion": "0F9384F2-0051-47A8-91F3-EABF826BC145",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-15",
+    "horEmi": "11:30:47",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03151708121010",
+    "nrc": "2190892",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "nombreComercial": "CARMOGA",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "2da calle Col. RASA 2 No. 65"
+    },
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "37",
+    "numDocumento": ".",
+    "nrc": null,
+    "nombre": "ADMIntermare",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": null,
+      "municipio": null,
+      "complemento": "One bussiness center La Piece 3 Rolle CH-1180-Switzerland"
+    },
+    "telefono": ".",
+    "correo": "ContabilidadSV@cmc-shipagents.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "SERVICE: UNDERWATER INSPECTION VESSEL: MV ES HONESTY VOY 0921-132888-28.05.2024",
+      "precioUni": 3390.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 3390.0,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 390.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 3390.0,
+    "subTotalVentas": 3390.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 3390.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 3390.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 3390.0,
+    "totalLetras": "TRES MIL TRESCIENTOS NOVENTA 00/100 USD",
+    "totalIva": 390.0,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "CARMOGA, S.A. DE C.V.",
+    "docuEntrega": "03151708121010",
+    "nombRecibe": "ADMIntermare",
+    "docuRecibe": ".",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null
+}

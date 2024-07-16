@@ -1,0 +1,58 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "01",
+    "codigoGeneracion": "147E5CB1-AB3B-40AB-B6BC-AC685A8B3A3B",
+    "fecAnula": "2024-07-15",
+    "horAnula": "14:11:47"
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "nomEstablecimiento": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "11",
+    "codigoGeneracion": "451298FD-4B1B-4152-A68C-9A8848DCC974",
+    "selloRecibido": "2024A124B3E0407748AEB1D533F5C80F28A6H749",
+    "numeroControl": "DTE-11-00000000-000000000000003",
+    "fecEmi": "2024-07-09",
+    "montoIva": 250.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "06140402021045",
+    "nombre": "CARIBEX WORLDWIDE EL SALVADOR, S.A. DE C.V.",
+    "telefono": "23257100",
+    "correo": "proveedoressal@cbxglobal.com"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03150709171014",
+    "nombreSolicita": "CARIBEX WORLDWIDE EL SALVADOR, S.A. DE C.V.",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "06140402021045"
+  },
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "147E5CB1-AB3B-40AB-B6BC-AC685A8B3A3B",
+    "selloRecibido": "2024AC8025AEA0BE4BF9B73AB5453FC01EF7LC0N",
+    "fhProcesamiento": "15/07/2024 14:11:55",
+    "clasificaMsg": null,
+    "codigoMsg": "001",
+    "descripcionMsg": "Invalidaci\u00f3n Recibida y Procesada",
+    "observaciones": []
+  }
+}

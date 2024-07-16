@@ -69,17 +69,17 @@ def fcf(codigo): # 01 - Factura
 					'codPuntoVenta': None
 					}
 
-	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id,
-						'numDocumento': receptor.numeroDocumento.replace('-',''),
+	receptor_data = {'tipoDocumento': receptor.tipoDocumentoCliente_id, #Requerido
+						'numDocumento': receptor.numeroDocumento.replace('-',''), #Requerido
 						'nrc': None if receptor.nrc == '' or receptor.nrc == None else receptor.nrc.replace('-',''),
-						'nombre': receptor.razonsocial,
-						'codActividad': receptor.actividadEconomica_id,
+						'nombre': receptor.razonsocial, #Requerido
+						'codActividad': receptor.actividadEconomica_id, 
 						'descActividad': receptor.actividadEconomica.descripcion,
-						'direccion': {'departamento':receptor.departamento_id,
-									'municipio':receptor.municipio.codigo,
-									'complemento':receptor.direccionComplemento},
-						'telefono': receptor.telefono,
-						'correo': receptor.correo
+						'direccion': {'departamento':receptor.departamento_id or None,
+									'municipio':receptor.municipio.codigo if receptor.municipio else None,
+									'complemento':receptor.direccionComplemento or None},
+						'telefono': receptor.telefono, #Opcional
+						'correo': receptor.correo #Requerido
 					}
 
 	otrosDocumentos_data = None

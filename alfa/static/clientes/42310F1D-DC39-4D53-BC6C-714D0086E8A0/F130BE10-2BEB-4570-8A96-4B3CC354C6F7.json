@@ -1,0 +1,102 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000002",
+    "codigoGeneracion": "F130BE10-2BEB-4570-8A96-4B3CC354C6F7",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-09",
+    "horEmi": "14:58:43",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "emisor": {
+    "nit": "03150709171014",
+    "nrc": "2634738",
+    "nombre": "AGENCIA DE SERVICIOS Y TRANSPORTE, S.A. DE C.V.",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "ASETRANS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "Pol G Cton Punta Remedios Hacienda San Jorge KM 5 Solar 7"
+    },
+    "telefono": "2452-5534 / + 503 7985-0905",
+    "correo": "f.moran@asetrans-sv.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 2,
+    "recintoFiscal": null,
+    "regimen": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06140402021045",
+    "nombre": "CARIBEX WORLDWIDE EL SALVADOR, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Alquiler de bodegas para almacenamiento y deposito n.c.p.",
+    "complemento": "Zona Franca American Park Block M1, km 36.5 Carretera Panamericana",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "23257100",
+    "correo": "proveedoressal@cbxglobal.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE DE ACAJUTLA HASTA APOPA",
+      "precioUni": 250.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 250.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 250.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 250.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 250.0,
+    "totalLetras": "DOSCIENTOS CINCUENTA 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": null,
+    "descIncoterms": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "F130BE10-2BEB-4570-8A96-4B3CC354C6F7",
+    "selloRecibido": "202439E1678B6DEA41C0A81B29D01286EB47GERH",
+    "fhProcesamiento": "09/07/2024 15:00:51",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

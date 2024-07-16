@@ -1,0 +1,128 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "01",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000001",
+    "codigoGeneracion": "49648A3A-9A59-4744-B00D-F1C39C1FC536",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-03",
+    "horEmi": "16:21:16",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "06140702171049",
+    "nrc": "2576186",
+    "nombre": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "codActividad": "49226",
+    "descActividad": "Servicios de transporte de personal",
+    "nombreComercial": "TRANSPORTES ALAS",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "CALLE CISNEROS, BO LA VEGA #631"
+    },
+    "telefono": "2270-4670",
+    "correo": "administracion@transportesalas.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "11180410721015",
+    "nrc": "1125176",
+    "nombre": "CRUZ DE ESCOBAR, ELLYN JEANNETH",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "TRANSPORTES ALEJANDRO",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "AV. LOS PINARES POLIG. 13. RESID. PINARES DE SUIZA #2"
+    },
+    "telefono": "7469 0593",
+    "correo": "transporte.alejandro@hotmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "RENTA DE MICROBUSES Y BUSES CORRESPONDIENTE AL MES DE JUNIO DE 2024",
+      "precioUni": 17699.12,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 17699.12,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 17699.12,
+    "subTotalVentas": 17699.12,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 2300.89
+      }
+    ],
+    "subTotal": 17699.12,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 20000.01,
+    "totalNoGravado": 0.0,
+    "totalPagar": 20000.01,
+    "totalLetras": "VEINTE MIL 01/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "TRANSPORTES ALAS, S.A. DE C.V.",
+    "docuEntrega": "06140702171049",
+    "nombRecibe": "CRUZ DE ESCOBAR, ELLYN JEANNETH",
+    "docuRecibe": "11180410721015",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "49648A3A-9A59-4744-B00D-F1C39C1FC536",
+    "selloRecibido": "20244A23161547694740A6943F889F5F9F8DAMUB",
+    "fhProcesamiento": "03/07/2024 16:41:53",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}
