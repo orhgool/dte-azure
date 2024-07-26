@@ -7,8 +7,8 @@
     "codigoGeneracion": "BAC17C71-E40B-46FB-9031-95F42B328835",
     "tipoModelo": 1,
     "tipoOperacion": 1,
-    "fecEmi": "2024-07-14",
-    "horEmi": "13:18:16",
+    "fecEmi": "2024-07-16",
+    "horEmi": "00:00:00",
     "tipoMoneda": "USD",
     "tipoContingencia": null,
     "motivoContin": null
@@ -281,11 +281,51 @@
       "codTributo": null,
       "uniMedida": 59,
       "descripcion": "Servicio",
-      "precioUni": 100.0,
+      "precioUni": 500.0,
       "montoDescu": 0.0,
       "ventaNoSuj": 0.0,
       "ventaExenta": 0.0,
-      "ventaGravada": 100.0,
+      "ventaGravada": 500.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 13,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio",
+      "precioUni": 600.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 600.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    },
+    {
+      "numItem": 14,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Servicio",
+      "precioUni": 700.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 700.0,
       "noGravado": 0.0,
       "tributos": [
         "20"
@@ -296,8 +336,8 @@
   "resumen": {
     "totalNoSuj": 0.0,
     "totalExenta": 0.0,
-    "totalGravada": 1200.0,
-    "subTotalVentas": 1200.0,
+    "totalGravada": 2900.0,
+    "subTotalVentas": 2900.0,
     "descuNoSuj": 0.0,
     "descuExenta": 0.0,
     "descuGravada": 0.0,
@@ -307,17 +347,17 @@
       {
         "codigo": "20",
         "descripcion": "Impuesto al Valor Agregado 13%",
-        "valor": 156.0
+        "valor": 377.0
       }
     ],
-    "subTotal": 1200.0,
+    "subTotal": 2900.0,
     "ivaPerci1": 0.0,
     "ivaRete1": 0.0,
     "reteRenta": 0.0,
-    "montoTotalOperacion": 1356.0,
+    "montoTotalOperacion": 3277.0,
     "totalNoGravado": 0.0,
-    "totalPagar": 1356.0,
-    "totalLetras": "MIL TRESCIENTOS CINCUENTA Y SEIS 00/100 USD",
+    "totalPagar": 3277.0,
+    "totalLetras": "TRES MIL DOSCIENTOS SETENTA Y SIETE 00/100 USD",
     "saldoFavor": 0.0,
     "condicionOperacion": 1,
     "pagos": null,
@@ -331,5 +371,8 @@
     "placaVehiculo": null,
     "observaciones": null
   },
-  "apendice": null
+  "apendice": null,
+  "selloRecepcion": {
+    "selloRecibido": "20249930298023909509DH"
+  }
 }

@@ -53,6 +53,7 @@ urlpatterns = [
     path('seleccionar_json/', seleccionar_json, name='seleccionar_json'),
     path('upload_json/', upload_json, name='upload_json'),
     path('guardar_json_data/', guardar_json_data, name='guardar_json_data'),
+    path('exportDtes/', exportDtes, name='exportDtes'),
 ]
 
 if settings.DEBUG:

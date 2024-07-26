@@ -155,13 +155,13 @@
                     contentType: 'application/json',
                     headers: {
                         'X-CSRFToken': csrftoken
-                    },
+                    }/*,
                     success: function (response) {
                         alert('Datos guardados exitosamente');
                     },
                     error: function (xhr, status, error) {
                         alert('Error al guardar los datos: ' + xhr.responseJSON.error);
-                    }
+                    }*/
                 });
             } else {
                 alert('No hay datos para guardar');

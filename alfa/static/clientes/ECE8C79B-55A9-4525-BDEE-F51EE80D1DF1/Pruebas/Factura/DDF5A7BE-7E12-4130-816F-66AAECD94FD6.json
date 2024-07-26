@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000084",
+    "codigoGeneracion": "DDF5A7BE-7E12-4130-816F-66AAECD94FD6",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-18",
+    "horEmi": "14:49:22",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03150205781024",
+    "nrc": "3316246",
+    "nombre": "ORTEGA LOPEZ, MARIA VICENTA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "Transportes El Aguila",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "16",
+      "complemento": "Av. Manuel Jose Arce Pol. 9 Res. Sta. Eugenia #3"
+    },
+    "telefono": "0000-0000",
+    "correo": "fymortegatransporte@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA Consultores, SA de CV",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 CL Pte B12 C19"
+    },
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "ORTEGA LOPEZ, MARIA VICENTA",
+    "docuEntrega": "03150205781024",
+    "nombRecibe": "ALFA Consultores, SA de CV",
+    "docuRecibe": "03070711201016",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "DDF5A7BE-7E12-4130-816F-66AAECD94FD6",
+    "selloRecibido": "2024DD3A3A9B059D4EEFA1C84EC4F96577786NB4",
+    "fhProcesamiento": "18/07/2024 14:49:33",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

@@ -35,6 +35,7 @@
                 <h6 class="font-weight-light">Inicie sesión para continuar.</h6>
                 <form class="login" method="POST" action="{% url 'manager:login' %}">
                   {% csrf_token %}
+                  <!--input type="hidden" name="next" value="{{ next }}" -->
                   <div class="form-group">
                     <input type="username" name="username" class="form-control form-control-lg" placeholder="Nombre de usuario">
                   </div>

@@ -92,7 +92,13 @@
                                     <td title="{{dte.tipoDte.nombre}}">{{dte.tipoDte.nombre_corto}} {{dte.numeroControl|slice:"27:"}}</td>
                                     <td title="{{dte.codigoGeneracion}}"><a href="{% url 'dte:actualizar' dte.tipoDte.codigo dte.codigoGeneracion %}">{{dte.codigoGeneracion|slice:":8"}}...</a></td>
                                     <td title="{{dte.receptor}}">
-                                        <a href="{% url 'dte:cliente_update' dte.receptor.codigo %}">{{dte.receptor.nombreComercial}}
+                                        {% if dte.tipoDte.codigo == '14' %}
+                                            <a href="{% url 'dte:proveedor_update' dte.receptor.codigo %}">
+                                        {% else %}
+                                            <a href="{% url 'dte:cliente_update' dte.receptor.codigo %}">
+                                        {% endif %}
+
+                                            {{dte.receptor.nombreComercial}}
                                         </a>
                                     </td>
                                     <td class="derecha">{{dte.totalPagar|moneda}}</td>

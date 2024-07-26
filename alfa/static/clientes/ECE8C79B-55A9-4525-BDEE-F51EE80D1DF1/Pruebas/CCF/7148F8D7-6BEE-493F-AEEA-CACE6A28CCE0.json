@@ -1,0 +1,128 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000021",
+    "codigoGeneracion": "7148F8D7-6BEE-493F-AEEA-CACE6A28CCE0",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-18",
+    "horEmi": "14:51:15",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03150205781024",
+    "nrc": "3316246",
+    "nombre": "ORTEGA LOPEZ, MARIA VICENTA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "Transportes El Aguila",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "16",
+      "complemento": "Av. Manuel Jose Arce Pol. 9 Res. Sta. Eugenia #3"
+    },
+    "telefono": "0000-0000",
+    "correo": "fymortegatransporte@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "03070711201016",
+    "nrc": "2998565",
+    "nombre": "ALFA Consultores, SA de CV",
+    "codActividad": "62020",
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "nombreComercial": "ALFA",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "11",
+      "complemento": "22 CL Pte B12 C19"
+    },
+    "telefono": "00000000",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Pago por servicios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 13.0
+      }
+    ],
+    "subTotal": 100.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 113.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 113.0,
+    "totalLetras": "CIENTO TRECE 00/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "7148F8D7-6BEE-493F-AEEA-CACE6A28CCE0",
+    "selloRecibido": "202464C585CF39BD4AC6A27E4F8291CF3CC4AIEV",
+    "fhProcesamiento": "18/07/2024 14:51:27",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

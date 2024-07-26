@@ -1,0 +1,123 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "01",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000122",
+    "codigoGeneracion": "BBEF1186-2C70-43C5-8229-94B8A57DA6D5",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-24",
+    "horEmi": "13:55:10",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03151708121010",
+    "nrc": "2190892",
+    "nombre": "CARMOGA, S.A. DE C.V.",
+    "codActividad": "96092",
+    "descActividad": "Servicios n.c.p.",
+    "nombreComercial": "CARMOGA",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "2da calle Col. RASA 2 No. 65"
+    },
+    "telefono": "77300862",
+    "correo": "administracion@carmoga.com.sv",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "37",
+    "numDocumento": "261855",
+    "nrc": null,
+    "nombre": "ENERGY INFRASTRUCTURE BELIZE LIMITED",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "01",
+      "complemento": "Caesar Ridge Road, Belize City, BZ00501. BELICE."
+    },
+    "telefono": "+5012277324",
+    "correo": "finanzasinfrastructure@pumaenergy.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "LOYOLA MBM SYSTEM ANNUAL INSPECTION",
+      "precioUni": 14548.75,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 14548.75,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 1673.75
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 14548.75,
+    "subTotalVentas": 14548.75,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 14548.75,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 14548.75,
+    "totalNoGravado": 0.0,
+    "totalPagar": 14548.75,
+    "totalLetras": "CATORCE MIL QUINIENTOS CUARENTA Y OCHO 75/100 USD",
+    "totalIva": 1673.75,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "CARMOGA, S.A. DE C.V.",
+    "docuEntrega": "03151708121010",
+    "nombRecibe": "ENERGY INFRASTRUCTURE BELIZE LIMITED",
+    "docuRecibe": "261855",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "BBEF1186-2C70-43C5-8229-94B8A57DA6D5",
+    "selloRecibido": "20241E4C4ED88F444F69B1479DD6598B6B2FCFH1",
+    "fhProcesamiento": "25/07/2024 14:34:30",
+    "clasificaMsg": "10",
+    "codigoMsg": "002",
+    "descripcionMsg": "RECIBIDO CON OBSERVACIONES",
+    "observaciones": [
+      "identificacion.fecEmi Difiere de la fecha de env\u00edo."
+    ]
+  }
+}

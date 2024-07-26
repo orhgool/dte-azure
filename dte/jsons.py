@@ -75,8 +75,9 @@ def fcf(codigo): # 01 - Factura
 						'nombre': receptor.razonsocial, #Requerido
 						'codActividad': receptor.actividadEconomica_id, 
 						'descActividad': receptor.actividadEconomica.descripcion,
-						'direccion': {'departamento':receptor.departamento_id or None,
-									'municipio':receptor.municipio.codigo if receptor.municipio else None,
+						'direccion': {
+									'departamento':receptor.departamento_id or '01',
+									'municipio':receptor.municipio.codigo if receptor.municipio else '01',
 									'complemento':receptor.direccionComplemento or None},
 						'telefono': receptor.telefono, #Opcional
 						'correo': receptor.correo #Requerido

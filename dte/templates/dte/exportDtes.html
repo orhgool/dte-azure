@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+{% block titulo %}
+  Inicio
+{% endblock %}
+
+{% block estilo %}
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="d-xl-flex justify-content-between align-items-start">
+  <h2 class="text-dark font-weight-bold mb-2"> Exportar DTE's </h2>
+</div>
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Seleccionar fechas</h4>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Detalle</h4>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

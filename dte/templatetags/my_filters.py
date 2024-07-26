@@ -26,7 +26,7 @@ def fecha(fecha, formato='d/m/Y'):
 
 def fechaHora(fecha, formato='%d/%m/%Y %H:%M'):
     #local_fecha = timezone.localtime(fecha)
-    return fecha.strftime(formato)
+    return '%s hrs.' % (fecha.strftime(formato))
 
 register.filter('moneda', moneda)
 register.filter('decimal', decimal)

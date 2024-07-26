@@ -1,0 +1,128 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "01",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000084",
+    "codigoGeneracion": "FC7F5CF1-0A27-41D3-A0D5-A84F9FDB6733",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-12",
+    "horEmi": "16:58:27",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03012410921013",
+    "nrc": "2392050",
+    "nombre": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "codActividad": "49233",
+    "descActividad": "Transporte de carga internacional",
+    "nombreComercial": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "CTON. SAN JULIAN CRIO LA NUEVA"
+    },
+    "telefono": "2450 2700",
+    "correo": "contabilidad@transporteortegalopez.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06142302770010",
+    "nrc": "4081",
+    "nombre": "ALPINA, LTDA. DE C.V.",
+    "codActividad": "10005",
+    "descActividad": "Otros",
+    "nombreComercial": "ALPINA, LTDA. DE C.V.",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "11",
+      "complemento": "CARR. LIBERTAD KM 9 1/2 EDF. ECONO PARTS"
+    },
+    "telefono": "75093657",
+    "correo": "Operaciones@econoparts.com.sv"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "FLETE PUERTO DE ACAJUTLA HACIA ALPINA VIA SHELL TEMU2357820",
+      "precioUni": 300.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 300.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 300.0,
+    "subTotalVentas": 300.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 39.0
+      }
+    ],
+    "subTotal": 300.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 339.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 339.0,
+    "totalLetras": "TRESCIENTOS TREINTA Y NUEVE 00/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "BERNARDO ANTONIO ORTEGA LOPEZ",
+    "docuEntrega": "03012410921013",
+    "nombRecibe": "ALPINA, LTDA. DE C.V.",
+    "docuRecibe": "06142302770010",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "01",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "FC7F5CF1-0A27-41D3-A0D5-A84F9FDB6733",
+    "selloRecibido": "2024EF6D053ECD4C4416865206F5CD3665B7YAGF",
+    "fhProcesamiento": "12/07/2024 17:02:18",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

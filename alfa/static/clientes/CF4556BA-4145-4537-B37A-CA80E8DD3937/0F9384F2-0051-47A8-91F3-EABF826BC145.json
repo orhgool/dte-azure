@@ -36,7 +36,7 @@
   },
   "receptor": {
     "tipoDocumento": "37",
-    "numDocumento": ".",
+    "numDocumento": "0000",
     "nrc": null,
     "nombre": "ADMIntermare",
     "codActividad": "10005",
@@ -46,7 +46,7 @@
       "municipio": null,
       "complemento": "One bussiness center La Piece 3 Rolle CH-1180-Switzerland"
     },
-    "telefono": ".",
+    "telefono": null,
     "correo": "ContabilidadSV@cmc-shipagents.com"
   },
   "otrosDocumentos": null,
@@ -100,7 +100,7 @@
     "nombEntrega": "CARMOGA, S.A. DE C.V.",
     "docuEntrega": "03151708121010",
     "nombRecibe": "ADMIntermare",
-    "docuRecibe": ".",
+    "docuRecibe": "0000",
     "placaVehiculo": null,
     "observaciones": null
   },

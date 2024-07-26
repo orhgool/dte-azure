@@ -11,7 +11,9 @@ def user_login(request):
 			user = authenticate(request, username=username, password=password)
 			if user is not None:
 				login(request, user)
+				#next_url = request.POST.get('next', '/')
 				return redirect('dte:index')
+				#return redirect(next_url)
 	else:
 		form = AuthenticationForm()
 

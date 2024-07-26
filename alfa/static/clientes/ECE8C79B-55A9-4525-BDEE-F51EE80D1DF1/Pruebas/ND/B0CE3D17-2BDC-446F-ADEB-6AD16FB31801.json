@@ -1,0 +1,122 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "06",
+    "numeroControl": "DTE-06-00000000-000000000000004",
+    "codigoGeneracion": "B0CE3D17-2BDC-446F-ADEB-6AD16FB31801",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-18",
+    "horEmi": "15:09:02",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": [
+    {
+      "tipoDocumento": "03",
+      "tipoGeneracion": 1,
+      "numeroDocumento": "3748",
+      "fechaEmision": "2024-06-07"
+    }
+  ],
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03150205781024",
+    "nrc": "3316246",
+    "nombre": "ORTEGA LOPEZ, MARIA VICENTA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "Transportes El Aguila",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "16",
+      "complemento": "Av. Manuel Jose Arce Pol. 9 Res. Sta. Eugenia #3"
+    },
+    "telefono": "0000-0000",
+    "correo": "fymortegatransporte@gmail.com"
+  },
+  "receptor": {
+    "nit": "06141710490010",
+    "nrc": "3182",
+    "nombre": "HOLCIM EL SALVADOR, S.A. DE C.V.",
+    "nombreComercial": null,
+    "codActividad": "23940",
+    "descActividad": "Fabricacion de cemento, cal y yeso",
+    "direccion": {
+      "departamento": "05",
+      "municipio": "01",
+      "complemento": "CALLE HOLCIM AV. EL ESPINO, MADRESELVA."
+    },
+    "telefono": null,
+    "correo": "recepcionfe-sv@holcim.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": "3748",
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Debito",
+      "precioUni": 10.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 10.0,
+      "tributos": [
+        "20"
+      ]
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 10.0,
+    "subTotalVentas": 10.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 1.3
+      }
+    ],
+    "subTotal": 10.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 11.3,
+    "totalLetras": "ONCE 30/100 USD",
+    "condicionOperacion": 1,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "B0CE3D17-2BDC-446F-ADEB-6AD16FB31801",
+    "selloRecibido": "20247461C531FEAD4BBEB7159CB284C259AFZK15",
+    "fhProcesamiento": "18/07/2024 15:09:12",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

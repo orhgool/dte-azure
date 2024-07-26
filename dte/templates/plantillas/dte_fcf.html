@@ -187,7 +187,7 @@
 						{{ dte.tipoTransmision }}
 					</td>
 					<td colspan="2">
-						<strong>Fecha:</strong> {{fecha}}
+						<strong>Fecha:</strong> {{dte.fecEmi|fechaHora}}
 					</td>
 				</tr>
 				<tr>
@@ -285,6 +285,7 @@
 								<td class="row-line" width="5%" align="center"><b>Tipo</b></td>
 								<td class="row-line" width="35%"><b>Descripción</b></td>
 								<td class="row-line" width="5%" align="center"><b>Precio unitario</b></td>
+								<td class="row-line" width="5%" align="center"><b>Desc.</b></td>
 								<td class="row-line" width="5%" align="center"><b>Vtas exentas</b></td>
 								<td class="row-line" width="5%" align="center"><b>Vtas gravadas</b></td>
 							</tr>
@@ -298,6 +299,7 @@
 								{% if dte_detalles.complemento2 %}<br>{{dte_detalles.complemento2}}{% endif %}
 							</td>								
 							<td valign="top" width="5%" align="right">{{dte_detalles.precioUni|moneda}}</td>
+							<td valign="top" width="5%" align="right">{{dte_detalles.montoDescu|moneda}}</td>
 							<td valign="top" width="5%" align="right">{{dte_detalles.ventaExenta|moneda}}</td>
 							<td valign="top" width="5%" align="right">{{dte_detalles.ventaGravada|moneda}}</td>
 						</tr>

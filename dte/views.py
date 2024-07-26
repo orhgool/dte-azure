@@ -27,7 +27,8 @@ from .funciones import (CodGeneracion, Correlativo, getUrl, genJson, genQr, genP
 	CantLetras, firmar, datosInicio, gen_prueba, subirArchivo, BitacoraDTE, calcularTotales)
 from .models import (Empresa, DTECliente, DTEClienteDetalle, DTEClienteDetalleTributo,
 	DtesEmpresa, TipoDocumento, Cliente, TributoResumen, Producto, Configuracion, 
-	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte, DTECompra)
+	TipoInvalidacion, DTEInvalidacion, EstadoDTE, TipoAccionUsuario, BitacoraAccionDte, 
+	DTECompra, ModeloFacturacion, TipoTransmision, TipoContingencia, Moneda, CondicionOperacion)
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -730,7 +731,7 @@ class EnviarDTEView(APIView):
 
 		if response.status_code == 200:
 			respuesta_servicio = response.json()
-			#respuesta_servicio = {'selloRecibido':'20249i923u09nnsdif'}
+			#respuesta_servicio = {'selloRecibido':'20249930298023909509DH'}
 			estado = get_object_or_404(EstadoDTE, codigo='002')
 
 			if tipo in {'01','03','04','05','06','08','09','11','15'}:
@@ -785,7 +786,11 @@ class EnviarDTEView(APIView):
 				return redirect('dte:actualizar', tipo=tipo, pk=codigo)
 
 		else:
-			error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+			if response.status_code == 401:
+				error_message = f"Error en la solicitud: {response.status_code} - Debe iniciar sesión en el Ministerio."
+			else:
+				error_message = f"Error en la solicitud: {response.status_code} - {response.text}"
+
 			#error_message = response
 			messages.info(request, error_message)
 			#return redirect(template, codigo=codigo)
@@ -1496,24 +1501,30 @@ def guardar_json_data(request):
 			fecha_hora_str = f"{fecha_str} {hora_str}"
 			fecha_hora_obj = datetime.strptime(fecha_hora_str, '%Y-%m-%d %H:%M:%S')
 
-			iedntificación = data.get('identificacion', {})
+			identificacion = data.get('identificacion', {})
 			resumen = data.get('resumen', {})
+			sello = data.get('selloRecepcion', {})
 			
-			
+			modelo = get_object_or_404(ModeloFacturacion, codigo=identificacion.get('tipoModelo',''))
+			transmision = get_object_or_404(TipoTransmision, codigo=identificacion.get('tipoOperacion',''))
+			#contingencia = get_object_or_404(TipoContingencia, codigo=identificacion.get('tipoContingencia','')) or None
+			moneda = get_object_or_404(Moneda, prefijo=identificacion.get('tipoMoneda',''))
+			condOperacion = get_object_or_404(CondicionOperacion, codigo=resumen.get('condicionOperacion',''))
+
 			# Crear una nueva instancia del modelo DTECompra
 			dte_compra = DTECompra(
 				empresa = empresa,
 				proveedor = proveedor,
-				codigoGeneracion = identificación.get('codigoGeneracion',''),
-				numeroControl = identificación.get('numeroControl',''),
-				selloRecepcion = identificación.get('selloRecepcion',''),
-				tipoModelo = identificación.get('tipoModelo',''),
-				tipoTransmision = identificación.get('tipoTransmision',''),
-				tipoContingencia = identificación.get('tipoContingencia',''),
-				motivoContin = identificación.get('motivoContin',''),
+				codigoGeneracion = identificacion.get('codigoGeneracion',''),
+				numeroControl = identificacion.get('numeroControl',''),
+				selloRecepcion = sello.get('selloRecibido',''),
+				tipoModelo = modelo,
+				tipoTransmision = transmision,
+				#tipoContingencia = contingencia,
+				#motivoContin = identificacion.get('motivoContin',''),
 				fecEmi = fecha_hora_obj,
 				tipoDte = tipoDte,
-				tipoMoneda = identificación.get('tipoMoneda',''),
+				tipoMoneda = moneda,
 				totalNoSuj = resumen.get('totalNoSuj', 0),
 				totalExenta = resumen.get('totalExenta', 0),
 				totalGravada = resumen.get('totalGravada', 0),
@@ -1532,27 +1543,45 @@ def guardar_json_data(request):
 				totalNoGravado = resumen.get('totalNoGravado', 0),
 				totalPagar = resumen.get('totalPagar', 0),
 				saldoFavor = resumen.get('saldoFavor', 0),
-				condicionOperacion = resumen.get('condicionOperacion', 0),
-				pagos = resumen.get('pagos', 0),
-				numPagoElectronico = resumen.get('numPagoElectronico', 0),
-				observaciones = resumen.get('observaciones', ''),
-				placaVehiculo = resumen.get('placaVehiculo', '')
+				condicionOperacion = condOperacion,
+				#pagos = resumen.get('pagos', 0),
+				#numPagoElectronico = resumen.get('numPagoElectronico', 0),
+				observaciones = resumen.get('observaciones', '')
+				#placaVehiculo = resumen.get('placaVehiculo', '')
 			)
 			#messages.info(request, 'Instancia DTECompra creada')
 			#messages.info(request, {'Valores de instancia':dte_compra})
 			dte_compra.save()
-			#messages.info(request, 'Instancia guardada')
+			messages.success(request, 'Instancia guardada')
 			return JsonResponse({'message': 'Datos guardados exitosamente'})
 
 		except Proveedor.DoesNotExist:
+			messages.info(request, 'Proveedor no encontrado.')
 			return JsonResponse({'error': 'Proveedor no encontrado.'}, status=400)
 		except KeyError as e:
+			messages.info(request, f'Falta el campo requerido: {str(e)}')
 			return JsonResponse({'error': f'Falta el campo requerido: {str(e)}'}, status=400)
 		except ValueError as e:
+			messages.info(request, str(e))
 			return JsonResponse({'error': str(e)}, status=400)
 		except Exception as e:
+			messages.info(request, f'Ocurrió un error: {str(e)}')
 			return JsonResponse({'error': f'Ocurrió un error: {str(e)}'}, status=400)
-	return JsonResponse({'error': 'Método no permitido'}, status=405)
+	messages.info(request, 'Método no permitido.')
+	return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+#####################################################################################
+#####################################################################################
+
+
+#####################################################################################
+#                               REGISTRO DE COMPRAS                                 #
+#####################################################################################
+
+@login_required(login_url='manager:login')
+def exportDtes(request):
+	return render(request, 'dte/exportDtes.html')
 
 
 #####################################################################################
