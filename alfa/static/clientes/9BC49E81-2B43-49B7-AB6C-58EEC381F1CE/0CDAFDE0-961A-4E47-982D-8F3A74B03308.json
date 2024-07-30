@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "01",
+    "numeroControl": "DTE-01-00000000-000000000000008",
+    "codigoGeneracion": "0CDAFDE0-961A-4E47-982D-8F3A74B03308",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-26",
+    "horEmi": "09:21:45",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03152704831027",
+    "nrc": "2902640",
+    "nombre": "Alma Gertrudis Rivera de Guerra",
+    "codActividad": "45201",
+    "descActividad": "Reparacion mecanica de vehiculos automotores",
+    "nombreComercial": "Taller Rivera",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Block B, Lotif. Villa Lilian #6, #4"
+    },
+    "telefono": "7890-2104",
+    "correo": "talleragricolarivera2020@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "06142304860025",
+    "nrc": "51268",
+    "nombre": "AUTO CLUTCH VENEZUELA, S.A DE C.V",
+    "codActividad": "45209",
+    "descActividad": "Reparaciones de vehiculos n.c.p.",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "BOULEVARD VENEZUELA COLONIA ROMA #3099."
+    },
+    "telefono": "2245-1597",
+    "correo": "autoclutchvenezuelasadecv@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 2,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Ventas varias para pruebas",
+      "precioUni": 128.82,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 257.64,
+      "noGravado": 0.0,
+      "tributos": null,
+      "psv": 0.0,
+      "ivaItem": 29.64
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 257.64,
+    "subTotalVentas": 257.64,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": null,
+    "subTotal": 257.64,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 257.64,
+    "totalNoGravado": 0.0,
+    "totalPagar": 257.64,
+    "totalLetras": "DOSCIENTOS CINCUENTA Y SIETE 64/100 USD",
+    "totalIva": 29.64,
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": "Alma Gertrudis Rivera de Guerra",
+    "docuEntrega": "03152704831027",
+    "nombRecibe": "AUTO CLUTCH VENEZUELA, S.A DE C.V",
+    "docuRecibe": "06142304860025",
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "0CDAFDE0-961A-4E47-982D-8F3A74B03308",
+    "selloRecibido": "20245BC03851158045F988E14CC3086AAA31WCHZ",
+    "fhProcesamiento": "26/07/2024 09:21:56",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from datetime import datetime
 
-receptor = get_object_or_404(Cliente, codigo='B4C430F3-5AB4-4ADD-A5CA-AF96F95F115E')
+receptor = get_object_or_404(Cliente, codigo='92A58952-A331-4E73-9D32-CA16869A61DD')
 
 def replace_in_dict(obj, find, replace):
 	if isinstance(obj, str):
@@ -163,6 +163,7 @@ def fcf_p(empresa, codigo): # 01 - Factura
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data
 
@@ -318,6 +319,7 @@ def ccf_p(empresa, codigo): # 03 - CCF
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data
 
@@ -462,6 +464,7 @@ def nr_p(empresa, codigo): # 04 - Nota de remisión
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data
 
@@ -495,8 +498,8 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "1034",
-      "fechaEmision": "2024-06-14"
+      "numeroDocumento": "2189",
+      "fechaEmision": "2024-07-25"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -533,7 +536,7 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	cuerpoDocumento_data = {
 		"numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "1034",
+	      "numeroDocumento": "2189",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
@@ -608,6 +611,7 @@ def nc_p(empresa, codigo): # 05 - NOTA DE CREDITO
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data	
 
@@ -641,8 +645,8 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	documentoRelacionado_data = {
       "tipoDocumento": "03",
       "tipoGeneracion": 1,
-      "numeroDocumento": "3748",
-      "fechaEmision": "2024-06-07"
+      "numeroDocumento": "1980",
+      "fechaEmision": "2024-07-25"
     },
 
 	emisor_data = {'nit': emisor.nit.replace('-',''),
@@ -679,7 +683,7 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	cuerpoDocumento_data = {
 	      "numItem": 1,
 	      "tipoItem": 1,
-	      "numeroDocumento": "3748",
+	      "numeroDocumento": "1980",
 	      "cantidad": 1.0,
 	      "codigo": None,
 	      "codTributo": None,
@@ -755,6 +759,7 @@ def nd_p(empresa, codigo): # 06 - NOTA DE DEBITO
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data
 
@@ -809,16 +814,16 @@ def fex_p(empresa, codigo): # 11 - FACTURA DE EXPORTACION
 					}
 
 	receptor_data = {"tipoDocumento": "36",
-				    "numDocumento": "06142407620011",
-				    "nombre": "ALMACENADORA CENTROAMERICANA, S.A. DE C.V.",
+				    "numDocumento": "03070711201016",
+				    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
 				    "nombreComercial": None,
-				    "descActividad": "Alquiler de silos para conservacion y almacenamiento de granos",
-				    "complemento": "KM 9 y medio complejo corporativo SISCO",
+				    "descActividad": "Consultorías y gestión de servicios informáticos",
+				    "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19",
 				    "codPais": "9300",
 				    "nombrePais": "EL SALVADOR",
 				    "tipoPersona": 2,
-				    "telefono": "22121270",
-				    "correo": "alcasa@alcasa.com.sv"
+				    "telefono": "69848539",
+				    "correo": "alfaconsultores.sv@gmail.com"
 					}
 
 	otrosDocumentos_data = None
@@ -892,6 +897,7 @@ def fex_p(empresa, codigo): # 11 - FACTURA DE EXPORTACION
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data
 
@@ -1009,5 +1015,6 @@ def fse_p(empresa, codigo): # 14 - Factura de sujeto excluido
 	json_data = replace_in_dict(json_data, 'Ó', 'O')
 	json_data = replace_in_dict(json_data, 'Ú', 'U')
 	json_data = replace_in_dict(json_data, 'Ñ', 'N')
+	json_data = replace_in_dict(json_data, '°', 'o')
 
 	return json_data	

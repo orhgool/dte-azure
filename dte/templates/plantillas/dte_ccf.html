@@ -121,11 +121,37 @@
     		font-weight: 600;
     	}
 
+    	.watermark {
+            position: fixed;
+            top: 500px;
+            left: 20%;
+            font-size: 80px;
+            color: rgba(255, 0, 0, 0.35);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .sello-anulacion {
+            top: 600px;
+            left: 22%;
+            font-size: 20px;
+        }
+        .fecha-anulacion {
+            top: 630px;
+            left: 44%;
+            font-size: 20px;            
+        }
+
     </style>
 
   </head>
 
   <body>
+  	{% if dte.estadoDte.codigo == "003" %}
+  		<div class="watermark">DTE ANULADO</div>
+	    <div class="watermark sello-anulacion">Sello de anulación: BC62D35C-C0A0-41EA-8545-8E269429C414</div>
+	    <div class="watermark fecha-anulacion">Fecha: 26/07/2024</div>
+	  {% endif %}
 	<div class="dte-id">
 		<p>DOCUMENTO TRIBUTARIO ELECTRÓNICO</p>
 		<p class="nombre-dte"><strong>COMPROBANTE DE CRÉDITO FISCAL</strong></p>

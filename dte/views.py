@@ -378,7 +378,7 @@ class DTEInline():
 					ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
 					ivaRete1 = retencion,
 					montoTotalOperacion = float(total_gravada),
-					totalPagar = float(total_gravada) - float(retencion))
+					totalPagar = float(total_gravada) - float(retencion) - float(dte.reteRenta))
 
 			if dte.tipoDte.codigo in {'03'}:
 				DTECliente.objects.filter(codigoGeneracion=detalle.dte_id).update(
@@ -1391,11 +1391,13 @@ def invalidarDte(request, tipo, codigo):
 	cod_anulacion = CodGeneracion()
 	if tipo in {'07','14'}:
 		dte = get_object_or_404(DTEProveedor, codigoGeneracion = codigo)
+		messages.info(request, dte)
 		receptor_instance = get_object_or_404(Proveedor, codigo=dte.receptor_id)
 	else:
 		dte = get_object_or_404(DTECliente, codigoGeneracion = codigo)
+		messages.info(request, dte)
 		receptor_instance = get_object_or_404(Cliente, codigo=dte.receptor_id)
-
+	
 	tipoI = get_object_or_404(TipoInvalidacion, codigo=2)
 	emisor_instance = get_object_or_404(Empresa, codigo=request.session['empresa'])
 	tipoDocumento_instance = get_object_or_404(TipoDocumento, codigo=dte.tipoDte_id)

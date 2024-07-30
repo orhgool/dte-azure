@@ -1,0 +1,121 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "05",
+    "numeroControl": "DTE-05-00000000-000000000000010",
+    "codigoGeneracion": "827EA87E-B13F-4920-A1BF-AEDD3C1979E0",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-26",
+    "horEmi": "19:00:14",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": [
+    {
+      "tipoDocumento": "03",
+      "tipoGeneracion": 1,
+      "numeroDocumento": "2189",
+      "fechaEmision": "2024-07-25"
+    }
+  ],
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03153003991026",
+    "nrc": "2905658",
+    "nombre": "FERNANDO ALFREDO GONZALEZ ORTEGA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "F&M Transportes",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "CARR A ACAJUTLA POL 19, LOTE 3, FRENTE A CEIBA CAMPANA"
+    },
+    "telefono": "6304-2309",
+    "correo": "fortega.transfm@gmail.com"
+  },
+  "receptor": {
+    "nit": "052064979",
+    "nrc": "3122998",
+    "nombre": "ERICK ANTONIO PALMA RAMIREZ",
+    "nombreComercial": null,
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "03",
+      "complemento": "COL. CIUDADELA CEPA POL. G CASA No 7"
+    },
+    "telefono": "06022307951024",
+    "correo": "palmaerick767@gmail.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 1,
+      "numeroDocumento": "2189",
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Correccion",
+      "precioUni": 10.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 10.0,
+      "tributos": [
+        "20"
+      ]
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 10.0,
+    "subTotalVentas": 10.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 1.3
+      }
+    ],
+    "subTotal": 10.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 11.3,
+    "totalLetras": "ONCE 30/100 USD",
+    "condicionOperacion": 1
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "827EA87E-B13F-4920-A1BF-AEDD3C1979E0",
+    "selloRecibido": "20245B49770C20654D299BBA45E97C648AFCAAMZ",
+    "fhProcesamiento": "26/07/2024 19:00:26",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

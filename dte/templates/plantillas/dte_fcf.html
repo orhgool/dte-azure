@@ -121,11 +121,37 @@
     		font-weight: 600;
     	}
 
+    	.watermark {
+            position: fixed;
+            top: 500px;
+            left: 20%;
+            font-size: 80px;
+            color: rgba(255, 0, 0, 0.35);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .sello-anulacion {
+            top: 600px;
+            left: 22%;
+            font-size: 20px;
+        }
+        .fecha-anulacion {
+            top: 630px;
+            left: 44%;
+            font-size: 20px;            
+        }
+
     </style>
 
   </head>
 
   <body>
+  	{% if dte.estadoDte.codigo == '003' %}
+  		<div class="watermark">DTE ANULADO</div>
+	    <div class="watermark sello-anulacion">Sello de anulación: BC62D35C-C0A0-41EA-8545-8E269429C414</div>
+	    <div class="watermark fecha-anulacion">Fecha: 26/07/2024</div>
+	  {% endif %}
 	<div class="dte-id">
 		<p>DOCUMENTO TRIBUTARIO ELECTRÓNICO</p>
 		<p class="nombre-dte"><strong>FACTURA</strong></p>
@@ -321,15 +347,17 @@
 					<td></td>
 					<td><b>Recibido por</b></td>
 					<td>{{dte.receptor}}</td>
-					<td class="row-line-left" colspan="2" rowspan="2"><b>Retención 1%</b></td>
-					<td align="right" rowspan="2">{{dte.ivaRete1|moneda}}</b></td>
+					<td class="row-line-left" colspan="2"><b>(-)Retención 1%</b></td>
+					<td align="right">{{dte.ivaRete1|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td><b>Documento</b></td>
 					<td>{{dte.emisor.nit}}</td>
 					<td></td>
 					<td><b>Documento</b></td>
-					<td>{{dte.receptor.nit}}</td>					
+					<td>{{dte.receptor.nit}}</td>
+					<td class="row-line-left" colspan="2"><b>(-)Ret. renta</b></td>
+					<td align="right">{{dte.reteRenta|moneda}}</b></td>
 				</tr>
 				<tr>
 					<td colspan="5" class="titulo-apartado">comentarios</td>

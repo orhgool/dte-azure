@@ -1,0 +1,45 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "AE55A827-8132-470A-B25E-8F0A741A116C",
+    "fecAnula": "2024-07-28",
+    "horAnula": "17:36:30"
+  },
+  "emisor": {
+    "nit": "03153003991026",
+    "nombre": "FERNANDO ALFREDO GONZALEZ ORTEGA",
+    "nomEstablecimiento": "F&M Transportes",
+    "tipoEstablecimiento": "02",
+    "telefono": "6304-2309",
+    "correo": "fortega.transfm@gmail.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "01",
+    "codigoGeneracion": "8329C5D5-87CC-4695-9C6F-8F9BEE5E28A0",
+    "selloRecibido": "20248787D8CCFC894269BA67057859A643EAYBVR",
+    "numeroControl": "DTE-01-00000000-000000000000103",
+    "fecEmi": "2024-07-28",
+    "montoIva": 10.0,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "052064979",
+    "nombre": "ERICK ANTONIO PALMA RAMIREZ",
+    "telefono": "7844-8962",
+    "correo": "palmaerick767@gmail.com"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "FERNANDO ALFREDO GONZALEZ ORTEGA",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03153003991026",
+    "nombreSolicita": "ERICK ANTONIO PALMA RAMIREZ",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "052064979"
+  }
+}

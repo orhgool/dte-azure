@@ -1,0 +1,128 @@
+{
+  "identificacion": {
+    "version": 3,
+    "ambiente": "00",
+    "tipoDte": "03",
+    "numeroControl": "DTE-03-00000000-000000000000073",
+    "codigoGeneracion": "706D9557-11AB-4E74-8F96-465F29948DB4",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-26",
+    "horEmi": "09:38:39",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContin": null
+  },
+  "documentoRelacionado": null,
+  "emisor": {
+    "nit": "03152704831027",
+    "nrc": "2902640",
+    "nombre": "Alma Gertrudis Rivera de Guerra",
+    "codActividad": "45201",
+    "descActividad": "Reparacion mecanica de vehiculos automotores",
+    "nombreComercial": "Taller Rivera",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "Block B, Lotif. Villa Lilian #6, #4"
+    },
+    "telefono": "7890-2104",
+    "correo": "talleragricolarivera2020@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null
+  },
+  "receptor": {
+    "nit": "06142304860025",
+    "nrc": "51268",
+    "nombre": "AUTO CLUTCH VENEZUELA, S.A DE C.V",
+    "codActividad": "45209",
+    "descActividad": "Reparaciones de vehiculos n.c.p.",
+    "nombreComercial": "AUTO CLUTCH VENEZUELA S.A DE C.V",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "14",
+      "complemento": "BOULEVARD VENEZUELA COLONIA ROMA #3099."
+    },
+    "telefono": "2245-1597",
+    "correo": "autoclutchvenezuelasadecv@gmail.com"
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoItem": 2,
+      "numeroDocumento": null,
+      "cantidad": 1.0,
+      "codigo": null,
+      "codTributo": null,
+      "uniMedida": 59,
+      "descripcion": "Pago por servicios",
+      "precioUni": 100.0,
+      "montoDescu": 0.0,
+      "ventaNoSuj": 0.0,
+      "ventaExenta": 0.0,
+      "ventaGravada": 100.0,
+      "noGravado": 0.0,
+      "tributos": [
+        "20"
+      ],
+      "psv": 0.0
+    }
+  ],
+  "resumen": {
+    "totalNoSuj": 0.0,
+    "totalExenta": 0.0,
+    "totalGravada": 100.0,
+    "subTotalVentas": 100.0,
+    "descuNoSuj": 0.0,
+    "descuExenta": 0.0,
+    "descuGravada": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "tributos": [
+      {
+        "codigo": "20",
+        "descripcion": "Impuesto al Valor Agregado 13%",
+        "valor": 13.0
+      }
+    ],
+    "subTotal": 100.0,
+    "ivaPerci1": 0.0,
+    "ivaRete1": 0.0,
+    "reteRenta": 0.0,
+    "montoTotalOperacion": 113.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 113.0,
+    "totalLetras": "CIENTO TRECE 00/100 USD",
+    "saldoFavor": 0.0,
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null
+  },
+  "extension": {
+    "nombEntrega": null,
+    "docuEntrega": null,
+    "nombRecibe": null,
+    "docuRecibe": null,
+    "placaVehiculo": null,
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "706D9557-11AB-4E74-8F96-465F29948DB4",
+    "selloRecibido": "20249879746017F34171A0A390CA53D492D8UPGK",
+    "fhProcesamiento": "26/07/2024 09:38:49",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

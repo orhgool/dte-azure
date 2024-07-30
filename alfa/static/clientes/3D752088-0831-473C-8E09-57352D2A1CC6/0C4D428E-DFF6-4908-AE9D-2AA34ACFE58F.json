@@ -1,0 +1,102 @@
+{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "11",
+    "numeroControl": "DTE-11-00000000-000000000000080",
+    "codigoGeneracion": "0C4D428E-DFF6-4908-AE9D-2AA34ACFE58F",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "fecEmi": "2024-07-27",
+    "horEmi": "08:11:53",
+    "tipoMoneda": "USD",
+    "tipoContingencia": null,
+    "motivoContigencia": null
+  },
+  "otrosDocumentos": null,
+  "ventaTercero": null,
+  "emisor": {
+    "nit": "03153003991026",
+    "nrc": "2905658",
+    "nombre": "FERNANDO ALFREDO GONZALEZ ORTEGA",
+    "codActividad": "49232",
+    "descActividad": "Transporte nacional de carga",
+    "nombreComercial": "F&M Transportes",
+    "tipoEstablecimiento": "02",
+    "direccion": {
+      "departamento": "03",
+      "municipio": "15",
+      "complemento": "CARR A ACAJUTLA POL 19, LOTE 3, FRENTE A CEIBA CAMPANA"
+    },
+    "telefono": "6304-2309",
+    "correo": "fortega.transfm@gmail.com",
+    "codEstableMH": null,
+    "codEstable": null,
+    "codPuntoVentaMH": null,
+    "codPuntoVenta": null,
+    "tipoItemExpor": 1,
+    "recintoFiscal": "02",
+    "regimen": "EX-1.1040.000"
+  },
+  "receptor": {
+    "tipoDocumento": "36",
+    "numDocumento": "03070711201016",
+    "nombre": "ALFA CONSULTORES, S.A. DE C.V.",
+    "nombreComercial": null,
+    "descActividad": "Consultorias y gestion de servicios informaticos",
+    "complemento": "22 cl pte. block 12, Urb. Lomas de San Antonio No 19",
+    "codPais": "9300",
+    "nombrePais": "EL SALVADOR",
+    "tipoPersona": 2,
+    "telefono": "69848539",
+    "correo": "alfaconsultores.sv@gmail.com"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "cantidad": 1.0,
+      "codigo": null,
+      "uniMedida": 59,
+      "descripcion": "producto",
+      "precioUni": 300.0,
+      "montoDescu": 0.0,
+      "ventaGravada": 300.0,
+      "tributos": [
+        "20"
+      ],
+      "noGravado": 0.0
+    }
+  ],
+  "resumen": {
+    "totalGravada": 300.0,
+    "descuento": 0.0,
+    "porcentajeDescuento": 0.0,
+    "totalDescu": 0.0,
+    "seguro": 0,
+    "flete": 0,
+    "montoTotalOperacion": 300.0,
+    "totalNoGravado": 0.0,
+    "totalPagar": 300.0,
+    "totalLetras": "TRESCIENTOS 00/100 USD",
+    "condicionOperacion": 1,
+    "pagos": null,
+    "numPagoElectronico": null,
+    "codIncoterms": "04",
+    "descIncoterms": "CIP-Transporte y seguro pagado hasta",
+    "observaciones": null
+  },
+  "apendice": null,
+  "selloRecepcion": {
+    "version": 2,
+    "ambiente": "00",
+    "versionApp": 2,
+    "estado": "PROCESADO",
+    "codigoGeneracion": "0C4D428E-DFF6-4908-AE9D-2AA34ACFE58F",
+    "selloRecibido": "2024E08C7105D0EE44B28B60F738243E6255GWPG",
+    "fhProcesamiento": "27/07/2024 08:12:03",
+    "clasificaMsg": "10",
+    "codigoMsg": "001",
+    "descripcionMsg": "RECIBIDO",
+    "observaciones": []
+  }
+}

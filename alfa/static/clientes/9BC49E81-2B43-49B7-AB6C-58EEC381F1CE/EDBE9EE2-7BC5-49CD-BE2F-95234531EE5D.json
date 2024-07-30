@@ -1,0 +1,45 @@
+{
+  "identificacion": {
+    "version": 2,
+    "ambiente": "00",
+    "codigoGeneracion": "EDBE9EE2-7BC5-49CD-BE2F-95234531EE5D",
+    "fecAnula": "2024-07-26",
+    "horAnula": "09:08:52"
+  },
+  "emisor": {
+    "nit": "03152704831027",
+    "nombre": "Alma Gertrudis Rivera de Guerra",
+    "nomEstablecimiento": "Taller Rivera",
+    "tipoEstablecimiento": "02",
+    "telefono": "7890-2104",
+    "correo": "talleragricolarivera2020@gmail.com",
+    "codEstable": null,
+    "codPuntoVenta": null,
+    "codEstableMH": null,
+    "codPuntoVentaMH": null
+  },
+  "documento": {
+    "tipoDte": "03",
+    "codigoGeneracion": "295968B5-894B-45C8-B670-0205C55A2EF1",
+    "selloRecibido": "2024C7D5133EFEA84886A6C43B52E040EFE9J0XE",
+    "numeroControl": "DTE-03-00000000-000000000000002",
+    "fecEmi": "2024-07-22",
+    "montoIva": 621.5,
+    "codigoGeneracionR": null,
+    "tipoDocumento": "36",
+    "numDocumento": "022400153",
+    "nombre": "MARIA LEONOR GUIROLA DE LLACH",
+    "telefono": "22634282",
+    "correo": "gllachillmariaruth@gmail.com"
+  },
+  "motivo": {
+    "tipoAnulacion": 2,
+    "motivoAnulacion": "Rescindir de la operacion realizada",
+    "nombreResponsable": "Alma Gertrudis Rivera de Guerra",
+    "tipDocResponsable": "36",
+    "numDocResponsable": "03152704831027",
+    "nombreSolicita": "MARIA LEONOR GUIROLA DE LLACH",
+    "tipDocSolicita": "36",
+    "numDocSolicita": "022400153"
+  }
+}

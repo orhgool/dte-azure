@@ -426,7 +426,7 @@ def calcularTotales(tipo, codigo):
 			ivaPerci1 = float(total_gravada) - (float(total_gravada) / float(1.13)),
 			ivaRete1 = retencion,
 			montoTotalOperacion = float(total_gravada),
-			totalPagar = float(total_gravada) - float(retencion))
+			totalPagar = float(total_gravada) - float(retencion) - float(dte.reteRenta))
 
 	if dte.tipoDte.codigo in {'03'}:
 		DTECliente.objects.filter(codigoGeneracion=codigo).update(

@@ -208,6 +208,11 @@
                             {{ form.condicionOperacion|as_crispy_field }}
                         </div>
                         {% endif %}
+                        {% if Documento.tipoDte.codigo == '01' or TipoDocumento.codigo == '01' %}
+                        <div class="col-md-2">
+                            {{ form.reteRenta|as_crispy_field }}
+                        </div>
+                        {% endif %}
                         {% if form.estadoPago %}
                         <div class="col-md-2 centrado">
                             {{ form.estadoPago|as_crispy_field }}

@@ -35,7 +35,7 @@ class DTEClienteForm(forms.ModelForm):
 
 	class Meta:
 		model = DTECliente
-		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'fecEmi', 'version',
+		fields = ('emisor', 'codigoGeneracion', 'numeroControl','receptor', 'tipoDte', 'fecEmi', 'version', 'reteRenta',
 			'observaciones','condicionOperacion', 'estadoPago', 'tipoItemExpor','recintoFiscal','regimen','incoterms')
 		widgets = {
 			'emisor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;','readonly': 'True'}),
@@ -49,6 +49,7 @@ class DTEClienteForm(forms.ModelForm):
 			'fecEmi': forms.DateTimeInput(attrs={'class': 'datepicker','style': 'font-weight: bold;'}),
 			'observaciones': forms.Textarea(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;', 'rows':'3'}),
 			'estadoPago': forms.CheckboxInput(attrs={'class': 'form-check-input', 'style': 'font-weight: bold; padding: 3px;'}),
+			'reteRenta': forms.TextInput(attrs={'class': 'form-control','style': 'font-weight: bold; text-align: right; padding: 3px;','type': 'number', 'step':'any'}),
 			'tipoItemExpor': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'recintoFiscal': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
 			'regimen': forms.Select(attrs={'class': 'form-control','style': 'font-weight: bold; padding: 3px;'}),
